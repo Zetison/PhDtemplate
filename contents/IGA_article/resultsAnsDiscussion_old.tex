@@ -1,0 +1,2186 @@
+\section{Numerical examples} 
+\label{Sec2:resultsDisc}
+We start by investigating the pollution effect for the scattering problem on a rigid sphere, and then continue with the acoustic structure interaction (ASI) problem on the spherical shell. Rigid scattering on a sphere and elastic scattering on a spherical shell are often used to verify the methods because both cases admits analytic solutions. The latter case is the only known problem which admits such an analytic solution for the ASI scattering problem in 3D, and is thus especially valuable. Moreover, these cases has been used as a benchmark example for many methods and one is then able to compare the performance of each method on this problem.
+
+The multipole layers for the infinite elements will be placed at $r_n=nr_{\mathrm{a}}$ for $n=1,\dots,N$ (this is suggested by Burnett in~\cite{Burnett1994atd}). Moreover, unless otherwise stated, we shall use the PGU formulation by default for the infinite elements.
+
+\subsection{Plane wave scattered by a rigid sphere}
+Let the plane wave (with $\vec{k}=[0, 0, k]^\transpose$)
+\begin{equation*}
+	p_{\textrm{inc}}(r,\vartheta) = P_{\mathrm{inc}}\euler^{\imag kz} = P_{\mathrm{inc}}\euler^{\imag kr\cos\vartheta}
+\end{equation*}
+be scattered on a sphere with radius $R=0.5$. That is, we once more send the wave along the $z$-axis (and we shall also align the symmetry axis of the NURBS parametrization along the $y$-axis). The resulting scattered wave is then\footnote{Here, $P_n(x)$ denotes the $n^{\mathrm{th}}$ Legendre polynomial, $j_n(x)$ and $y_n(x)$ denotes the $n^{\mathrm{th}}$ spherical Bessel function of first and second kind, respectively, and finally $h_n(x)$ denotes the $n^{\mathrm{th}}$ spherical Hankel function of the first kind.} (rigid scattering)
+\begin{equation}\label{Eq2:rigidScattering_p}
+	p_{\mathrm{rs}} (r,\vartheta) = -P_{\mathrm{inc}}\sum_{n=0}^\infty \imag^n (2n+1) P_n(\cos\vartheta)\frac{j_n'(kR)}{h_n'(kR)} h_n(kr).
+\end{equation}
+For details of this solution see Ihlenburg~\cite[p. 28]{Ihlenburg1998fea}. Since this example has been used in~\cite{Gerdes1999otp} and~\cite{Simpson2014aib}, we may compare our results to other methods on the same problem. We start by comparing the results found in~\cite{Simpson2014aib} by considering $k=2$ (low frequencies), and the construction of NURBS meshes illustrated in \Cref{Fig2:SphericalShellMeshes}. We send the incident wave along the $z$-axis (instead of the $x$-axis) and align the symmetry of the NURBS parametrization along the $y$-axis (instead of the $z$-axis). The results should obviously remain unchanged. We shall use $N=3$, which will practically neglect the error from the infinite element implementation on the coarse meshes considered. For low frequencies and the usage of the PGU formulation, it seems to be advantageous to set the artificial boundary very close to the surface of the sphere. We find the optimal radius to be around $r_{\mathrm{a}}=0.51$. When comparing with BEM, we typically have more liberty of adding degrees of freedom in the radial direction without destroying the fairness of the comparison. This is because the computational time of solving an BEM system of equations is higher than the corresponding IGA/IEM system of equations. It is thus very hard to compare the two methods without running both methods on the same computers. In~\Cref{Fig2:scatteringRigidSphereErrorNearField} we plot the absolute relative error in the scattered field at $r=5$ (as was done in~\cite{Simpson2014aib}). Comparing with the results in~\cite{Simpson2014aib} we observe that BEM has the advantage on the coarsest mesh, but IGA/IEM produce the best results on finer meshes. 
+%In~\Cref{Fig2:SphericalShellErrorMesh1}, \Cref{Fig2:SphericalShellErrorMesh2} and \Cref{Fig2:SphericalShellErrorMesh3} we visualize the error at the artificial boundary $\Gamma_{\mathrm{a}}$ both in the scalar field and the normed gradient field for mesh 1, 2 and 3, respectively. The gradient is used to evaluate far field points, so it is of interest to study this error as well. Interestingly, we observe larger errors in the gradient where the basis functions have lower continuity (which occurs at the mesh lines).
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh1_Zaxis}
+		\caption{Mesh 1}
+    \end{subfigure}
+    ~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh2_Zaxis}
+		\caption{Mesh 2}
+		\label{Fig2:SphericalShellMeshes2}
+    \end{subfigure}
+    ~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_Zaxis}
+		\caption{Mesh 3}
+		\label{Fig2:SphericalShellMeshes3}
+    \end{subfigure}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Meshes. The knot $\zeta=0.5$ has been inserted in $\Zeta$ for mesh 2 while the knots $\zeta = 0.25, 0.5, 0.75$ has been inserted in $\Zeta$ for mesh 3 (from the original mesh 1, with NURBS data found in \Cref{Sec2:NURBSdata}).}
+	\label{Fig2:SphericalShellMeshes}
+\end{figure}
+
+\tikzsetnextfilename{scatteringRigidSphereErrorNearField} 
+\begin{figure}
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.94\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow}, % 1
+				{mycolor}, % 2
+				{myGreen}, % 3
+				{myCyan}, % 4
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+				at={(0.97,0.03)},
+				anchor=south east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={aspect angle $\alpha$},
+			ylabel={$\frac{\big||p_{\mathrm{rs}}| - \left|p_h^N\right|\big|}{|p_{\mathrm{rs}}|}$},
+			%ymax=100
+			]
+			\addplot table[x=theta,y=error] {../../matlab/plotData/simpsonExample/k_2_mesh1_180_0_formul_PGU_error.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/simpsonExample/k_2_mesh2_180_0_formul_PGU_error.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/simpsonExample/k_2_mesh3_180_0_formul_PGU_error.dat};
+			\addlegendentry{Mesh 1}
+			\addlegendentry{Mesh 2}
+			\addlegendentry{Mesh 3}
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} The relative error for the near field  $k=2$. The near field is plotted over all aspect angles $\alpha$ at $r=5$.}
+	\label{Fig2:scatteringRigidSphereErrorNearField}
+\end{figure}
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis1Error}
+%		\caption{Relative error in the scattered field}
+%    \end{subfigure}
+%	\par\bigskip	
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis1ErrorGradient}
+%		\caption{Relative error in the gradient of the scattered field}
+%    \end{subfigure}
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Relative errors for mesh 1 (not in percentage). The direction of the incident wave is given by $\alpha_{\mathrm{s}} = 180^\circ$.}
+%	\label{Fig2:SphericalShellErrorMesh1}
+%\end{figure}
+%
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis2Error}
+%		\caption{Relative error in the scattered field}
+%    \end{subfigure}
+%	\par\bigskip	
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis2ErrorGradient}
+%		\caption{Relative error in the gradient of the scattered field}
+%    \end{subfigure}
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Relative errors for mesh 2 (not in percentage). The direction of the incident wave is given by $\alpha_{\mathrm{s}} = 180^\circ$.}
+%	\label{Fig2:SphericalShellErrorMesh2}
+%\end{figure}
+%
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis3Error}
+%		\caption{Relative error in the scattered field}
+%    \end{subfigure}
+%	\par\bigskip	
+%	\begin{subfigure}{\textwidth}
+%		\centering
+%		\includegraphics[scale=0.16]{../../graphics/sphericalShellMeshYaxis3ErrorGradient}
+%		\caption{Relative error in the gradient of the scattered field}
+%    \end{subfigure}
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Relative errors for mesh 3 (not in percentage). The direction of the incident wave is given by $\alpha_{\mathrm{s}} = 180^\circ$.}
+%	\label{Fig2:SphericalShellErrorMesh3}
+%\end{figure}
+
+Finally, we present the results from IGA on the pollution effect by comparing the IGA results to the so-called best approximation. We shall follow~\cite{Gerdes1999otp} in comparing the IGA results with the so-called best approximation (BA). This solution represent the best possible solution in the solution space. The BA solution is found by solving: Find $p_h^{\mathrm{ba}}\in \calV_h(\Omega_{\mathrm{a}})$ such that
+\begin{equation*}
+	\left(p_h^{\mathrm{ba}},q_h\right)_{H^1(\Omega_{\mathrm{a}})} = \left(p, q_h\right)_{H^1(\Omega_{\mathrm{a}})}
+\end{equation*}
+where $\left(p,q\right)_{H^1(\Omega_{\mathrm{a}})}$ is the $H^1$-inner product
+\begin{equation*}
+	\left(p,q\right)_{H^1(\Omega_{\mathrm{a}})} = \int_{\Omega_{\mathrm{a}}}\nabla p\cdot\nabla \bar{q} + p \bar{q}\idiff\Omega.
+\end{equation*}
+We denote by
+\begin{equation}\label{Eq2:H1relError}
+	E_h^N = \frac{\left\|p_{\mathrm{rs}}-p_h^N\right\|_{H^1(\Omega_{\mathrm{a}})}}{\left\|p_{\mathrm{rs}}\right\|_{H^1(\Omega_{\mathrm{a}})}},
+\end{equation}
+the absolute relative error with corresponding formula for $p_h^{\mathrm{ba}}$. We shall replicate the problem setup by Gerdes and Ihlenburg~\cite{Gerdes1999otp} which uses $N=6$ radial basis function in the infinite elements, and truncate \Cref{Eq2:rigidScattering_p} at $n=6$ to eliminate the error originating from the artificial boundary.
+
+%For convenience we duplicate the results in~\cite{Gerdes1999otp} in table \Cref{Tab2:gerdesIhlenburgTableResults_p4} and \Cref{Tab2:gerdesIhlenburgTableResults_p3}. The corresponding IGA results are reported in \Cref{Tab2:p4} and \Cref{Tab2:p3}. What we generally observe is that the difference between the IGA results and the BA results is smaller than the corresponding results from FEA. This suggest that IGA handles the pollution effect better then the classical FEA.
+
+In \Cref{Fig2:SphericalShellMesh34_p} we illustrate the surface structure of the mesh used in the analysis. Let $\mathrm{noSurfDofs}()$ be a function counting the number of degrees of freedom on the surface of a given mesh. If the surface NURBS order is 2, then 
+\begin{align*}
+	\mathrm{noSurfDofs}(\mathrm{Mesh }3_0) &= \mathrm{noSurfDofs}(\mathrm{Mesh }3_1) = 482\\
+	\mathrm{noSurfDofs}(\mathrm{Mesh }4_0) &= \mathrm{noSurfDofs}(\mathrm{Mesh }4_1) = 1986.
+\end{align*}
+If the surface NURBS order is 3, then 
+\begin{align*}
+	\mathrm{noSurfDofs}(\mathrm{Mesh }3_0) &= \mathrm{noSurfDofs}(\mathrm{Mesh }3_2) = 1106\\
+	\mathrm{noSurfDofs}(\mathrm{Mesh }4_0) &= \mathrm{noSurfDofs}(\mathrm{Mesh }4_2) = 4514.
+\end{align*}
+We report the results in \Cref{Tab2:BAresults} and for illustrative purposes, we also plot this data in \Cref{Fig2:plot_p2q2mesh3}, \Cref{Fig2:plot_p2q2mesh4}, \Cref{Fig2:plot_p2q3mesh3}, \Cref{Fig2:plot_p2q3mesh4}, \Cref{Fig2:plot_p3q2mesh3}, \Cref{Fig2:plot_p3q2mesh4}, \Cref{Fig2:plot_p3q3mesh3} and \Cref{Fig2:plot_p3q3mesh4}. We firstly observe that the BA solution indeed yields the best results, but also the fact that the numerical results is quite close to this solution. In~\cite{Gerdes1999otp} Gerdes and Ihlenburg reports a far greater difference between the BA and the FEM solution. This can only come from the fact we here use exact geometry. To the extent that one may compare the two methods and the data which has been given, one should conclude that IGA performs much better than classical FEM. Moreover, we generally observe the presence of the pollution effect; for higher wave numbers we obtain less accurate results. A final general remark is the fact that we always obtain better results with higher continuity. 
+
+The pollution effect is observed in \Cref{Fig2:plot_p2q2mesh3} (where the least amount of dofs has been used). We here observe that the solution quickly reach the optimal solution for a given set of radial basis function, whereas the same optimality lags behind for higher frequencies. The same tendency is observed in~\Cref{Fig2:plot_p2q2mesh4} where we increase the number of angular elements. The difference is observed in the fact that we get better results and we may use more dofs in the radial direction before we reach the optimal solution. A more extreme version of these two first figures may be observed in~\Cref{Fig2:plot_p2q3mesh3} and \Cref{Fig2:plot_p2q3mesh4} where we increase the radial polynomial degree in these two cases. The finale four figures only increases the angular polynomial order of the preceding four figures by one. We may then begin to observe the expected optimal convergence order as the main source of error comes from the low resolution in the radial direction (that is, inserting more elements in the angular direction will not improve the result notably). 
+
+
+%\begin{table}
+%	\tiny
+%	\centering
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and FEA with angular degree $p=4$ collected from~\cite{Gerdes1999otp}. Mesh 2 and 3 are depicted in~\cite[Figure 3a]{Gerdes1999otp} and~\cite[Figure 3b]{Gerdes1999otp}, respectively. Other mesh parameters include the radial NURBS order $q$ and the number of element layers in radial direction $n_\upzeta$. As usual, $k$ is the wave number. The errors are measured in the normalized $H^1$-norm given in percentage.}
+%	\label{Tab2:gerdesIhlenburgTableResults_p4}
+%	\bgroup
+%	\def\arraystretch{1.1}
+%	\begin{tabular}{l l S S S S S S S S S S S}
+%		\hline
+%		\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\check{p}_\upzeta=2$} 							&& \multicolumn{5}{c}{$\check{p}_\upzeta=3$}\\ 
+%		\cline{3-7} \cline{9-13}
+%		\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh 2} 	&& \multicolumn{2}{c}{Mesh 3} 	&& \multicolumn{2}{c}{Mesh 2} && \multicolumn{2}{c}{Mesh 3}\\ 
+%		\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+%		$k$ 						& $n_\upzeta$ 	& {BA} 		& {FEA} 		&& {BA} 		& {FEA} 		&& {BA} 		& {FEA} 		&& {BA} 		& {FEA}		\\
+%		\hline
+%		\input{../../matlab/plotData/pollutionAnalysis/gerdesIhlenburgTableResults_p4}
+%	    \hline
+%	\end{tabular}
+%	\egroup
+%
+%	\par\bigskip		
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and FEA with angular degree $\check{p}_\upxi=3$ collected from~\cite{Gerdes1999otp}\protect\footnotemark. Mesh 2 and 3 are depicted in~\cite[Figure 3a]{Gerdes1999otp} and~\cite[Figure 3b]{Gerdes1999otp}, respectively. Other mesh parameters include the radial NURBS order $q$ and the number of element layers in radial direction $n_\upzeta$. As usual, $k$ is the wave number. The errors are measured in the normalized $H^1$-norm given in percentage.}
+%	\label{Tab2:gerdesIhlenburgTableResults_p3}
+%	\bgroup
+%	\def\arraystretch{1.1}
+%	\begin{tabular}{l l S S S S S S S S S S S}
+%		\hline
+%		\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\check{p}_\upzeta=2$} 							&& \multicolumn{5}{c}{$\check{p}_\upzeta=3$}\\ 
+%		\cline{3-7} \cline{9-13}
+%		\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh 2} 	&& \multicolumn{2}{c}{Mesh 3} 	&& \multicolumn{2}{c}{Mesh 2} && \multicolumn{2}{c}{Mesh 3}\\ 
+%		\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+%		$k$ 						& $n_\upzeta$ 	& {BA} 		& {FEA} 		&& {BA} 		& {FEA} 		&& {BA} 		& {FEA} 		&& {BA} 		& {FEA}		\\
+%		\hline
+%		\input{../../matlab/plotData/pollutionAnalysis/gerdesIhlenburgTableResults_p3}
+%	    \hline
+%	\end{tabular}
+%\egroup
+%\end{table}
+%
+%\footnotetext{A typo has been assumed to have occurred in~\cite{Gerdes1999otp} in the three last rows for $n_\upzeta$; \\It should be 2, 4 and 8 instead of 1, 2 and 4.}
+%\begin{table}
+%	\tiny
+%	\centering
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and IGA with angular NURBS order $p=4$. Mesh 2 and 3 are depicted in \Cref{Fig2:SphericalShellMeshes2} and \Cref{Fig2:SphericalShellMeshes3}, respectively. Other mesh parameters include the radial NURBS order $q$ and the number of element layers in radial direction $n_\upzeta$. As usual, $k$ is the wave number. The errors are measured in the normalized $H^1$-norm given in percentage.}
+%	\label{Tab2:p4}
+%	\bgroup
+%	\def\arraystretch{1.1}
+%	\begin{tabular}{l l S S S S S S S S S S S}
+%		\hline
+%		\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\check{p}_\upzeta=2$} 							&& \multicolumn{5}{c}{$\check{p}_\upzeta=3$}\\ 
+%		\cline{3-7} \cline{9-13}
+%		\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh 2} 	&& \multicolumn{2}{c}{Mesh 3} 	&& \multicolumn{2}{c}{Mesh 2} && \multicolumn{2}{c}{Mesh 3}\\ 
+%		\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+%		$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+%		\hline
+%		\input{../../matlab/plotData/pollutionAnalysis/p4}
+%	    \hline
+%	\end{tabular}
+%	\egroup
+%	
+%	\par\bigskip		
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and IGA with angular degree $\check{p}_\upxi=3$. Mesh 2 and 3 are depicted in \Cref{Fig2:SphericalShellMeshes2} and \Cref{Fig2:SphericalShellMeshes3}, respectively. Other mesh parameters include the radial NURBS order $q$ and the number of element layers in radial direction $n_\upzeta$. As usual, $k$ is the wave number. The errors are measured in the normalized $H^1$-norm given in percentage.}
+%	\label{Tab2:p3}
+%	\bgroup
+%	\def\arraystretch{1.1}
+%	\begin{tabular}{l l S S S S S S S S S S S}
+%		\hline
+%		\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\check{p}_\upzeta=2$} 							&& \multicolumn{5}{c}{$\check{p}_\upzeta=3$}\\ 
+%		\cline{3-7} \cline{9-13}
+%		\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh 2} 	&& \multicolumn{2}{c}{Mesh 3} 	&& \multicolumn{2}{c}{Mesh 2} && \multicolumn{2}{c}{Mesh 3}\\ 
+%		\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+%		$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+%		\hline
+%		\input{../../matlab/plotData/pollutionAnalysis/p3}
+%	    \hline
+%	\end{tabular}
+%	\egroup
+%\end{table}
+\begin{figure}
+	\centering        
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_0}
+		\caption{Mesh $3_0$.}
+		\label{Fig2:SphericalShellMesh3_0}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_1}
+		\caption{Mesh $3_1$.}
+		\label{Fig2:SphericalShellMesh3_1}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_2}
+		\caption{Mesh $3_2$.}
+		\label{Fig2:SphericalShellMesh3_2}
+	\end{subfigure}
+	\par\bigskip  
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_0}
+		\caption{Mesh $4_0$.}
+		\label{Fig2:SphericalShellMesh4_0}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_1}
+		\caption{Mesh $4_1$.}
+		\label{Fig2:SphericalShellMesh4_1}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_2}
+		\caption{Mesh $4_2$.}
+		\label{Fig2:SphericalShellMesh4_2}
+	\end{subfigure}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Illustration of the angular parametrization (parametrized with the $\xi$ and $\eta$ parameters). The sub index indicates the continuity of the angular parametrization over inserted knots. We insert $2^{s-1}-1$ knots for each knot interval in the $\xi$- and $\eta$-direction using $s=3,4$ for mesh $3_0$ and mesh $4_0$, respectively. To match the same degree of freedom for higher continuity meshes (mesh $3_1$, mesh $3_2$, mesh $4_1$ and mesh $4_2$) we must insert $\check{p}_\upxi\cdot 2^{s-1}-\check{p}_\upxi$ knots where $\check{p}_\upeta=\check{p}_\upxi$ (recall that $\check{p}_\upxi$ is the NURBS order in the $\xi$ direction while $\check{p}_\upeta$ is the NURBS order in the $\eta$ direction).}
+	\label{Fig2:SphericalShellMesh34_p}
+\end{figure}
+
+\begin{table}
+	\centering
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and IGA. The meshes are found in \Cref{Fig2:SphericalShellMesh34_p}. We denote by $n_\upzeta$, the number of NURBS basis functions in the radial direction. As usual, $k$ is the wave number. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Tab2:BAresults}
+	\begin{subtable}[t]{\linewidth}
+		\caption{Results on mesh 3 with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=2$, respectively.}
+		\label{Tab2:p2q2mesh3}
+		\centering
+		\bgroup
+		\def\arraystretch{1.1}
+		\begin{tabular}{l l S S S S S S S S}
+			\hline
+			\multicolumn{2}{c}{}				& \multicolumn{8}{c}{$\mathrm{noDofs} = 482\cdot (n_\upzeta+N-1)$}\\ 
+			\cline{3-10}
+			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $3_0^{\textsc{fem}}$} 	&& \multicolumn{2}{c}{Mesh $3_0$} 	&& \multicolumn{2}{c}{Mesh $3_1$}\\ 
+			\cline{3-4} \cline{6-7}\cline{9-10}
+			$k$ 						& $n_\upzeta$ 	& {BA} 		& {FEM} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}\\
+			\hline
+			\input{../../matlab/plotData/pollutionAnalysis2/IGAIGA_p2q2mesh3}
+		    \hline
+		\end{tabular}
+		\egroup
+	\end{subtable}
+	\par\bigskip
+	
+%	\begin{subtable}[t]{\linewidth}
+%		\caption{Results on mesh 4 with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=2$, respectively.}
+%		\label{Tab2:p2q2mesh4}
+%		\centering
+%		\bgroup
+%		\def\arraystretch{1.1}
+%		\begin{tabular}{l l S S S S S S S S}
+%			\hline
+%			\multicolumn{2}{c}{}				& \multicolumn{8}{c}{$\mathrm{noDofs} = 1986\cdot (n_\upzeta+N-1)$}\\ 
+%			\cline{3-10}
+%			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $4_0^{\textsc{fem}}$} 	&& \multicolumn{2}{c}{Mesh $4_0$} 	&& \multicolumn{2}{c}{Mesh $4_1$}\\ 
+%			\cline{3-4} \cline{6-7}\cline{9-10}
+%			$k$ 						& $n_\upzeta$ 	& {BA} 		& {FEM} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}\\
+%			\hline
+%			\input{../../matlab/plotData/pollutionAnalysis2/IGAIGA_p2q2mesh4}
+%		    \hline
+%		\end{tabular}
+%		\egroup
+%	\end{subtable}
+\end{table}
+
+	
+%
+\begin{table}
+	\tiny
+	\centering
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Convergence results for the best approximation (BA) and IGA. The meshes are found in \Cref{Fig2:SphericalShellMesh34_p}. We denote by $n_\upzeta$, the number of NURBS basis functions in the radial direction. As usual, $k$ is the wave number. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Tab2:BAresults}
+	\begin{subtable}[t]{\linewidth}
+		\caption{Results with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=2$, respectively.}
+		\label{Tab2:p2q2}
+		\centering
+		\bgroup
+		\def\arraystretch{1.1}
+		\begin{tabular}{l l S S S S S S S S S S S}
+			\hline
+			\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\mathrm{noDofs} = 482\cdot (n_\upzeta+N-1)$} 							&& \multicolumn{5}{c}{$\mathrm{noDofs} = 1986\cdot (n_\upzeta+N-1)$}\\ 
+			\cline{3-7} \cline{9-13}
+			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $3_0$} 	&& \multicolumn{2}{c}{Mesh $3_1$} 	&& \multicolumn{2}{c}{Mesh $4_0$} && \multicolumn{2}{c}{Mesh $4_1$}\\ 
+			\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+			$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+			\hline
+			\input{../../matlab/plotData/pollutionAnalysis/IGAIGA_p2q2}
+		    \hline
+		\end{tabular}
+		\egroup
+	\end{subtable}
+	\par\bigskip
+	
+	\begin{subtable}[t]{\linewidth}
+		\centering
+		\bgroup
+		\def\arraystretch{1.1}
+		\caption{Results with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=3$, respectively.}
+		\label{Tab2:p2q3}
+		\begin{tabular}{l l S S S S S S S S S S S}
+			\hline
+			\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\mathrm{noDofs} = 482\cdot (n_\upzeta+N-1)$} 							&& \multicolumn{5}{c}{$\mathrm{noDofs} = 1986\cdot (n_\upzeta+N-1)$}\\ 
+			\cline{3-7} \cline{9-13}
+			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $3_0$} 	&& \multicolumn{2}{c}{Mesh $3_1$} 	&& \multicolumn{2}{c}{Mesh $4_0$} && \multicolumn{2}{c}{Mesh $4_1$}\\ 
+			\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+			$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+			\hline
+			\input{../../matlab/plotData/pollutionAnalysis/IGAIGA_p2q3}
+		    \hline
+		\end{tabular}
+		\egroup
+	\end{subtable}
+	\par\bigskip
+	
+	\begin{subtable}[t]{\linewidth}
+		\caption{Results with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=2$, respectively.}
+		\label{Tab2:p3q2}
+		\centering
+		\bgroup
+		\def\arraystretch{1.1}
+		\begin{tabular}{l l S S S S S S S S S S S}
+			\hline
+			\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\mathrm{noDofs} = 1106\cdot (n_\upzeta+N-1)$} 							&& \multicolumn{5}{c}{$\mathrm{noDofs} = 4514\cdot (n_\upzeta+N-1)$}\\ 
+			\cline{3-7} \cline{9-13}
+			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $3_0$} 	&& \multicolumn{2}{c}{Mesh $3_2$} 	&& \multicolumn{2}{c}{Mesh $4_0$} && \multicolumn{2}{c}{Mesh $4_2$}\\ 
+			\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+			$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+			\hline
+			\input{../../matlab/plotData/pollutionAnalysis/IGAIGA_p3q2}
+		    \hline
+		\end{tabular}
+		\egroup
+	\end{subtable}
+	\par\bigskip
+	
+	\begin{subtable}[t]{\linewidth}
+		\centering
+		\bgroup
+		\def\arraystretch{1.1}
+		\caption{Results with angular and radial NURBS order $\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=3$, respectively.}
+		\label{Tab2:p3q3}
+		\begin{tabular}{l l S S S S S S S S S S S}
+			\hline
+			\multicolumn{2}{c}{}				& \multicolumn{5}{c}{$\mathrm{noDofs} = 1106\cdot (n_\upzeta+N-1)$} 							&& \multicolumn{5}{c}{$\mathrm{noDofs} = 4514\cdot (n_\upzeta+N-1)$}\\ 
+			\cline{3-7} \cline{9-13}
+			\multicolumn{2}{c}{}				& \multicolumn{2}{c}{Mesh $3_0$} 	&& \multicolumn{2}{c}{Mesh $3_2$} 	&& \multicolumn{2}{c}{Mesh $4_0$} && \multicolumn{2}{c}{Mesh $4_2$}\\ 
+			\cline{3-4} \cline{6-7}\cline{9-10} \cline{12-13}
+			$k$ 						& $n_\upzeta$ 	& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA} 		&& {BA} 		& {IGA}		\\
+			\hline
+			\input{../../matlab/plotData/pollutionAnalysis/IGAIGA_p3q3}
+		    \hline
+		\end{tabular}
+		\egroup
+	\end{subtable}
+\end{table}
+
+%\begin{figure}
+%	\tikzsetnextfilename{plot_p2q2mesh3} 
+%	\begin{tikzpicture}
+%		\begin{loglogaxis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={
+%				{myYellow, dashed}, % 1
+%				{myYellow}, % 1
+%				{mycolor, dashed}, % 2
+%				{mycolor}, % 2
+%				{myGreen, dashed}, % 1
+%				{myGreen}, % 1
+%				{myRed, dashed}, % 2
+%				{myRed}, % 2
+%			},
+%			%xtick={0, 45, ..., 360},
+%			xtick={3, 5, 9, 17, 33},
+%			xticklabels={3, 5, 9, 17, 33},
+%			enlarge x limits = true,
+%			legend style={
+%				at={(0.97,0.97)},
+%				anchor=north east,
+%				legend columns=1,
+%				%cells={anchor=west},
+%				font=\footnotesize,
+%				rounded corners=2pt
+%			},
+%			%width=0.45*350pt,
+%			%height=0.5*250pt,
+%			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+%			ylabel=Absolute relative error (\%),
+%			xmax=75
+%			]Fig:plot_p2q2mesh3
+%			% k = 5			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k5reduceCont1.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k5reduceCont1.dat};
+%			\addlegendentry{BA $C^0$, $k=5$}
+%			\addlegendentry{IGA $C^0$, $k=5$}
+%			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k5reduceCont0.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k5reduceCont0.dat};
+%			\addlegendentry{BA $C^2$, $k=5$}
+%			\addlegendentry{IGA $C^2$, $k=5$}
+%			
+%			
+%			% k = 40
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k40reduceCont1.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k40reduceCont1.dat};
+%			\addlegendentry{BA $C^0$, $k=40$}
+%			\addlegendentry{IGA $C^0$, $k=40$}
+%			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k40reduceCont0.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh3k40reduceCont0.dat};
+%			\addlegendentry{BA $C^2$, $k=40$}
+%			\addlegendentry{IGA $C^2$, $k=40$}
+%		\end{loglogaxis}
+%	\end{tikzpicture}
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q2} ($p=2$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $3_0$ in \Cref{Fig2:SphericalShellMesh3_0} and the $C^2$-results uses mesh $3_1$ in \Cref{Fig2:SphericalShellMesh3_1}. All results uses the same noDofs for a given $n_\upzeta$.}
+%	\label{Fig2:plot_p2q2mesh3}
+%
+%	\par\bigskip
+%	\tikzsetnextfilename{plot_p2q2mesh4}
+%	\begin{tikzpicture}
+%		\begin{loglogaxis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={
+%				{myYellow, dashed}, % 1
+%				{myYellow}, % 1
+%				{mycolor, dashed}, % 2
+%				{mycolor}, % 2
+%				{myGreen, dashed}, % 1
+%				{myGreen}, % 1
+%				{myRed, dashed}, % 2
+%				{myRed}, % 2
+%			},
+%			%xtick={0, 45, ..., 360},
+%			xtick={3, 5, 9, 17, 33},
+%			xticklabels={3, 5, 9, 17, 33},
+%			enlarge x limits = true,
+%			legend style={
+%				at={(0.97,0.97)},
+%				anchor=north east,
+%				legend columns=1,
+%				%cells={anchor=west},
+%				font=\footnotesize,
+%				rounded corners=2pt
+%			},
+%			%width=0.45*350pt,
+%			%height=0.5*250pt,
+%			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+%			ylabel=Absolute relative error (\%),
+%			xmax=75
+%			]
+%			% k = 5			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont1.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont1.dat};
+%			\addlegendentry{BA $C^0$, $k=5$}
+%			\addlegendentry{IGA $C^0$, $k=5$}
+%			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont0.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont0.dat};
+%			\addlegendentry{BA $C^2$, $k=5$}
+%			\addlegendentry{IGA $C^2$, $k=5$}
+%			
+%			
+%			% k = 40
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont1.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont1.dat};
+%			\addlegendentry{BA $C^0$, $k=40$}
+%			\addlegendentry{IGA $C^0$, $k=40$}
+%			
+%			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont0.dat};
+%			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont0.dat};
+%			\addlegendentry{BA $C^2$, $k=40$}
+%			\addlegendentry{IGA $C^2$, $k=40$}
+%		\end{loglogaxis}
+%	\end{tikzpicture}
+%	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q2} ($p=2$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $4_0$ in \Cref{Fig2:SphericalShellMesh4_0} and the $C^2$-results uses mesh $4_1$ in \Cref{Fig2:SphericalShellMesh4_1}. All results uses the same noDofs for a given $n_\upzeta$.}
+%	\label{Fig2:plot_p2q2mesh4}
+%\end{figure}
+\begin{figure}
+	\tikzsetnextfilename{plot_p2q2mesh3} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{mycolor, dashed, mark=triangle*}, % 2
+				{mycolor, mark=triangle*}, % 2
+				{myGreen, dashed, mark=triangle*}, % 1
+				{myGreen, mark=triangle*}, % 1
+				{myRed, dashed, mark=triangle*}, % 2
+				{myRed, mark=triangle*}, % 2
+				{mycolor, dashed, mark=*}, % 2
+				{mycolor, mark=*}, % 2
+				{myGreen, dashed, mark=*}, % 1
+				{myGreen, mark=*}, % 1
+				{myRed, dashed, mark=*}, % 2
+				{myRed, mark=*}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case1.dat};
+			\addplot table[x=l,y=FEM] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case1.dat};
+			\addlegendentry{BA FEM $C^0$, $k=5$}
+			\addlegendentry{FEM $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA]  {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case2.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case2.dat};
+			\addlegendentry{BA IGA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA]  {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case3.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k5Case3.dat};
+			\addlegendentry{BA IGA $C^1$, $k=5$}
+			\addlegendentry{IGA $C^1$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case1.dat};
+			\addplot table[x=l,y=FEM] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case1.dat};
+			\addlegendentry{BA FEM $C^0$, $k=40$}
+			\addlegendentry{FEM $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA]  {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case2.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case2.dat};
+			\addlegendentry{BA IGA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA]  {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case3.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis2/plot_p2q2mesh3k40Case3.dat};
+			\addlegendentry{BA IGA $C^1$, $k=40$}
+			\addlegendentry{IGA $C^1$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q2} ($\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $3_0$ in \Cref{Fig2:SphericalShellMesh3_0} and the $C^1$-results uses mesh $3_1$ in \Cref{Fig2:SphericalShellMesh3_1}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p2q2mesh3}
+
+	\par\bigskip
+	\tikzsetnextfilename{plot_p2q2mesh4} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k5reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=5$}
+			\addlegendentry{IGA $C^1$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q2mesh4k40reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=40$}
+			\addlegendentry{IGA $C^1$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q2} ($\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $4_0$ in \Cref{Fig2:SphericalShellMesh4_0} and the $C^1$-results uses mesh $4_1$ in \Cref{Fig2:SphericalShellMesh4_1}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p2q2mesh4}
+\end{figure}
+\begin{figure}
+	\tikzsetnextfilename{plot_p2q3mesh3} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k5reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=5$}
+			\addlegendentry{IGA $C^1$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh3k40reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=40$}
+			\addlegendentry{IGA $C^1$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q3} ($\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=3$). The $C^0$-results uses mesh $3_0$ in \Cref{Fig2:SphericalShellMesh3_0} and the $C^1$-results uses mesh $3_1$ in \Cref{Fig2:SphericalShellMesh3_1}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p2q3mesh3}
+
+	\par\bigskip
+	\tikzsetnextfilename{plot_p2q3mesh4} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k5reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=5$}
+			\addlegendentry{IGA $C^1$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p2q3mesh4k40reduceCont0.dat};
+			\addlegendentry{BA $C^1$, $k=40$}
+			\addlegendentry{IGA $C^1$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p2q3} ($\check{p}_\upxi=\check{p}_\upeta=2$ and $\check{p}_\upzeta=3$). The $C^0$-results uses mesh $4_0$ in \Cref{Fig2:SphericalShellMesh4_0} and the $C^1$-results uses mesh $4_1$ in \Cref{Fig2:SphericalShellMesh4_1}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p2q3mesh4}
+\end{figure}
+
+\tikzsetnextfilename{plot_p3q2mesh3} 
+\begin{figure}
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={3, 5, 9, 17, 33},
+			xticklabels={3, 5, 9, 17, 33},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=75
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k5reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=5$}
+			\addlegendentry{IGA $C^2$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh3k40reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=40$}
+			\addlegendentry{IGA $C^2$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p3q2} ($\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $3_0$ in \Cref{Fig2:SphericalShellMesh3_0} and the $C^2$-results uses mesh $3_2$ in \Cref{Fig2:SphericalShellMesh3_2}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p3q2mesh3}
+
+	\par\bigskip
+	\tikzsetnextfilename{plot_p3q2mesh4} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={3, 5, 9, 17, 33},
+			xticklabels={3, 5, 9, 17, 33},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=75
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k5reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=5$}
+			\addlegendentry{IGA $C^2$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q2mesh4k40reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=40$}
+			\addlegendentry{IGA $C^2$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p3q2} ($\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=2$). The $C^0$-results uses mesh $4_0$ in \Cref{Fig2:SphericalShellMesh4_0} and the $C^2$-results uses mesh $4_2$ in \Cref{Fig2:SphericalShellMesh4_2}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p3q2mesh4}
+\end{figure}
+\tikzsetnextfilename{plot_p3q3mesh3} 
+\begin{figure}
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k5reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=5$}
+			\addlegendentry{IGA $C^2$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh3k40reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=40$}
+			\addlegendentry{IGA $C^2$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p3q3} ($\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=3$). The $C^0$-results uses mesh $3_0$ in \Cref{Fig2:SphericalShellMesh3_0} and the $C^2$-results uses mesh $3_2$ in \Cref{Fig2:SphericalShellMesh3_2}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p3q3mesh3}
+	
+	\par\bigskip
+	\tikzsetnextfilename{plot_p3q3mesh4} 
+	\begin{tikzpicture}
+		\begin{loglogaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={
+				{myYellow, dashed}, % 1
+				{myYellow}, % 1
+				{mycolor, dashed}, % 2
+				{mycolor}, % 2
+				{myGreen, dashed}, % 1
+				{myGreen}, % 1
+				{myRed, dashed}, % 2
+				{myRed}, % 2
+			},
+			%xtick={0, 45, ..., 360},
+			xtick={4, 7, 13, 25, 49},
+			xticklabels={4, 7, 13, 25, 49},
+			enlarge x limits = true,
+			legend style={
+				at={(0.97,0.97)},
+				anchor=north east,
+				legend columns=1,
+				%cells={anchor=west},
+				font=\footnotesize,
+				rounded corners=2pt
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel={Number of basis function in radial direction, $n_\upzeta$},
+			ylabel=Absolute relative error (\%),
+			xmax=115
+			]
+			% k = 5			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k5reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k5reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=5$}
+			\addlegendentry{IGA $C^0$, $k=5$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k5reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k5reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=5$}
+			\addlegendentry{IGA $C^2$, $k=5$}
+			
+			
+			% k = 40
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k40reduceCont1.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k40reduceCont1.dat};
+			\addlegendentry{BA $C^0$, $k=40$}
+			\addlegendentry{IGA $C^0$, $k=40$}
+			
+			\addplot table[x=l,y=BA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k40reduceCont0.dat};
+			\addplot table[x=l,y=IGA] {../../matlab/plotData/pollutionAnalysis/plot_p3q3mesh4k40reduceCont0.dat};
+			\addlegendentry{BA $C^2$, $k=40$}
+			\addlegendentry{IGA $C^2$, $k=40$}
+		\end{loglogaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by a rigid sphere:} Plot of the results reported in \Cref{Tab2:p3q3} ($\check{p}_\upxi=\check{p}_\upeta=3$ and $\check{p}_\upzeta=3$). The $C^0$-results uses mesh $4_0$ in \Cref{Fig2:SphericalShellMesh4_0} and the $C^2$-results uses mesh $4_2$ in \Cref{Fig2:SphericalShellMesh4_2}. All results uses the same noDofs for a given $n_\upzeta$. The errors are found using \Cref{Eq2:H1relError} and are given in percentage.}
+	\label{Fig2:plot_p3q3mesh4}
+\end{figure}
+
+\clearpage
+\subsection{Plane wave scattered by an elastic spherical shell}
+We now turn to the acoustic-structure interaction (ASI) problem on a spherical shell where we want to compare classical FEM and IGA.
+
+In~\cite[pp. 12-20]{Chang1994voa} the exact 3D elasticity solution for the spherical shell is presented. We shall repeat the final formulas needed for the scattered pressure.
+Let the plane wave
+\begin{equation*}
+	p_{\textrm{inc}}(r,\vartheta) = P_{\mathrm{inc}}\euler^{\imag kz} = P_{\mathrm{inc}}\euler^{\imag kr\cos\vartheta}
+\end{equation*}
+be scattered on a elastic spherical shell with inner radius $R_1$ and outer radius $R_0$. The scattered pressure is then (elastic scattering)
+\begin{equation}\label{Eq2:exact3DscatteringSphericalShellSol}
+	p_{\mathrm{es}}(r,\vartheta) = p_{\mathrm{rs}}(r,\vartheta) + \frac{P_{\mathrm{inc}}\rho_{\mathrm{f}} c_{\mathrm{f}}}{(kR_0)^2}\sum_{n=0}^\infty \frac{\imag^n(2n+1)P_n(\cos\vartheta)h_n(kr)}{[h_n'(kR_0)]^2(Z_n+z_n)}
+\end{equation}
+where $p_{\mathrm{rs}}$ is defined in \Cref{Eq2:rigidScattering_p}, and $z_n$ (\textit{specific acoustic impedance}) and $Z_n$ (\textit{mechanical impedance}) are defined by
+\begin{equation*}
+	z_n = \imag\rho_{\mathrm{f}} c_{\mathrm{f}}\frac{h_n(kR_0)}{h_n'(kR_0)}
+\end{equation*}
+and
+\begin{equation*}
+	Z_n =\frac{R_0}{-\imag\omega\left[C_n^{(1)} D_{1,n}^{(1)}(b_1 R_0) + C_n^{(2)} D_{2,n}^{(1)}(b_2 R_0) + C_n^{(3)} D_{1,n}^{(2)}(b_1 R_0) + C_n^{(4)} D_{2,n}^{(2)}(b_2 R_0)\right]}
+\end{equation*}
+where 
+\begin{equation*}
+	D_{1,n}^{(i)}(x) = nA_n^{(i)}(x)-xA_{n+1}^{(i)}(x),\qquad	D_{2,n}^{(i)}(x) = n(n+1)A_n^{(i)}(x)	
+\end{equation*}
+and the coefficients $C_n^{(1)}$, $C_n^{(2)}$, $C_n^{(3)}$ and $C_n^{(4)}$ are given by
+\begin{equation*}
+	C_0^{(1)} = \frac{\frac{R_0^2}{2\mu}B_{1,n}^{(2)}(b_1 R_1)}{\nabla^2_0},\quad C_0^{(2)}=0,\quad
+	C_0^{(3)} = -\frac{\frac{R_0^2}{2\mu}B_{1,n}^{(1)}(b_1 R_1)}{\nabla^2_0},\quad C_0^{(4)}=0
+\end{equation*}
+for $n=0$ where
+\begin{equation*}
+	\nabla^2_0=\begin{vmatrix}
+		B_{1,n}^{(1)}(b_1 R_0) & B_{1,n}^{(2)}(b_1 R_0)\\
+		B_{1,n}^{(1)}(b_1 R_1) & B_{1,n}^{(2)}(b_1 R_1)
+	\end{vmatrix},
+\end{equation*}
+and by
+\begin{equation*}
+	C_n^{(1)} = \frac{\nabla^2_{1,n}}{\nabla^2_n},\quad C_n^{(2)} = \frac{\nabla^2_{2,n}}{\nabla^2_n},\quad C_n^{(3)} = \frac{\nabla^2_{3,n}}{\nabla^2_n},\quad C_n^{(4)} = \frac{\nabla^2_{4,n}}{\nabla^2_n}
+\end{equation*}
+for $n>0$ where the following notations has been used
+\begin{equation*}
+	\nabla^2_n = \begin{vmatrix}
+		B_{1,n}^{(1)}(b_1 R_0) & B_{2,n}^{(1)}(b_2 R_0) & B_{1,n}^{(2)}(b_1 R_0) & B_{2,n}^{(2)}(b_2 R_0)\\
+		B_{1,n}^{(1)}(b_1 R_1) & B_{2,n}^{(1)}(b_2 R_1) & B_{1,n}^{(2)}(b_1 R_1) & B_{2,n}^{(2)}(b_2 R_1)\\
+		B_{3,n}^{(1)}(b_1 R_0) & B_{4,n}^{(1)}(b_2 R_0) & B_{3,n}^{(2)}(b_1 R_0) & B_{4,n}^{(2)}(b_2 R_0)\\
+		B_{3,n}^{(1)}(b_1 R_1) & B_{4,n}^{(1)}(b_2 R_1) & B_{3,n}^{(2)}(b_1 R_1) & B_{4,n}^{(2)}(b_2 R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{1,n} = \frac{R_0^2}{2\mu}\begin{vmatrix}
+		B_{2,n}^{(1)}(b_2 R_1) & B_{1,n}^{(2)}(b_1 R_1) & B_{2,n}^{(2)}(b_2 R_1)\\
+		B_{4,n}^{(1)}(b_2 R_0) & B_{3,n}^{(2)}(b_1 R_0) & B_{4,n}^{(2)}(b_2 R_0)\\
+		B_{4,n}^{(1)}(b_2 R_1) & B_{3,n}^{(2)}(b_1 R_1) & B_{4,n}^{(2)}(b_2 R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{2,n} = -\frac{R_0^2}{2\mu}\begin{vmatrix}
+		B_{1,n}^{(1)}(b_1 R_1) & B_{1,n}^{(2)}(b_1 R_1) & B_{2,n}^{(2)}(b_2 R_1)\\
+		B_{3,n}^{(1)}(b_1 R_0) & B_{3,n}^{(2)}(b_1 R_0) & B_{4,n}^{(2)}(b_2 R_0)\\
+		B_{3,n}^{(1)}(b_1 R_1) & B_{3,n}^{(2)}(b_1 R_1) & B_{4,n}^{(2)}(b_2 R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{3,n} = \frac{R_0^2}{2\mu}\begin{vmatrix}
+		B_{1,n}^{(1)}(b_1 R_1) & B_{2,n}^{(1)}(b_2 R_1) & B_{2,n}^{(2)}(b_2 R_1)\\
+		B_{3,n}^{(1)}(b_1 R_0) & B_{4,n}^{(1)}(b_2 R_0) & B_{4,n}^{(2)}(b_2 R_0)\\
+		B_{3,n}^{(1)}(b_1 R_1) & B_{4,n}^{(1)}(b_2 R_1) & B_{4,n}^{(2)}(b_2 R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{4,n} = -\frac{R_0^2}{2\mu}\begin{vmatrix}
+		B_{1,n}^{(1)}(b_1 R_1) & B_{2,n}^{(1)}(b_2 R_1) & B_{1,n}^{(2)}(b_1 R_1)\\
+		B_{3,n}^{(1)}(b_1 R_0) & B_{4,n}^{(1)}(b_2 R_0) & B_{3,n}^{(2)}(b_1 R_0)\\
+		B_{3,n}^{(1)}(b_1 R_1) & B_{4,n}^{(1)}(b_2 R_1) & B_{3,n}^{(2)}(b_1 R_1)
+	\end{vmatrix}.
+\end{equation*}
+\begin{align*}
+	B_{1,n}^{(i)}(x) &= \left[n^2-n-\frac{1}{2}\left(\frac{b_2}{b_1}\right)^2 x^2\right] A_n^{(i)}(x) + 2xA_{n+1}^{(i)}(x)\\
+	B_{2,n}^{(i)}(x) &= n(n+1)\left[(n-1)A_n^{(i)}(x) - xA_{n+1}^{(i)}(x)\right]\\
+	B_{3,n}^{(i)}(x) &= (n-1) A_n^{(i)}(x) - xA_{n+1}^{(i)}(x)\\
+	B_{4,n}^{(i)}(x) &= \left(n^2-1-\frac{1}{2}x^2\right) A_n^{(i)}(x) + xA_{n+1}^{(i)}(x)
+\end{align*}
+%\begin{align*}
+%	B_9^{(i)}(x) &= \left[-n^2-\frac{1}{2}\left(\frac{b_2}{b_1}\right)^2 x^2+x^2\right] A_n^{(i)}(x) - xA_{n+1}^{(i)}(x)\\
+%	B_7^{(i)}(x) &= -(n^2+n)\left[n A_n^{(i)}(x) - xA_{n+1}^{(i)}(x)\right] \\
+%	B_5^{(i)}(x) &= \left[n-\frac{1}{2}x^2+\left(\frac{b_1}{b_2}\right)^2 x^2\right] A_n^{(i)}\left(\frac{b_1}{b_2}x\right) - \frac{b_1}{b_2}x A_{n+1}^{(i)}\left(\frac{b_1}{b_2}x\right)\\
+%	B_6^{(i)}(x) &= n(n+1)A_n^{(i)}(x)\\
+%\end{align*}
+\begin{equation*}
+	A_{n}^{(1)}(x) = j_n(x),\quad\text{and}\quad A_{n}^{(2)}(x) = y_n(x),
+\end{equation*}
+\begin{equation*}
+	b_1=\frac{\omega}{c_1},\quad b_2=\frac{\omega}{c_2},\quad c_1 = \sqrt{\frac{\lambda+2\mu}{\rho_s}},\quad c_2 = \sqrt{\frac{\mu}{\rho_s}}.
+\end{equation*}
+Here, the parameters $c_1$ and $c_2$ are called the longitudinal wave velocity and shear wave velocity, respectively. Moreover, $\lambda$ and $\mu$ are the Lam{\'e} parameters which can be defined by the Young's modulus, $E$, and Poisson's ratio, $\nu$, as
+\begin{equation*}
+	\lambda = \frac{\nu E}{(1+\nu)(1-2\nu)}\quad\text{and}\quad \mu = \frac{E}{2(1+\nu)}.
+\end{equation*}
+The material parameters are found in \Cref{Tab2:sphericalShellParameters}, and we shall use $r_{\mathrm{a}}=6$ and $N=3$ radial shape functions in the infinite elements. Moreover, we shall use the PGU formulation for the infinite elements. For each experiment we use the same NURBS order everywhere. Denote by $\check{p}_\upxi = p_{\upxi,\mathrm{f}} = p_{\upxi,\mathrm{s}}$ the common NURBS order in the fluid and the solid in the $\xi$-direction. Similarly $\check{p}_\upeta = p_{\upeta,\mathrm{f}} = p_{\upeta,\mathrm{s}}$ and $\check{p}_\upzeta = p_{\upzeta,\mathrm{f}} = p_{\upzeta,\mathrm{s}}$. For each experiment we will use $\check{p}_\upxi = \check{p}_\upeta = \check{p}_\upzeta$.
+
+\begin{table}
+	\centering
+	\caption[Parameters for spherical shell]{\textbf{Scattering on spherical shell:} Parameters.}
+	\label{Tab2:sphericalShellParameters}
+	\begin{tabular}{l l}
+		\toprule
+		Parameter & Description\\
+		\midrule
+		$E = 2.07\cdot 10^{11}\unit{Pa}$ & Young's modulus\\
+		$\rho_{\mathrm{s}} = 7669\unit{kg/m^3}$ & Density of solid\\
+		$\rho_{\mathrm{f}} = 1000\unit{kg/m^3}$ & Density of fluid\\
+		$\nu = 0.3$ & Poisson's ratio\\
+		$c_{\mathrm{f}} = 1524\unit{m/s}$ & Fluid speed of sound\\
+		$t_{\mathrm{s}} = 0.15\unit{m}$ & Thickness of the shell\\
+		$R = 5\unit{m}$ & Radius of the midsurface of the shell\\
+		$R_1 = 4.925\unit{m}$ & Inner radius of the shell\\
+		$R_0 = 5.075\unit{m}$ & Outer radius of the shell\\
+		$P_{\mathrm{inc}} = 1$ & Amplitude of incident wave\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+In order to compare classical FEM and IGA on the scattering problem on the spherical shell, we shall transform the NURBS mesh to a classical FEM mesh. In~\Cref{Fig2:SphericalShellMesh34_p_FSI} we add the equivalent FEM meshes which contain the same noDofs as the IGA meshes, respectively. These new meshes are still NURBS parametrizations, and are created by repeating every knot in the IGA mesh such that every internal knot has multiplicity $m=\check{p}_\upxi$ in the $\xi$-direction and correspondingly in the other two directions. Moreover, to get the polygon elements, we simply project every control point which does not lie on the surface, to the surface of its corresponding polygon element. Finally, all weights are set to be 1. It should be noted that the FEM analysis will then use the Bernstein basis instead of the classical Lagrange basis. However, both of these set of functions spans the same spaces, such that the results should be identical.
+\begin{figure}
+	\centering        
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_0_FEM}
+		\caption{Mesh $3_0^{\textsc{fem}}$.}
+		\label{Fig2:SphericalShellMesh3_0_FEM}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_0}
+		\caption{Mesh $3_0$.}
+		\label{Fig2:SphericalShellMesh3_0_FSI}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_1}
+		\caption{Mesh $3_1$.}
+		\label{Fig2:SphericalShellMesh3_1_FSI}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh3_2}
+		\caption{Mesh $3_2$.}
+		\label{Fig2:SphericalShellMesh3_2_FSI}
+	\end{subfigure}
+	\par\bigskip  
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_0_FEM}
+		\caption{Mesh $4_0^{\textsc{fem}}$.}
+		\label{Fig2:SphericalShellMesh4_0_FEM}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_0}
+		\caption{Mesh $4_0$.}
+		\label{Fig2:SphericalShellMesh4_0_FSI}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_1}
+		\caption{Mesh $4_1$.}
+		\label{Fig2:SphericalShellMesh4_1_FSI}
+	\end{subfigure}
+	~
+	\begin{subfigure}{0.23\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../../graphics/sphericalShellMesh4_2}
+		\caption{Mesh $4_2$.}
+		\label{Fig2:SphericalShellMesh4_2_FSI}
+	\end{subfigure}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell:} Illustration of the angular parametrization (parametrized with the $\xi$ and $\eta$ parameters). The sub index indicates the continuity of the parametrization over inserted knots. The structure of the angular parametrization is equal for both the finite fluid domain (inside $\Gamma_{\mathrm{a}}$) and the solid domain. For mesh $3_0^{\textsc{fem}}$ and mesh $3_i$, $i=0,1,2$, it is used $n_{\upzeta, \mathrm{f}}=2\check{p}_\upzeta+1$ basis functions in the radial direction for the finite fluid domain and $n_{\upzeta, \mathrm{s}}=\check{p}_\upzeta+1$ basis functions in the radial direction for the solid domain. For mesh $4_0^{\textsc{fem}}$ and mesh $4_i$, $i=0,1,2$, the corresponding numbers are $n_{\upzeta, \mathrm{f}}=4\check{p}_\upzeta+1$ and $n_{\upzeta, \mathrm{s}}=2\check{p}_\upzeta+1$, respectively.}
+	\label{Fig2:SphericalShellMesh34_p_FSI}
+\end{figure}
+
+In~\Cref{Fig2:compFEMandIGAmesh3p2}, \Cref{Fig2:compFEMandIGAmesh3p3}, \Cref{Fig2:compFEMandIGAmesh4p2}, \Cref{Fig2:compFEMandIGAmesh4p3} we compare the far field pattern of the exact solution and the numerical solution on different meshes using different polynomial degrees. The most informative plots are found in the corresponding error plots in~\Cref{Fig2:compFEMandIGAmesh3p2_error}, \Cref{Fig2:compFEMandIGAmesh3p3_error}, \Cref{Fig2:compFEMandIGAmesh4p2_error} and \Cref{Fig2:compFEMandIGAmesh4p3_error} where we evaluate the error using
+\begin{equation}\label{Eq2:relError}
+	E_h = \frac{\left|p_\infty(\vec{P}_{\mathrm{ffp}})-p_{\infty,h}(\vec{P}_{\mathrm{ffp}})\right|}{\left|p_\infty(\vec{P}_{\mathrm{ffp}})\right|}.
+\end{equation}
+where $p_{0,h}$ is found (using the numerical solution $p_h^N$) by \Cref{Eq2:farfieldFormula} and \Cref{Eq2:FarFieldDef}. Once again, we not only observe a significant improvement using the exact geometry, but also when using higher continuity of the basis functions. We observe that if we increase the difference in the continuity between two simulations (which uses the same nodofs), we get a greater difference in the resulting error.
+
+\tikzsetnextfilename{compFEMandIGAmesh3p2} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel={$|p_\infty(\alpha_{\mathrm{f}},0)|$},
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case1_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case2_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case3_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case3_exact.dat};
+			\addlegendentry{FEM $C^0$, mesh $3_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $3_0$}
+			\addlegendentry{IGA $C^1$, mesh $3_1$}
+			\addlegendentry{Exact}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Results using $p=q=2$ with meshes found in \Cref{Fig2:SphericalShellMesh34_p_FSI}. The exact solution is given in \Cref{Eq2:exact3DscatteringSphericalShellSol}. The farfield pattern $|p_\infty(\alpha_{\mathrm{f}},\beta_{\mathrm{f}})|$ at aspect angle $\alpha_{\mathrm{f}}$ and elevation angle $\beta_{\mathrm{f}}$ is defined in \Cref{Eq2:FarFieldDef}.}
+\label{Fig2:compFEMandIGAmesh3p2}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh3p3} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel={$|p_\infty(\alpha_{\mathrm{f}},0)|$},
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case1_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case2_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case3_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case3_exact.dat};
+			\addlegendentry{FEM $C^0$, mesh $3_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $3_0$}
+			\addlegendentry{IGA $C^2$, mesh $3_2$}
+			\addlegendentry{Exact}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Results using $p=q=3$ with meshes found in \Cref{Fig2:SphericalShellMesh34_p_FSI}. The exact solution is given in \Cref{Eq2:exact3DscatteringSphericalShellSol}. The farfield pattern $|p_\infty(\alpha_{\mathrm{f}},\beta_{\mathrm{f}})|$ at aspect angle $\alpha_{\mathrm{f}}$ and elevation angle $\beta_{\mathrm{f}}$ is defined in \Cref{Eq2:FarFieldDef}.}
+\label{Fig2:compFEMandIGAmesh3p3}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh4p2} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel={$|p_\infty(\alpha_{\mathrm{f}},0)|$},
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case1_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case2_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case3_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case3_exact.dat};
+			\addlegendentry{FEM $C^0$, mesh $4_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $4_0$}
+			\addlegendentry{IGA $C^1$, mesh $4_1$}
+			\addlegendentry{Exact}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Results using $p=q=2$ with meshes found in \Cref{Fig2:SphericalShellMesh34_p_FSI}. The exact solution is given in \Cref{Eq2:exact3DscatteringSphericalShellSol}. The farfield pattern $|p_\infty(\alpha_{\mathrm{f}},\beta_{\mathrm{f}})|$ at aspect angle $\alpha_{\mathrm{f}}$ and elevation angle $\beta_{\mathrm{f}}$ is defined in \Cref{Eq2:FarFieldDef}.}
+\label{Fig2:compFEMandIGAmesh4p2}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh4p3} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel={$|p_\infty(\alpha_{\mathrm{f}},0)|$},
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case1_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case2_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case3_num.dat};
+			\addplot table[x=theta,y=F_k] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case3_exact.dat};
+			\addlegendentry{FEM $C^0$, mesh $4_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $4_0$}
+			\addlegendentry{IGA $C^2$, mesh $4_2$}
+			\addlegendentry{Exact}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Results using $p=q=3$ with meshes found in \Cref{Fig2:SphericalShellMesh34_p_FSI}. The exact solution is given in \Cref{Eq2:exact3DscatteringSphericalShellSol}. The farfield pattern $|p_\infty(\alpha_{\mathrm{f}},\beta_{\mathrm{f}})|$ at aspect angle $\alpha_{\mathrm{f}}$ and elevation angle $\beta_{\mathrm{f}}$ is defined in \Cref{Eq2:FarFieldDef}.}
+\label{Fig2:compFEMandIGAmesh4p3}
+\end{figure}
+
+\tikzsetnextfilename{compFEMandIGAmesh3p2_error} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel=Absolute relative error (in \%),
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case1.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case2.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p2_Case3.dat};
+			\addlegendentry{FEM $C^0$, mesh $3_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $3_0$}
+			\addlegendentry{IGA $C^1$, mesh $3_1$}
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Same results as in \Cref{Fig2:compFEMandIGAmesh3p2} in terms of the error (in percentage) given by \Cref{Eq2:relError}.}
+\label{Fig2:compFEMandIGAmesh3p2_error}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh3p3_error} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel=Absolute relative error (in \%),
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case1.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case2.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh3_p3_Case3.dat};
+			\addlegendentry{FEM $C^0$, mesh $3_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $3_0$}
+			\addlegendentry{IGA $C^1$, mesh $3_2$}
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Same results as in \Cref{Fig2:compFEMandIGAmesh3p3} in terms of the error (in percentage) given by \Cref{Eq2:relError}.}
+\label{Fig2:compFEMandIGAmesh3p3_error}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh4p2_error} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel=Absolute relative error (in \%),
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case1.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case2.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p2_Case3.dat};
+			\addlegendentry{FEM $C^0$, mesh $4_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $4_0$}
+			\addlegendentry{IGA $C^1$, mesh $4_1$}
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Same results as in \Cref{Fig2:compFEMandIGAmesh4p2} in terms of the error (in percentage) given by \Cref{Eq2:relError}.}
+\label{Fig2:compFEMandIGAmesh4p2_error}
+\end{figure}
+\tikzsetnextfilename{compFEMandIGAmesh4p3_error} 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor},
+				{myGreen},
+				{myRed},
+				{black},
+			},
+			xtick={0, 45, ..., 360},
+			legend style={
+			at={(0.97,0.97)},
+			anchor=north east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%xtick={0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xlabel={$\alpha_{\mathrm{f}}$},
+			ylabel=Absolute relative error (in \%),
+%			xmin=0.2,
+%			xmax=0.525,
+%			ymax=25
+			]
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case1.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case2.dat};
+			\addplot table[x=theta,y=error] {../../matlab/plotData/FEMvsIGAanalysis/mesh4_p3_Case3.dat};
+			\addlegendentry{FEM $C^0$, mesh $4_0^{\textsc{fem}}$}
+			\addlegendentry{IGA $C^0$, mesh $4_0$}
+			\addlegendentry{IGA $C^1$, mesh $4_2$}
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\caption{\textbf{Plane wave scattered by an elastic spherical shell}: Same results as in \Cref{Fig2:compFEMandIGAmesh4p3} in terms of the error (in percentage) given by \Cref{Eq2:relError}.}
+\label{Fig2:compFEMandIGAmesh4p3_error}
+\end{figure}
+
+
+%\subsection{Scattering on BeTSSi model 3}3
+%We shall present both bistatic and monostatic results of scattering on BeTSSi model 3. The main theme in the results will be the pollution effect as the results become less accurate for high frequencies using the same mesh. It will illustrate the importance of mesh refinement for the increase in the frequency.
+%
+%In all results, we have set the elevation angle of the incident wave and the far field point to be zero, that is $\beta_{\mathrm{s}}=0$ and $\beta_{\mathrm{f}}=0$. 
+%
+%Most of the results will be compared with results obtained from Ilkka Karasalo and Martin Østberg at FOI\footnote{FOI, Totalförsvarets forskningsinstitut, is the Swedish Defence Research Agency.}. They have proposed several methods for solving the scattering problems including the boundary element method (FOI4). For BeTSSi model 3, they exploit the axisymmetry to reduce the computational time, such that the obtained results may not be compared to the obtained results in this thesis when conserning computational time. However, we shall use the results from FOI as reference solutions.
+%
+%
+%\subsubsection{The near field}
+%For illustrative purposes we start by plotting (the real part of) the near field for $f=500\unit{Hz}$ and $f=1\unit{kHz}$, and for the aspect angles $\alpha_{\mathrm{s}} = 240^\circ$ and $\alpha_{\mathrm{s}}=300^\circ$. In \Cref{Fig2:mesh5bistatic_f_500alpha240} and \Cref{Fig2:mesh5bistatic_f_500alpha300} we consider $f=500\unit{Hz}$ with the aspect angles $\alpha_{\mathrm{s}} = 240^\circ$ and $\alpha_{\mathrm{s}}=300^\circ$, respectively. The incident wave at aspect angle $\alpha_{\mathrm{s}}=240^\circ$ arrives normal to the surface of BeTSSi model 3 only at one point, namely a point on the larger hemisphere. From here the scattered waves form a locally spherical wave pattern, as expected. What is peculiar about these plots is the ``shadow'' area behind BeTSSi model 3 where one should expect lower pressure. Instead we see waves forming with higher amplitude compared to the other scattered wave. This is because these waves do not represent the total pressure field\footnote{Which we here define to be the superposition of the incident field and the scattered pressure.}, rather they represents the canceling part of the incident wave such that the total field indeed is reduced in this area. We call this area the shadow area, as the model casts a shadow behind itself. All of these effects are also observed when $\alpha_{\mathrm{s}}=300^\circ$ in \Cref{Fig2:mesh5bistatic_f_500alpha300}. The corresponding two plots for $f=1\unit{kHz}$ in \Cref{Fig2:mesh5bistatic_f_1000alpha240} and \Cref{Fig2:mesh5bistatic_f_1000alpha300} shows the same behavior, with a doubling in the number of waves. However, for higher frequencies, special lines of diffraction patterns emerges in the shadow area.
+%\begin{figure}
+%	\centering
+%	\tikzsetnextfilename{mesh5bistatic_f_500alpha240} 
+%	\begin{tikzpicture}
+%		\def\scalingFact{41.4}
+%			\node[anchor=north west,inner sep=0] at (0,0) {\includegraphics[width=0.8425\textwidth]{../../graphics/mesh5bistatic_f_500alpha240}};
+%		    \draw[dashed] (2.23,-1.6) -- (3.23,0.4);
+%		    \draw[dashed] (11.85,-2) -- (13.05,0.4);
+%		    \draw[dashed] (3.23,0.4) -- (13.05,0.4) node [midway,fill=white] {Shadow area};
+%		    
+%	  		\def\dy{0.1}
+%		    \draw (1,-4) -- (3,-5);
+%		    \draw (1+\dy,-4+2*\dy) -- (3+\dy,-5+2*\dy);
+%		    \draw (1+2*\dy,-4+2*2*\dy) -- (3+2*\dy,-5+2*2*\dy);
+%		    \draw[<-] (2.3,-3.9) -- (1.8,-4.9) node[below left]{$p_{\mathrm{inc}}$};
+%	\end{tikzpicture}
+%	\caption[Near field of BeTSSi model 3 with $f=500\unit{Hz}$ and $\alpha_{\mathrm{s}}=240^\circ$]{\textbf{Scattering on BeTSSi model 3}: The near field of BeTSSi model 3 with $f=500\unit{Hz}$ on mesh 5. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. Mesh 5 is illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:mesh5bistatic_f_500alpha240}
+%	
+%	
+%	\vspace{2cm}
+%	\tikzsetnextfilename{mesh5bistatic_f_500alpha300} 
+%	\begin{tikzpicture}
+%		\def\scalingFact{41.4}
+%			\node[anchor=north west,inner sep=0] at (0,0) {\includegraphics[width=0.8425\textwidth]{../../graphics/mesh5bistatic_f_500alpha300}};
+%		    
+%	  		\def\dy{0.1}
+%		    \draw (10,-5) -- (12,-4);
+%		    \draw (10-\dy,-5+2*\dy) -- (12-\dy,-4+2*\dy);
+%		    \draw (10-2*\dy,-5+2*2*\dy) -- (12-2*\dy,-4+2*2*\dy);
+%		    \draw[<-] (10.6,-3.7) -- (11.1,-4.7) node[below right]{$p_{\mathrm{inc}}$};
+%	\end{tikzpicture}
+%	\caption[Near field of BeTSSi model 3 with $f=500\unit{Hz}$ and $\alpha_{\mathrm{s}}=300^\circ$]{\textbf{Scattering on BeTSSi model 3}: The near field of BeTSSi model 3 with $f=500\unit{Hz}$ on mesh 5. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. Mesh 5 is illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:mesh5bistatic_f_500alpha300}
+%\end{figure} 
+%\begin{figure}
+%	\centering
+%	\tikzsetnextfilename{mesh5bistatic_f_1000alpha240} 
+%	\begin{tikzpicture}
+%		\def\scalingFact{41.4}
+%			\node[anchor=north west,inner sep=0] at (0,0) {\includegraphics[width=0.8425\textwidth]{../../graphics/mesh5bistatic_f_1000alpha240}};
+%		    
+%	  		\def\dy{0.1}
+%		    \draw (1,-4) -- (3,-5);
+%		    \draw (1+\dy,-4+2*\dy) -- (3+\dy,-5+2*\dy);
+%		    \draw (1+2*\dy,-4+2*2*\dy) -- (3+2*\dy,-5+2*2*\dy);
+%		    \draw[<-] (2.3,-3.9) -- (1.8,-4.9) node[below left]{$p_{\mathrm{inc}}$};
+%	\end{tikzpicture}
+%	\caption[Near field of BeTSSi model 3 with $f=1\unit{kHz}$ and $\alpha_{\mathrm{s}}=240^\circ$]{\textbf{Scattering on BeTSSi model 3}: The near field of BeTSSi model 3 with $f=1\unit{kHz}$ on mesh 5. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. Mesh 5 is illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:mesh5bistatic_f_1000alpha240}
+%	
+%	
+%	\vspace{2cm}
+%	\tikzsetnextfilename{mesh5bistatic_f_1000alpha300} 
+%	\begin{tikzpicture}
+%		\def\scalingFact{41.4}
+%			\node[anchor=north west,inner sep=0] at (0,0) {\includegraphics[width=0.8425\textwidth]{../../graphics/mesh5bistatic_f_1000alpha300}};
+%		    
+%	  		\def\dy{0.1}
+%		    \draw (10,-5) -- (12,-4);
+%		    \draw (10-\dy,-5+2*\dy) -- (12-\dy,-4+2*\dy);
+%		    \draw (10-2*\dy,-5+2*2*\dy) -- (12-2*\dy,-4+2*2*\dy);
+%		    \draw[<-] (10.6,-3.7) -- (11.1,-4.7) node[below right]{$p_{\mathrm{inc}}$};
+%	\end{tikzpicture}
+%	\caption[Near field of BeTSSi model 3 with $f=1\unit{kHz}$ and $\alpha_{\mathrm{s}}=300^\circ$]{\textbf{Scattering on BeTSSi model 3}: The near field of BeTSSi model 3 with $f=1\unit{kHz}$ on mesh 5. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. Mesh 5 is illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:mesh5bistatic_f_1000alpha300}
+%\end{figure} 
+%
+%
+%\subsubsection{Bistatic scattering}
+%Bistatic scattering consist of analyzing a single incident wave on the obstacle, and measure the scattered pressure in a series of far-field points. We shall consider bistatic scattering for incident waves with aspect angles $\alpha_{\mathrm{s}}=240^\circ$ and $\alpha_{\mathrm{s}}=300^\circ$, and for the frequencies $100\unit{Hz}$, $500\unit{Hz}$ and $1\unit{kHz}$. For all these 6 cases we compare with the results obtained by FOI.
+%
+%In \Cref{Fig2:M3_240_100} and \Cref{Fig2:M3_300_100} we consider the two cases for $f=100\unit{Hz}$. At such a low frequency, we observe very good results. Even mesh 1 yields a tolerable result. However, increasing the frequency to $500\unit{Hz}$ we see in \Cref{Fig2:M3_240_100} and \Cref{Fig2:M3_300_100} that a corresponding increase in the number of elements is needed. In the final increase of the frequency to $1\unit{kHz}$ the accuracy of the results fall correspondingly. This seems to be dominant in the area $\alpha_{\mathrm{f}}\in[120^\circ, 300^\circ]$. The angle $\alpha_{\mathrm{s}}$ lies in this interval, and as we shall see, the monostatic analysis on the same frequency reveals the same loss of accuracy for the full set of angles $\alpha_{\mathrm{s}}$. In other words, using the chosen set of parameters (mesh, polynomial order, etc.), considering the same aspect angle for the incident wave and the far-field point yields slower convergence. Note that mesh 5 is the most refined mesh available for a direct solver with the equipment at hand.
+%
+%\tikzsetnextfilename{M3_240_100} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{black}, % FOI
+%			},
+%			legend style={
+%			at={(0.5,0.97)},
+%			anchor=north
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%			ymax = 30,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh1_240.dat};
+%			\addlegendentry{Mesh 1}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh2_240.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh3_240.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh4_240.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f100_240.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=240^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_240_100}
+%	\vspace{2cm}
+%\tikzsetnextfilename{M3_300_100} 
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{black},
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%			ymax = 30,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh1_300.dat};
+%			\addlegendentry{Mesh 1}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh2_300.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh3_300.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_100_mesh4_300.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f100_300.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%		\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=300^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_300_100}
+%\end{figure} 
+%\tikzsetnextfilename{M3_240_500} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 5
+%				{black},
+%			},
+%			legend style={
+%			at={(0.5,0.97)},
+%			anchor=north
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh1_240.dat};
+%			\addlegendentry{Mesh 1}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh2_240.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh3_240.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh4_240.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh5_240.dat};
+%			\addlegendentry{Mesh 5}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f500_240.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=500\unit{Hz}$ and $\alpha_{\mathrm{s}}=240^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=500\unit{Hz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_240_500}
+%	\vspace{2cm}
+%\tikzsetnextfilename{M3_300_500} 
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 5
+%				{black},
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh1_300.dat};
+%			\addlegendentry{Mesh 1}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh2_300.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh3_300.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh4_300.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_500_mesh5_300.dat};
+%			\addlegendentry{Mesh 5}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f500_300.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=500\unit{Hz}$ and $\alpha_{\mathrm{s}}=300^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=500\unit{Hz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_300_500}
+%\end{figure} 
+%\tikzsetnextfilename{M3_240_1000} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 5
+%				{black},
+%			},
+%			legend style={
+%			at={(0.5,0.97)},
+%			anchor=north
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%							
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh2_240.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh3_240.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh4_240.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh5_240.dat};
+%			\addlegendentry{Mesh 5}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f1000_240.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=1\unit{kHz}$ and $\alpha_{\mathrm{s}}=240^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=1\unit{kHz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. Mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:M3_240_1000}
+%\end{figure} 
+%\tikzsetnextfilename{M3_300_1000} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{mycolor}, 
+%				{myGreen}, 
+%				{myCyan},
+%				{myRed},
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{f}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh2_300.dat};
+%			\addlegendentry{Mesh 2}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh3_300.dat};
+%			\addlegendentry{Mesh 3}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh4_300.dat};
+%			\addlegendentry{Mesh 4}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/f_1000_mesh5_300.dat};
+%			\addlegendentry{Mesh 5}
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_BI/FOI_f1000_300.dat};
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=1\unit{kHz}$ and $\alpha_{\mathrm{s}}=300^\circ$]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=1\unit{kHz}$. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. Mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:M3_300_1000}
+%\end{figure} 
+%Finally, for illustration purposes, we plot the bistatic pressure also for a set of angles $\beta_{\mathrm{s}}$ which then results in a 3D plot. In \Cref{Fig2:M3_240_100_3D} we consider $\alpha_{\mathrm{s}}=240^\circ$ and add the geometry of BeTSSi model 3 as a location reference (this geometry is scaled up in order to make it visible). In \Cref{Fig2:M3_240_100_3Dfull} we plot the full set of elevation angles $\beta_{\mathrm{f}}$. The similar case for $\alpha_{\mathrm{s}}=300^\circ$ are depicted in \Cref{Fig2:M3_300_100_3D} and \Cref{Fig2:M3_300_100_3Dfull}.
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale=1.3]{../../graphics/BeTSSi_M3_HWBC_f100_240_20}	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=240^\circ$ 3D~plot]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$ on mesh 1. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. The plot spans elevation angles $\beta_{\mathrm{f}}$ from $-20^\circ$ to $20^\circ$ and the whole range of aspect angles in steps of $0.25^\circ$ (results in $232,001$ evaluation points). Mesh 1 is illustrated in \Cref{Fig2:Mesh1NonUniform}.}
+%	\label{Fig2:M3_240_100_3D}
+%	\vspace{2cm}
+%	\includegraphics[scale=1.3]{../../graphics/BeTSSi_M3_HWBC_f100_240_90}	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=240^\circ$ 3D~plot]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$ on mesh 1. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=240^\circ$. The plot spans the whole range of elevation angles and of aspect angles in steps of $0.25^\circ$ (results in $1,038,961$ evaluation points). Mesh 1 is illustrated in \Cref{Fig2:Mesh1NonUniform}.}
+%	\label{Fig2:M3_240_100_3Dfull}
+%\end{figure} 
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale=1.3]{../../graphics/BeTSSi_M3_HWBC_f100_300_20}	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=300^\circ$ 3D~plot]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$ on mesh 1. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. The plot spans elevation angles $\beta_{\mathrm{f}}$ from $-20^\circ$ to $20^\circ$ and the whole range of aspect angles in steps of $0.25^\circ$ (results in $232,001$ evaluation points). Mesh 1 is illustrated in \Cref{Fig2:Mesh1NonUniform}.}
+%	\label{Fig2:M3_300_100_3D}
+%	\vspace{2cm}
+%	\includegraphics[scale=1.3]{../../graphics/BeTSSi_M3_HWBC_f100_300_90}	
+%	\caption[Bistatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$ and $\alpha_{\mathrm{s}}=300^\circ$ 3D~plot]{\textbf{Bistatic scattering on BeTSSi model 3}: The bistatic TS of BeTSSi model 3 with $f=100\unit{Hz}$ on mesh 1. The aspect angle for the incident wave is $\alpha_{\mathrm{s}}=300^\circ$. The plot spans the whole range of elevation angles and of aspect angles in steps of $0.25^\circ$ (results in $1,038,961$ evaluation points). Mesh 1 is illustrated in \Cref{Fig2:Mesh1NonUniform}.}
+%	\label{Fig2:M3_300_100_3Dfull}
+%\end{figure} 
+%\clearpage
+%
+%\subsubsection{Monostatic scattering}
+%In monostatic scattering we consider the case $\alpha_{\mathrm{f}}=\alpha_{\mathrm{s}}$ and $\beta_{\mathrm{f}}=\beta_{\mathrm{s}}$. Due to the geometry of BeTSSi model 3, one expects peaks at incident waves which hits the scatterer normal to the broadsides (as noted in~\cite{Nolte2014btb}). A simple trigonometric calculation then reveals these angles to be
+%\begin{align*}
+%	\alpha_{\mathrm{s},\mathrm{max}}^{(1)} &= \frac{\pi}{2}-\tan^{-1}\left(\frac{R_{\mathrm{o}1}-R_{\mathrm{o}2}}{L-R_{\mathrm{o}1}-R_{\mathrm{o}2}}\right) = 1.522054475 = 87.20729763^\circ,\\
+%	\alpha_{\mathrm{s},\mathrm{max}}^{(2)} &= \frac{3\pi}{2}+\tan^{-1}\left(\frac{R_{\mathrm{o}1}-R_{\mathrm{o}2}}{L-R_{\mathrm{o}1}-R_{\mathrm{o}2}}\right) = 4.761130832 = 272.7927024^\circ,
+%\end{align*}
+%where $R_{\mathrm{o}1}=5$ and $R_{\mathrm{o}2}=3$ is the outer radius of the larger and smaller hemisphere, respectively, and $L=49$ is the total length of BeTSSi model 3 (including the hemispheres). Both of these predictions are verified in the results. 
+%
+%In \Cref{Fig2:M3_MS_100} we consider monostatic scattering with $f=100\unit{Hz}$. For such a low frequencies we obtain very good results, even for mesh 1. Increasing the frequency to $f=500\unit{Hz}$, we observe in \Cref{Fig2:M3_MS_500} that we need a corresponding increase in the number of elements to reach the same accuracy. Unfortunately we have no data sets from FOI to compare with for these two cases. Finally, increasing the frequency to $1\unit{kHz}$ we can compare the results to FOI (\Cref{Fig2:M3_MS_1000}), and we do not reach convergence on mesh 5. It is assumed that the resolution of the mesh is too low to obtain good results at this frequency. That is, our results suffers from the pollution effect.
+%\tikzsetnextfilename{M3_MS_100} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 4
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{s}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_100_mesh1.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_100_mesh2.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_100_mesh3.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_100_mesh4.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_100_mesh5.dat};
+%			
+%			\addlegendentry{mesh 1}
+%			\addlegendentry{mesh 2}
+%			\addlegendentry{mesh 3}
+%			\addlegendentry{mesh 4}
+%			\addlegendentry{mesh 5}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Monostatic scattering on BeTSSi model 3 with $f=100\unit{Hz}$]{\textbf{Monostatic scattering on BeTSSi model 3}: The monostatic TS of BeTSSi model 3 with $f=100\unit{Hz}$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_MS_100}
+%\end{figure} 
+%\tikzsetnextfilename{M3_MS_500} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myYellow}, % 1
+%				{mycolor}, % 2
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 5
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{s}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_500_mesh1.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_500_mesh2.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_500_mesh3.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_500_mesh4.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_500_mesh5.dat};
+%			
+%			\addlegendentry{mesh 1}
+%			\addlegendentry{mesh 2}
+%			\addlegendentry{mesh 3}
+%			\addlegendentry{mesh 4}
+%			\addlegendentry{mesh 5}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Monostatic scattering on BeTSSi model 3 with $f=500\unit{Hz}$]{\textbf{Monostatic scattering on BeTSSi model 3}: The monostatic TS of BeTSSi model 3 with $f=500\unit{Hz}$. Mesh 1 and mesh 2, 3, 4 and 5 are illustrated in \Cref{Fig2:Mesh1NonUniform} and \Cref{Fig2:model3Meshes}, respectively.}
+%	\label{Fig2:M3_MS_500}
+%\end{figure} 
+%\tikzsetnextfilename{M3_MS_1000} 
+%\begin{figure}
+%	\centering
+%	\begin{tikzpicture}
+%		\begin{axis}[
+%			width = 0.95\textwidth,
+%			height = 0.3\paperheight,
+%			cycle list={%
+%				{myGreen}, % 3
+%				{myCyan}, % 4
+%				{myRed}, % 5
+%				{black}, % FOI
+%			},
+%			legend style={
+%			at={(0.97,0.97)},
+%			anchor=north east
+%			},
+%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%			%yticklabels={},
+%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%			%xmin=80, 
+%			%xmax=100000, 
+%%				ymin = -24,
+%%				ymax = 25,
+%			ylabel={TS},
+%			xlabel={Aspect angle $\alpha_{\mathrm{s}}$}
+%			]
+%			
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_1000_mesh3.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_1000_mesh4.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/f_1000_mesh5.dat};
+%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_HWBC_MS/FOI4.dat};
+%			
+%			\addlegendentry{Mesh 3}
+%			\addlegendentry{Mesh 4}
+%			\addlegendentry{Mesh 5}
+%			\addlegendentry{FOI4}
+%		\end{axis}
+%	\end{tikzpicture} 	
+%	\caption[Monostatic scattering on BeTSSi model 3 with $f=1\unit{kHz}$]{\textbf{Monostatic scattering on BeTSSi model 3}: The monostatic TS of BeTSSi model 3 with $f=1\unit{kHz}$. Mesh 3, 4 and 5 are illustrated in \Cref{Fig2:model3Meshes}.}
+%	\label{Fig2:M3_MS_1000}
+%\end{figure} 
+%
+%
+%\subsection{General remarks}
+%In~\cite{Burnett1994atd} Burnett suggest that the artificial boundary $\Gamma_{\mathrm{a}}$ should be placed (on average) $\frac{\lambda}{2}$ away from the object. That is, he suggest that this boundary to be placed closer at higher frequencies. This rule would be hard to impose on BeTSSi model 3 simply because BeTSSi model 3 differs to much from a prolate spheroid. This is a drawback, as it could be easy to draw a convex surface around BeTSSi model 3 which would nearly be a constant distance from the object surface $\Gamma$. The promising method of PML (Perfectly matched layers) after Bérenger (in~\cite{Berenger1994apm} and~\cite{Berenger1996pml}) manages to do just that, create a perfectly matched layer of fluid between $\Gamma_{\mathrm{a}}$ and $\Gamma$. In principle, this should be possible for the infinite element method (as long as $\Gamma_{\mathrm{a}}$ is made convex). However, this requires the use of a more general coordinate system (rather then the prolate spheroidal coordinate system). This topic has been somewhat investigated in \Cref{subsubsubsec:infElementsOnGeneralizedCoordSyst}.
+%
+%As we did not achieve completely satisfactory accuracy in the numerical simulation of the BeTSSi model 3 using HWBC, we did not make anyattempt to do the full FSI problem of this model. This problem consist of BeTSSi model 3 being filled with water, such that we have a interaction between fluid and the solid both inside and outside the shell. We must thus not only add structural elements, but also fluid elements inside the shell. The number of elements for mesh 5 (M3) then easily rises above one million, and will thus be outside the capacity of our direct solver.
+%
+%%In \Cref{Fig2:M3_RBC_TS} various results from different companies illustrate the additional complexity of introducing FSI. This plot illustrates that the shadow area is reduced. In fact, the waves penetrates the model so well as to create a second peak around $90^\circ$ (and correspondingly around $270^\circ$).
+%%\tikzsetnextfilename{M3_RBC_TS} 
+%%\begin{figure}
+%%	\centering
+%%	\begin{tikzpicture}
+%%		\begin{axis}[
+%%			width = 0.95\textwidth,
+%%			height = 0.3\paperheight,
+%%			cycle list={%
+%%				{BeTSSiII_2}, % BHT
+%%				{BeTSSiII_11}, % DCNS
+%%				{BeTSSiII_3}, % DRDC&LR
+%%				{BeTSSiII_4}, % DSTO
+%%				{BeTSSiII_5}, % FOI1
+%%				{BeTSSiII_5, dashed},  % FOI2
+%%				{BeTSSiII_6}, % FWG
+%%				{BeTSSiII_7}, % Kockums
+%%				{BeTSSiII_9}, % TKMS
+%%				{BeTSSiII_13}, % TNO
+%%			},
+%%			legend style={
+%%			at={(0.97,0.97)},
+%%			anchor=north east
+%%			},
+%%			%xtick={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
+%%%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+%%			%yticklabels={},
+%%			%xticklabels={2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13'},
+%%			%xmin=80, 
+%%			%xmax=100000, 
+%%%				ymin = -24,
+%%			%ymax = 60,
+%%			ylabel={TS},
+%%			xlabel={Aspect angle}
+%%			]
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/BHT.dat};
+%%			\addlegendentry{BHT}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/DCNS.dat};
+%%			\addlegendentry{DCNS}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/DRDCLR.dat};
+%%			\addlegendentry{DRDC\&LR}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/DSTO.dat};
+%%			\addlegendentry{DSTO}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/FOI1.dat};
+%%			\addlegendentry{FOI1}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/FOI2.dat};
+%%			\addlegendentry{FOI2}
+%%							
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/FWG.dat};
+%%			\addlegendentry{FWG}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/Kockums.dat};
+%%			\addlegendentry{Kockums}
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/TKMS.dat};
+%%			\addlegendentry{TKMS}
+%%			
+%%			
+%%			\addplot table[x=theta,y=TS] {../../matlab/plotData/BeTSSi_M3_RBC_MS_0_1/TNO.dat};
+%%			\addlegendentry{TNO}
+%%			
+%%		\end{axis}
+%%	\end{tikzpicture} 
+%%	
+%%	\caption[Monostatic scattering on BeTSSi model 3 with RBC]{\textbf{Monostatic scattering on BeTSSi model 3 with RBC}: Plot of the TS of the model 3 with RBC (Realistic Boundary Conditions) and frequency $f=1\unit{kHz}$. A description of each company was given in \Cref{se:background}.}
+%%	\label{Fig2:M3_RBC_TS}
+%%\end{figure} 
+%
+%The simulation using mesh 5 with HWBC has been using a server with 256GB available memory. With $700,000$ elements (mesh 5), about 50\% of this memory is used. The memory consumption is very expensive as the system of linear equation is solved by a direct solver. In \MATLAB, a LU-factorization is made, and this is very memory consuming. An iterative iterative solver should be implemented to solve the issue. Not only will the memory consumption problem be eliminated, but we should also be able to speed up the solution process, as we do not require machine epsilon precision of the solution (after all, a 1\% error in the result is considered to be very good). For classical elasticity problems on bounded domain, the global matrix is symmetric and positive definite (SPD). However, when introducing the infinite elements, the mass matrix is no longer positive definite, and neither is the resulting global matrix. This is the reason we may not use Cholesky factorization as a direct method. Moreover, this is the reason we we may not use the conjugate gradient (CG) method as this method also requires the matrix to be SPD. We must therefore go to other more general iteration techniques which typically have slower convergence rates. \MATLAB has a built in routine for the GMRES method, which is designed for large sparse systems. Although CG cannot be used, there exist CG similar methods which does not require the matrix to be positive definite. Some of these methods are compared in~\cite{Clemens2002imf}, BiCGStab is also a natural choice to be investigated. The global matrix often turns out to be badly conditioned for iterative techniques. One should apply some preconditioning to this matrix before applying for instance GMRES. This typically results in a comprehensive analysis, which we shall suggest as future work.
+%

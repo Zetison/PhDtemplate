@@ -1,0 +1,139 @@
+\section{Linear elasticity}
+\label{Sec1:LinearElasticity}
+In this section the needed formulas from linear elasticity used in this paper are listed. A more comprehencive introduction to linear elasticity may be found in~\cite{Gould1994itl}. From the displacement field $\vec{u} = u_i\vec{e}_i$ the strain field, $\varepsilon_{ij}$, is defined by
+\begin{equation}
+	\varepsilon_{ij} = \frac{1}{2}\left(\pderiv{u_i}{x_j} + \pderiv{u_j}{x_i}\right)
+\end{equation}
+from which the stress field, $\sigma_{ij}$, can be obtained through the constitutive relation\footnote{This representation is often referred to as the Voight notation.} (derived from the generalized Hooke's law) 
+\begin{equation}
+	\begin{bmatrix}
+		\sigma_{11}\\
+		\sigma_{22}\\
+		\sigma_{33}\\
+		\sigma_{23}\\
+		\sigma_{13}\\
+		\sigma_{12}\\
+	\end{bmatrix} = \vec{C}
+	\begin{bmatrix}
+		\varepsilon_{11}\\
+		\varepsilon_{22}\\
+		\varepsilon_{33}\\
+		2\varepsilon_{23}\\
+		2\varepsilon_{13}\\
+		2\varepsilon_{12}\\
+	\end{bmatrix}\quad\text{with}\quad\vec{C}= \begin{bmatrix}
+		K+\frac{4G}{3} & K-\frac{2G}{3} & K-\frac{2G}{3} & 0 & 0 & 0\\
+		K-\frac{2G}{3} & K+\frac{4G}{3} & K-\frac{2G}{3} & 0 & 0 & 0\\
+		K-\frac{2G}{3} & K-\frac{2G}{3} & K+\frac{4G}{3} & 0 & 0 & 0\\
+		0 & 0 & 0 & G & 0 & 0\\
+		0 & 0 & 0 & 0 & G & 0\\
+		0 & 0 & 0 & 0 & 0 & G
+	\end{bmatrix}
+\end{equation}
+where it has been assumed that the elastic material is isotropic. Note that
+\begin{equation}
+	\vec{C}^{-1} = \frac{1}{E}\begin{bmatrix}
+		1 & -\nu & -\nu & 0 & 0 & 0\\
+		-\nu & 1 & -\nu & 0 & 0 & 0\\
+		-\nu & -\nu & 1 & 0 & 0 & 0\\
+		0 & 0 & 0 & 2(1+\nu) & 0 & 0\\
+		0 & 0 & 0 & 0 & 2(1+\nu) & 0\\
+		0 & 0 & 0 & 0 & 0 & 2(1+\nu)
+	\end{bmatrix}.
+\end{equation}
+In~\cite[p. 19]{Gould1994itl} the transformation formula for the stress tensor from an arbitrary coordinate system to another can be found. If $\vec{e}_i$ and $\tilde{\vec{e}}_i$ represents the basis vectors of these two coordinate systems and the stress field is known in the first coordinate system, then the stress field in terms of the second coordinate system is found by
+\begin{equation}
+	\tilde{\sigma}_{ij} = \alpha_{ik}\alpha_{\mathrm{s}l}\sigma_{kl},
+\end{equation}
+where
+\begin{equation}
+	\alpha_{ij} = \cos(\tilde{\vec{e}}_i, \vec{e}_j) = \tilde{\vec{e}}_i\cdot\vec{e}_j
+\end{equation}
+represents the cosine of the angle between the axes corresponding to the vectors $\tilde{\vec{e}}_i$ and $\vec{e}_i$. Letting $\tilde{\vec{e}}_1 = \vec{e}_{\mathrm{r}}$, $\tilde{\vec{e}}_2 = \vec{e}_\upvartheta$ and $\tilde{\vec{e}}_3 = \vec{e}_\upvarphi$ (the basis vectors in the spherical coordinate system), and $\{\vec{e}_1, \vec{e}_2, \vec{e}_3\}$ the standard basis vectors in Cartesian coordinates, one gets (using \Cref{Eq1:XtoSpherical})
+\begin{equation}
+	[\alpha_{ij}] = \begin{bmatrix}
+	\sin\vartheta\cos\varphi & \sin\vartheta\sin\varphi & \cos\vartheta\\
+	\cos\vartheta\cos\varphi & \cos\vartheta\sin\varphi & -\sin\vartheta\\
+	-\sin\varphi & \cos\varphi & 0
+	\end{bmatrix} = \vec{J}_{\mathrm{e}}.
+\end{equation}
+This yields the relation
+\begin{equation}\label{Eq1:StressTransformFromCartToSpherical}
+	\begin{bmatrix}
+		\sigma_{\mathrm{rr}}\\
+		\sigma_{\upvartheta\upvartheta}\\
+		\sigma_{\upvarphi\upvarphi}\\
+		\sigma_{\upvartheta\upvarphi}\\
+		\sigma_{\mathrm{r}\upvarphi}\\
+		\sigma_{\mathrm{r}\upvartheta}
+	\end{bmatrix} = \vec{D}
+	\begin{bmatrix}
+		\sigma_{11}\\
+		\sigma_{22}\\
+		\sigma_{33}\\
+		\sigma_{23}\\
+		\sigma_{13}\\
+		\sigma_{12}
+	\end{bmatrix}
+\end{equation}
+where
+\begin{equation*}\resizebox{\textwidth}{!}{$
+	\vec{D} =\begin{bmatrix}
+	 \sin^2\vartheta\cos^2\varphi&\sin^2\vartheta\sin^2\varphi&\cos^2\vartheta&\sin2\vartheta\sin\varphi&\sin2\vartheta\cos\varphi&\sin^2\vartheta\sin2\varphi\\ 
+	 \cos^2\vartheta\cos^2\varphi&\cos^2\vartheta\sin^2\varphi&\sin^2\vartheta&-\sin2\vartheta\sin\varphi&-\sin2\vartheta\cos\varphi&\cos^2\vartheta\sin2\varphi\\ 
+	 \sin^2\varphi&\cos^2\varphi&0&0&0&-\sin2\varphi\\ 
+	 -\frac12\cos\vartheta\sin2\varphi&\frac12\cos\vartheta\sin2\varphi&0&-\sin\vartheta\cos\varphi&\sin\vartheta\sin\varphi&\cos\vartheta\cos2\varphi\\ 
+	 -\frac12\sin\vartheta\sin2\varphi&\frac12\sin\vartheta\sin2\varphi&0&\cos\vartheta\cos\varphi&-\cos\vartheta\sin\varphi&\sin\vartheta\cos2\varphi\\ 
+	 \frac12\sin2\vartheta\cos^2\varphi&\frac12\sin2\vartheta\sin^2\varphi&-\frac12\sin2\vartheta&\cos2\vartheta\sin\varphi&\cos2\vartheta\cos\varphi&\frac12\sin2\vartheta\sin2\varphi
+	\end{bmatrix}.$}
+\end{equation*}
+The inverse relation is found by inverting the matrix $\vec{D}$, which takes the form
+\begin{equation*}\resizebox{\textwidth}{!}{$
+	\vec{D}^{-1} =\begin{bmatrix}
+	 \sin^2\vartheta\cos^2\varphi & \cos^2\vartheta\cos^2\varphi & \sin^2\varphi & -\cos\vartheta\sin2\varphi & -\sin\vartheta\sin2\varphi & \sin2\vartheta\cos^2\varphi \\
+	 \sin^2\vartheta\sin^2\varphi & \cos^2\vartheta\sin^2\varphi & \cos^2\varphi & \cos\vartheta\sin2\varphi & \sin\vartheta\sin2\varphi & \sin2\vartheta\sin^2\varphi\\
+	 \cos^2\vartheta & \sin^2\vartheta & 0 & 0 & 0 & -\sin2\vartheta\\
+	 \frac12\sin2\vartheta\sin\varphi & -\frac12\sin2\vartheta\sin\varphi & 0 & -\sin\vartheta\cos\varphi & \cos\vartheta\cos\varphi & \sin\varphi\cos2\vartheta\\
+	 \frac12\sin\vartheta\sin2\varphi & -\frac12\sin2\vartheta\cos\varphi & 0 & \sin\vartheta\sin\varphi & -\cos\vartheta\sin\varphi & \cos2\vartheta\cos\varphi\\
+	 \frac12\sin^2\vartheta\sin2\varphi & \frac12\cos^2\vartheta\sin2\varphi &-\frac12\sin2\varphi & \cos\vartheta\cos2\varphi & \cos2\varphi\sin\vartheta &\frac12\sin2\vartheta\sin2\varphi
+	\end{bmatrix}.$}
+\end{equation*}
+Moreover,
+\begin{equation}
+\label{Eq1:constitutiveRelationSpherical}
+	\begin{bmatrix}
+		\sigma_{\mathrm{rr}}\\
+		\sigma_{\upvartheta\upvartheta}\\
+		\sigma_{\upvarphi\upvarphi}\\
+		\sigma_{\upvartheta \upvarphi}\\
+		\sigma_{\mathrm{r} \upvarphi}\\
+		\sigma_{\mathrm{r}\upvartheta}\\
+	\end{bmatrix} = \vec{C}
+	\begin{bmatrix}
+		\varepsilon_{\mathrm{rr}}\\
+		\varepsilon_{\upvartheta\upvartheta}\\
+		\varepsilon_{\upvarphi\upvarphi}\\
+		2\varepsilon_{\upvartheta \upvarphi}\\
+		2\varepsilon_{r \upvarphi}\\
+		2\varepsilon_{\mathrm{r}\upvartheta}\\
+	\end{bmatrix},
+\end{equation}
+where (cf~\cite[p. 150]{Slaughter2002tlt})
+\begin{equation}
+\label{Eq1:strainsInSpherical}
+\begin{split}
+	\varepsilon_{\mathrm{rr}} &= \pderiv{u_{\mathrm{r}}}{r}\\
+	\varepsilon_{\upvartheta\upvartheta} &= \frac{1}{r}\left(\pderiv{u_{\upvartheta}}{\vartheta} + u_{\mathrm{r}}\right)\\
+	\varepsilon_{\upvarphi\upvarphi} &= \frac{1}{r\sin\vartheta}\left(\pderiv{u_{\varphi}}{\varphi} + u_{\mathrm{r}}\sin\vartheta + u_{\upvartheta}\cos\vartheta\right)\\
+	\varepsilon_{\upvartheta\upvarphi} &= \frac{1}{2r}\left(\frac{1}{\sin\vartheta}\pderiv{u_{\upvartheta}}{\varphi} + \pderiv{u_{\upvarphi}}{\vartheta} - u_{\upvarphi}\cot\vartheta\right)\\
+	\varepsilon_{\mathrm{r}\upvarphi} &= \frac{1}{2}\left(\frac{1}{r\sin\vartheta}\pderiv{u_{\mathrm{r}}}{\varphi} + \pderiv{u_{\upvarphi}}{r} - \frac{u_{\upvarphi}}{r}\right)\\
+	\varepsilon_{\mathrm{r}\upvartheta} &= \frac{1}{2}\left(\frac{1}{r}\pderiv{u_{\mathrm{r}}}{\vartheta} + \pderiv{u_{\upvartheta}}{r} - \frac{u_{\upvartheta}}{r}\right).
+\end{split}
+\end{equation}
+Finally, note that Navier's equation of motion (\Cref{Eq1:navier}) in spherical coordinates are given by (cf.~\cite[p. 189]{Slaughter2002tlt})
+\begin{align}
+\pderiv{\sigma_{\mathrm{rr}}}{r} + \frac{1}{r}\pderiv{\sigma_{\mathrm{r}\upvartheta}}{\vartheta} &+\frac{1}{r\sin\vartheta} \pderiv{\sigma_{\mathrm{r} \upvarphi}}{\varphi} \nonumber\\
+&+ \frac{1}{r}\left(2\sigma_{\mathrm{r}\mathrm{r}} - \sigma_{\upvartheta\upvartheta} - \sigma_{\upvarphi\upvarphi} + \sigma_{\mathrm{r}\upvartheta}\cot\vartheta\right) +\omega^2\rho_{\mathrm{s}}u_{\mathrm{r}} = 0\label{Eq1:navierSpherical1}\\
+	\pderiv{\sigma_{\mathrm{r}\upvartheta}}{r} + \frac{1}{r}\pderiv{\sigma_{\upvartheta\upvartheta}}{\vartheta} &+\frac{1}{r\sin\vartheta} \pderiv{\sigma_{\upvartheta \upvarphi}}{\varphi}+ \frac{1}{r}\left[(\sigma_{\upvartheta\upvartheta} - \sigma_{\upvarphi\upvarphi})\cot\vartheta + 3\sigma_{\mathrm{r}\upvartheta} \right] +\omega^2\rho_{\mathrm{s}}u_\upvartheta = 0\label{Eq1:navierSpherical2}\\
+	\pderiv{\sigma_{\mathrm{r}\upvarphi}}{r} + \frac{1}{r}\pderiv{\sigma_{\upvartheta\upvarphi}}{\vartheta} &+\frac{1}{r\sin\vartheta} \pderiv{\sigma_{\upvarphi \upvarphi}}{\varphi}+ \frac{1}{r}(2\sigma_{\upvartheta\upvarphi}\cot\vartheta + 3\sigma_{\mathrm{r}\upvarphi}) +\omega^2\rho_{\mathrm{s}}u_\upvarphi = 0. \label{Eq1:navierSpherical3}
+\end{align}

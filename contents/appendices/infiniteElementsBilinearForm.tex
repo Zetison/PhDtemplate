@@ -1,0 +1,270 @@
+\section{Derivation of bilinear form for the infinite elements}
+\label{Sec:AppendixDerivationOfBilinearForm}
+In this appendix, a derivation of the bilinear form for the infinite elements for non-separable geometries (IENSG) after Shirron and Dey~\cite{Shirron2002aie} is presented (as these formulas are left out in~\cite{Shirron2002aie}). Continuing the notation from~\cite[Appendix A]{Venas2018iao} the bilinear form (in the domain outside the artificial boundary) can in the Petrov--Galerkin formulations be simplified to (in the unconjugated case)
+\begin{align}\label{Eq:BilinearFormInserted}
+	\begin{split}
+	B_{\textsc{pgu}}(R_I\psi_n,R_J\phi_m) &= \lim_{\gamma\to\infty}\int_{\Omega_{\mathrm{a}}^\gamma} \left[\nabla(R_I\psi_n)\cdot \nabla (R_J\phi_m)- k^2 R_I\psi_n R_J\phi_m\right]\idiff\Omega\\
+		&=\int_{\Omega_{\mathrm{a}}^+} \left[\nabla(R_I\psi_n)\cdot \nabla (R_J\phi_m)- k^2 R_I\psi_n R_J\phi_m\right]\idiff\Omega.
+	\end{split}
+\end{align}
+As the artificial boundary is no longer given at a constant radius $r_{\mathrm{a}}$ in the prolate spherioidal coordinate system, it must be given as a function of the angular parameters, that is, $r_{\mathrm{a}} = r_{\mathrm{a}}(\vartheta,\varphi)$. This function is the radius in the prolate spheroidal coordinate system of the intersecting point of the boundary $\Gamma$ and the prolate radial curve at the angles $\vartheta$ and $\phi$. The boundary $\Gamma$ is parametrized by $\vec{X} = \vec{X}(\xi,\eta)$ and the prolate spheroidal radius has the expression
+\begin{equation*}
+	r(x,y,z) = \frac{1}{2}\left(c_1+c_2\right)
+\end{equation*}
+where
+\begin{equation*}
+	c_1 = \sqrt{T-2z\Upsilon},\qquad c_2 = \sqrt{T+2z\Upsilon},\quad\text{and}\quad T = x^2+y^2+z^2+\Upsilon^2.
+\end{equation*}
+Then,
+\begin{equation*}
+	r_{\mathrm{a}}(\vartheta,\varphi) = r\left(\vec{X}\left[\xi(\vartheta,\varphi),\eta(\vartheta,\varphi)\right]\right).
+\end{equation*}
+By noting that
+\begin{equation*}
+	\pderiv{r}{x} = \frac{x}{2}\left(\frac{1}{c_1}+\frac{1}{c_2}\right),\qquad\pderiv{r}{y} = \frac{y}{2}\left(\frac{1}{c_1}+\frac{1}{c_2}\right),\quad\text{and}\quad\pderiv{r}{z} = \frac{1}{2}\left(\frac{z-\Upsilon}{c_1}+\frac{z+\Upsilon}{c_2}\right),
+\end{equation*}
+we can compute the partial derivatives of $r_{\mathrm{a}}$ w.r.t. $\vartheta$ and $\varphi$ by
+\begin{equation*}
+	\begin{bmatrix}
+		\pderiv{r_{\mathrm{a}}}{\vartheta} & \pderiv{r_{\mathrm{a}}}{\varphi}
+	\end{bmatrix} = \begin{bmatrix}
+		\pderiv{r}{x} & \pderiv{r}{y} & \pderiv{r}{z}
+	\end{bmatrix}\begin{bmatrix}
+		\pderiv{x}{\vartheta} & \pderiv{x}{\varphi}\\
+		\pderiv{y}{\vartheta} & \pderiv{y}{\varphi}\\
+		\pderiv{z}{\vartheta} & \pderiv{z}{\varphi}\\
+	\end{bmatrix}
+\end{equation*}
+where
+\begin{equation*}
+	\begin{bmatrix}
+		\pderiv{x}{\vartheta} & \pderiv{x}{\varphi}\\
+		\pderiv{y}{\vartheta} & \pderiv{y}{\varphi}\\
+		\pderiv{z}{\vartheta} & \pderiv{z}{\varphi}\\
+	\end{bmatrix}=
+	\begin{bmatrix}
+		\pderiv{x}{\xi} & \pderiv{x}{\eta}\\
+		\pderiv{y}{\xi} & \pderiv{y}{\eta}\\
+		\pderiv{z}{\xi} & \pderiv{z}{\eta}\\
+	\end{bmatrix}
+	\begin{bmatrix}
+		\pderiv{\xi}{\vartheta} & \pderiv{\xi}{\varphi}\\
+		\pderiv{\eta}{\vartheta} & \pderiv{\eta}{\varphi}\\
+	\end{bmatrix}.
+\end{equation*}
+and
+\begin{equation*}
+	\begin{bmatrix}
+		\pderiv{\xi}{\vartheta} & \pderiv{\xi}{\varphi}\\
+		\pderiv{\eta}{\vartheta} & \pderiv{\eta}{\varphi}\\
+	\end{bmatrix}	= \vec{J}_3^{-1},\qquad \vec{J}_3 = \begin{bmatrix}
+		\pderiv{\vartheta}{\xi} & \pderiv{\vartheta}{\eta}\\
+		\pderiv{\varphi}{\xi}	 & \pderiv{\varphi}{\eta}
+	\end{bmatrix} = \begin{bmatrix}
+		\pderiv{\vartheta}{x} & \pderiv{\vartheta}{y} & \pderiv{\vartheta}{z}\\
+		\pderiv{\varphi}{x} & \pderiv{\varphi}{y} & \pderiv{\varphi}{z}
+	\end{bmatrix}\begin{bmatrix}
+		\pderiv{x}{\xi} & \pderiv{x}{\eta}\\
+		\pderiv{y}{\xi} & \pderiv{y}{\eta}\\
+		\pderiv{z}{\xi} & \pderiv{z}{\eta}
+	\end{bmatrix}.
+\end{equation*}
+The ``radial shape'' functions are given by
+\begin{align*}
+	\phi_m(r,\vartheta,\varphi) &= \euler^{\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}Q_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right),\quad m = 1,\dots,N\\
+	\psi_n(r,\vartheta,\varphi) &= \euler^{\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\tilde{Q}_n\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right),\quad n = 1,\dots,N
+\end{align*}
+such that the partial derivative can be computed by
+\begin{align*}
+	\pderiv{\phi_m}{r} &= \left[\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) - \frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r^2}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\euler^{\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\\
+	\pderiv{\phi_m}{\vartheta} &= \left[-\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) + \frac{1}{r}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\pderiv{r_{\mathrm{a}}(\vartheta,\varphi)}{\vartheta}\euler^{\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\\
+	\pderiv{\phi_m}{\varphi} &= \left[-\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) + \frac{1}{r}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\pderiv{r_{\mathrm{a}}(\vartheta,\varphi)}{\varphi}\euler^{\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}.
+\end{align*}
+and corresponding expressions for $\psi_n$. The expressions for the test functions in the conjugated cases are
+\begin{equation*}
+	\bar{\psi}_n(r,\vartheta,\varphi) = \euler^{-\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\tilde{Q}_n\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right),\quad n = 1,\dots,N
+\end{equation*}
+such that the partial derivative can be computed by
+\begin{align*}
+	\pderiv{\bar{\psi}_m}{r} &= \left[-\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) - \frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r^2}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\euler^{-\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\\
+	\pderiv{\bar{\psi}_m}{\vartheta} &= \left[\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) + \frac{1}{r}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\pderiv{r_{\mathrm{a}}(\vartheta,\varphi)}{\vartheta}\euler^{-\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}\\
+	\pderiv{\bar{\psi}_m}{\varphi} &= \left[\imag kQ_m\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right) + \frac{1}{r}Q_m'\left(\frac{r_{\mathrm{a}}(\vartheta,\varphi)}{r}\right)\right]\pderiv{r_{\mathrm{a}}(\vartheta,\varphi)}{\varphi}\euler^{-\imag k (r-r_{\mathrm{a}}(\vartheta,\varphi))}.
+\end{align*}
+The dot product expression in the bilinear form in~\Cref{Eq:BilinearFormInserted} can now be expressed as
+\begin{equation*}\resizebox{\textwidth}{!}{$
+\begin{aligned}
+	\nabla(R_I\psi_n)\cdot \nabla (R_J\phi_m) &= \frac{1}{h_{\mathrm{r}}^2}\pderiv{(R_I\psi_n)}{r}\pderiv{(R_J\phi_m)}{r} + \frac{1}{h_{\uptheta}^2}\pderiv{(R_I\psi_n)}{\vartheta}\pderiv{(R_J\phi_m)}{\vartheta} + \frac{1}{h_{\upvarphi}^2}\pderiv{(R_I\psi_n)}{\varphi}\pderiv{(R_J\phi_m)}{\varphi}\\
+	 &= \frac{1}{h_{\mathrm{r}}^2}\pderiv{\psi_n}{r}\pderiv{\phi_m}{r}R_IR_J + \frac{1}{h_{\uptheta}^2}\left(\pderiv{R_I}{\vartheta}\psi_n + R_I\pderiv{\psi_n}{\vartheta}\right)\left(\pderiv{R_J}{\vartheta}\phi_m + R_J\pderiv{\phi_m}{\vartheta} \right) \\
+	 &\quad+ \frac{1}{h_{\upvarphi}^2}\left(\pderiv{R_I}{\varphi}\psi_n + R_I\pderiv{\psi_n}{\varphi}\right)\left(\pderiv{R_J}{\varphi}\phi_m + R_J\pderiv{\phi_m}{\varphi} \right)
+\end{aligned}$}
+\end{equation*}
+which multiplied with the Jacobian $J_1$ yields
+\begin{equation*}\resizebox{\textwidth}{!}{$
+\begin{aligned}
+	\nabla(R_I\psi_n)\cdot \nabla (R_J\phi_m) J_1&= \left[\left(r^2-\Upsilon^2\right)\pderiv{\psi_n}{r}\pderiv{\phi_m}{r}R_IR_J\right.\\
+	 &\qquad\left.+ \left(\pderiv{R_I}{\vartheta}\psi_n + R_I\pderiv{\psi_n}{\vartheta}\right)\left(\pderiv{R_J}{\vartheta}\phi_m + R_J\pderiv{\phi_m}{\vartheta} \right)\right. \\
+	 &\qquad\left.+ \frac{r^2-\Upsilon^2\cos^2\vartheta}{(r^2-\Upsilon^2)\sin^2\vartheta}\left(\pderiv{R_I}{\varphi}\psi_n + R_I\pderiv{\psi_n}{\varphi}\right)\left(\pderiv{R_J}{\varphi}\phi_m + R_J\pderiv{\phi_m}{\varphi} \right)\right]\sin\vartheta.
+\end{aligned}$}
+\end{equation*}
+Combining all of this into \Cref{Eq:BilinearFormInserted} yields
+\begin{align}\label{Eq:finalBilinearFormB_uc_a}
+	B(R_I\psi_n,R_J\phi_m) =&\int_0^{2\pi}\int_0^\pi K(\vartheta,\varphi)\sin\vartheta\idiff\vartheta\idiff\varphi
+\end{align}
+where
+\input{\contents/exteriorHelmholtz_Bderivation}
+where
+\begin{equation*}
+	B_{n}^{(1)}(r_{\mathrm{a}}(\vartheta,\varphi)) = \int_{1}^\infty \frac{\euler^{2\imag kr_{\mathrm{a}} \rho}}{\rho^n}\idiff \rho, \quad B_{n}^{(2)}(r_{\mathrm{a}}(\vartheta,\varphi)) = \int_{1}^\infty \frac{\euler^{2\imag kr_{\mathrm{a}} \rho}}{(\rho^2-\varrho_1^2)\rho^{n-1}}\idiff \rho
+\end{equation*}
+for $n\geq 1$. In~\cite{Shirron2002aie} a Chebyshev approximation is made of $B_{n}^{(i)}$ (as a function of $r_{\mathrm{a}}$), on the interval $[r_{\mathrm{min}},r_{\mathrm{mex}}]$. These bounds must be precomputed.
+
+Similar derivations for the other formulations can be obtained. The PGC formulation has the expression
+\input{\contents/exteriorHelmholtz_Bderivation_PGC}
+the BGC formulation has the expression
+\input{\contents/exteriorHelmholtz_Bderivation_BGC}
+and the BGU formulation has the expression
+\input{\contents/exteriorHelmholtz_Bderivation_BGU}
+
+\subsection{Numerical examples}
+Some numerical examples are here given, comparing the target strength simulations using IGABEM (with the GBM formulation) as reference solution and IENSG (with the BGU formulation). Both methods are using the same mesh on the scatterer, $\Gamma$.
+
+Results for the hemispherically-capped cylinder (mock shell model) considered in~\cite[Fig. 10]{Shirron2002aie} is produced using IGA in~\Cref{Fig3:Shirron} (with $\Gamma$ represented by \num{9578} dofs), illustrating very good results for the infinite elements attached directly onto the scatterer using only $N=3$ basis functions in the radial direction.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/phd/Shirron_5}
+	\caption{\textbf{Shirron's mock shell}: Bistatic scattering on the mock shell with $\alpha_{\mathrm{s}} = \ang{0}$ and $\beta_{\mathrm{s}} = \ang{0}$ at $ka=10$ (where $a=\SI{1}{m}$ is the radius of the hemispherical endcaps).}
+	\label{Fig3:Shirron}
+\end{figure}
+Results for the BeTSSi model 1 is produced in a similar fashion in~\Cref{Fig3:M1_IENSG_100} (with $\Gamma$ represented by \num{38414} dofs), illustrating very good results even if the infinite elements are attached directly onto the non-smooth scatterer using only $N=3$ basis functions in the radial direction. However, the results diverges at $f=\SI{1}{kHz}$ as illustrated in~\Cref{Fig3:M1_IENSG_1000}.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/phd/M1_100}
+	\caption{\textbf{BeTSSi model 1}: Monostatic scattering at $f=\SI{100}{Hz}$ and $c_{\mathrm{f}}=\SI{1500}{m/s}$.}
+	\label{Fig3:M1_IENSG_100}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/phd/M1_1000}
+	\caption{\textbf{BeTSSi model 1}: Monostatic scattering at $f=\SI{1000}{Hz}$ and $c_{\mathrm{f}}=\SI{1500}{m/s}$.}
+	\label{Fig3:M1_IENSG_1000}
+\end{figure}
+%
+%By defining
+%\begin{align*}
+%	K_{nm}^{(1)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N\left[-2k^2r_{\mathrm{a}}^2B_{\tilde{n}+\tilde{m}}^{(1)} - \imag kr_{\mathrm{a}}(\tilde{n}+\tilde{m}+2)B_{\tilde{n}+\tilde{m}+1}^{(1)} + \left[\tilde{m}(\tilde{n}+2) +k^2\Upsilon^2\right]B_{\tilde{n}+\tilde{m}+2}^{(1)} \phantom{\left(\pderiv{r_{\mathrm{a}}}{\varphi}\right)^2} \right.\\
+%	 &\left.{\hskip5em\relax}+ \imag k\frac{\Upsilon^2}{r_{\mathrm{a}}}(\tilde{n}+\tilde{m}+2)B_{\tilde{n}+\tilde{m}+3}^{(1)} - \frac{\tilde{m}(\tilde{n}+2)\Upsilon^2}{r_{\mathrm{a}}^2} B_{\tilde{n}+\tilde{m}+4}^{(1)}+k^2\Upsilon^2\cos^2\vartheta B_{\tilde{n}+\tilde{m}+2}^{(1)}\right. \\
+%	 &\left.{\hskip5em\relax}+\frac{1}{r_{\mathrm{a}}}\left(\pderiv{r_{\mathrm{a}}}{\vartheta}\right)^2\left(k^2r_{\mathrm{a}}^2- \imag kr_{\mathrm{a}}(\tilde{n}+\tilde{m}+2)+ \tilde{m}(\tilde{n}+2)\right)\right.\\
+%	 &\left.{\hskip11em\relax}\cdot\left(B_{\tilde{n}+\tilde{m}+2}^{(1)} + \frac{1}{\sin^2\vartheta}B_{\tilde{n}+\tilde{m}+1}^{(2)}-\frac{\Upsilon^2}{r_{\mathrm{a}}^2}\frac{\cos^2\vartheta}{\sin^2\vartheta} B_{\tilde{n}+\tilde{m}+3}^{(2)}\right)\right]\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}
+%\end{align*}
+%\begin{align*}
+%	K_{nm}^{(2)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N B_{\tilde{n}+\tilde{m}+2}^{(1)}\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%	K_{nm}^{(3)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N \left(-\imag k + \frac{\tilde{m}}{r_{\mathrm{a}}}\right)B_{\tilde{n}+\tilde{m}+2}^{(1)}\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%	K_{nm}^{(4)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N \left(-\imag k + \frac{\tilde{n}+2}{r_{\mathrm{a}}}\right)B_{\tilde{n}+\tilde{m}+2}^{(1)}\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%	K_{nm}^{(5)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N \left(B_{\tilde{n}+\tilde{m}+1}^{(2)} - \frac{\Upsilon^2}{r_{\mathrm{a}}^2}\cos^2\vartheta B_{\tilde{n}+\tilde{m}+3}^{(2)}\right)\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%	K_{nm}^{(6)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N \left(-\imag k + \frac{\tilde{m}}{r_{\mathrm{a}}}\right)\left(B_{\tilde{n}+\tilde{m}+1}^{(2)} - \frac{\Upsilon^2}{r_{\mathrm{a}}^2}\cos^2\vartheta B_{\tilde{n}+\tilde{m}+3}^{(2)}\right)\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%	K_{nm}^{(7)}(\vartheta,\varphi) &= \sum_{\tilde{n}=1}^N\sum_{\tilde{m}=1}^N \left(-\imag k + \frac{\tilde{n}+2}{r_{\mathrm{a}}}\right)\left(B_{\tilde{n}+\tilde{m}+1}^{(2)} - \frac{\Upsilon^2}{r_{\mathrm{a}}^2}\cos^2\vartheta B_{\tilde{n}+\tilde{m}+3}^{(2)}\right)\tilde{D}_{n\tilde{n}} D_{m\tilde{m}}\\
+%\end{align*}
+%we can write
+%\begin{align*}
+%	 K(\vartheta,\varphi) &= \left\{R_IR_J K_{nm}^{(1)} + \pderiv{R_I}{\vartheta}\pderiv{R_J}{\vartheta} K_{nm}^{(2)}+ \pderiv{r_{\mathrm{a}}}{\vartheta}\left(\pderiv{R_I}{\vartheta}R_JK_{nm}^{(3)} +R_I\pderiv{R_J}{\vartheta}K_{nm}^{(4)}\right) \right.\\
+%	 &\left.{\hskip2em\relax}+\pderiv{R_I}{\varphi}\pderiv{R_J}{\varphi}\frac{1}{\sin^2\vartheta}K_{nm}^{(5)} + \pderiv{r_{\mathrm{a}}}{\varphi}\frac{1}{\sin^2\vartheta}\left(\pderiv{R_I}{\varphi}R_JK_{nm}^{(6)} +R_I\pderiv{R_J}{\varphi}K_{nm}^{(7)}\right)\right\}r_{\mathrm{a}}\euler^{-2\imag kr_{\mathrm{a}}}
+%\end{align*}
+%\subsection{Parametrization on a prolate ellipsoid for ABC operators}
+%We typically parameterize the domain such that the artificial boundary $\Gamma$ is parameterized by $\xi$ and $\eta$. As $\vartheta = \vartheta(\xi,\eta)$ and $\varphi = \varphi(\xi,\eta)$ we have
+%\begin{equation}
+%	\diff \vartheta\diff\varphi = \begin{vmatrix}
+%		\pderiv{\vartheta}{\xi} & \pderiv{\vartheta}{\eta}\\
+%		\pderiv{\varphi}{\xi} & \pderiv{\varphi}{\eta}		
+%	\end{vmatrix}\diff\xi\diff\eta
+%\end{equation}
+%where
+%\begin{align*}
+%	\pderiv{\vartheta}{\xi} &= \pderiv{\vartheta}{x}\pderiv{x}{\xi} + \pderiv{\vartheta}{y}\pderiv{y}{\xi} + \pderiv{\vartheta}{z}\pderiv{z}{\xi},\qquad
+%	\pderiv{\vartheta}{\eta} = \pderiv{\vartheta}{x}\pderiv{x}{\eta} + \pderiv{\vartheta}{y}\pderiv{y}{\eta} + \pderiv{\vartheta}{z}\pderiv{z}{\eta}\\
+%	\pderiv{\varphi}{\xi} &= \pderiv{\varphi}{x}\pderiv{x}{\xi} + \pderiv{\varphi}{y}\pderiv{y}{\xi} + \pderiv{\varphi}{z}\pderiv{z}{\xi},\qquad
+%	\pderiv{\varphi}{\eta} = \pderiv{\varphi}{x}\pderiv{x}{\eta} + \pderiv{\varphi}{y}\pderiv{y}{\eta} + \pderiv{\varphi}{z}\pderiv{z}{\eta}
+%\end{align*}
+%and the inverse partial derivatives with respect to the coordinate transformation\footnote{From the prolate spheroidal coordinate system to the Cartesian coordinate system.\label{Fn:CartToProl}} are found in \Cref{Eq:dProlateSphericalCoordinatesdX}. This Jacobian matrix may be evaluated by
+%\begin{equation*}
+%	\vec{J}_3 = \begin{bmatrix}
+%		\pderiv{\vartheta}{\xi} & \pderiv{\vartheta}{\eta}\\
+%		\pderiv{\varphi}{\xi}	 & \pderiv{\varphi}{\eta}
+%	\end{bmatrix} = \begin{bmatrix}
+%		\pderiv{\vartheta}{x} & \pderiv{\vartheta}{y} & \pderiv{\vartheta}{z}\\
+%		\pderiv{\varphi}{x} & \pderiv{\varphi}{y} & \pderiv{\varphi}{z}
+%	\end{bmatrix}\begin{bmatrix}
+%		\pderiv{x}{\xi} & \pderiv{x}{\eta}\\
+%		\pderiv{y}{\xi} & \pderiv{y}{\eta}\\
+%		\pderiv{z}{\xi} & \pderiv{z}{\eta}
+%	\end{bmatrix}
+%\end{equation*}
+%and the derivatives of the basis functions may be computed by
+%\begin{equation*}
+%	\begin{bmatrix}
+%		\pderiv{R_A}{\vartheta}\\
+%		\pderiv{R_A}{\varphi}
+%	\end{bmatrix} = \vec{J}_3^{-\transpose}\begin{bmatrix}
+%		\pderiv{R_A}{\xi}\\
+%		\pderiv{R_A}{\eta}	
+%	\end{bmatrix}.
+%\end{equation*}
+
+
+%We typically parameterize the domain such that the artificial boundary $\Gamma_{\mathrm{a}}$ is parameterized by $\xi$ and $\eta$ at $\zeta=1$ (which is at $r=r_{\mathrm{a}}$ in the prolate spheroidal coordinates). As $\Gamma_{\mathrm{a}}$ is a surface with constant radius, $r=r_{\mathrm{a}}$, in the prolate spheroidal coordinate system, it may also be parametrized by $\vartheta$ and $\varphi$. We therefore have
+%\begin{equation}
+%	\diff \vartheta\diff\varphi = \begin{vmatrix}
+%		\pderiv{\vartheta}{\xi} & \pderiv{\varphi}{\xi}\\
+%		\pderiv{\vartheta}{\eta} & \pderiv{\varphi}{\eta}		
+%	\end{vmatrix}\diff\xi\diff\eta
+%\end{equation}
+%where
+%\begin{align*}
+%	\pderiv{\vartheta}{\xi} &= \pderiv{\vartheta}{x}\pderiv{x}{\xi} + \pderiv{\vartheta}{y}\pderiv{y}{\xi} + \pderiv{\vartheta}{z}\pderiv{z}{\xi},\qquad
+%	\pderiv{\vartheta}{\eta} = \pderiv{\vartheta}{x}\pderiv{x}{\eta} + \pderiv{\vartheta}{y}\pderiv{y}{\eta} + \pderiv{\vartheta}{z}\pderiv{z}{\eta}\\
+%	\pderiv{\varphi}{\xi} &= \pderiv{\varphi}{x}\pderiv{x}{\xi} + \pderiv{\varphi}{y}\pderiv{y}{\xi} + \pderiv{\varphi}{z}\pderiv{z}{\xi},\qquad
+%	\pderiv{\varphi}{\eta} = \pderiv{\varphi}{x}\pderiv{x}{\eta} + \pderiv{\varphi}{y}\pderiv{y}{\eta} + \pderiv{\varphi}{z}\pderiv{z}{\eta}
+%\end{align*}
+%and the inverse partial derivatives with respect to the coordinate transformation (from the prolate spheroidal coordinate system to the Cartesian coordinate system) is found in \Cref{Eq:dProlateSphericalCoordinatesdX}. The entries may be collected in a Jacobian matrix given by
+%\begin{equation*}
+%	J_3 = \begin{bmatrix}
+%		\pderiv{r}{\xi}	 & \pderiv{r}{\eta} & \pderiv{r}{\zeta}\\
+%		\pderiv{\vartheta}{\xi} & \pderiv{\vartheta}{\eta} & \pderiv{\vartheta}{\zeta} \\
+%		\pderiv{\varphi}{\xi}	 & \pderiv{\varphi}{\eta} & \pderiv{\varphi}{\zeta}\\
+%	\end{bmatrix} = \begin{bmatrix}
+%		\pderiv{r}{x} & \pderiv{r}{y} & \pderiv{r}{z}\\
+%		\pderiv{\vartheta}{x} & \pderiv{\vartheta}{y} & \pderiv{\vartheta}{z}\\
+%		\pderiv{\varphi}{x} & \pderiv{\varphi}{y} & \pderiv{\varphi}{z}
+%	\end{bmatrix}\begin{bmatrix}
+%		\pderiv{x}{\xi} & \pderiv{x}{\eta} & \pderiv{x}{\zeta}\\
+%		\pderiv{y}{\xi} & \pderiv{y}{\eta} & \pderiv{y}{\zeta}\\
+%		\pderiv{z}{\xi} & \pderiv{z}{\eta} & \pderiv{z}{\zeta}
+%	\end{bmatrix}
+%\end{equation*}
+%and the derivatives of a basis function $R$ may then be computed by
+%\begin{equation*}
+%	\begin{bmatrix}
+%		\pderiv{R}{r}\\
+%		\pderiv{R}{\vartheta}\\
+%		\pderiv{R}{\varphi}
+%	\end{bmatrix} = J_3^{-\transpose}\begin{bmatrix}
+%		\pderiv{R}{\xi}\\
+%		\pderiv{R}{\eta}	\\
+%		\pderiv{R}{\zeta}	
+%	\end{bmatrix}.
+%\end{equation*}
+%
+%
+%\begin{equation*}
+%	\pderiv{R}{\xi} = \pderiv{R}{r}\pderiv{r}{\xi} + \pderiv{R}{\vartheta}\pderiv{\vartheta}{\xi} + \pderiv{R}{\varphi}\pderiv{\varphi}{\xi},\qquad
+%	\pderiv{R}{\eta} = \pderiv{R}{r}\pderiv{r}{\eta} + \pderiv{R}{\vartheta}\pderiv{\vartheta}{\eta} + \pderiv{R}{\varphi}\pderiv{\varphi}{\eta},\qquad
+%	\pderiv{R}{\zeta} = \pderiv{R}{r}\pderiv{r}{\zeta} + \pderiv{R}{\vartheta}\pderiv{\vartheta}{\zeta} + \pderiv{R}{\varphi}\pderiv{\varphi}{\zeta}
+%\end{equation*}
+%\begin{equation*}
+%	\pderiv{R}{r} = \pderiv{R}{\xi}\pderiv{\xi}{r} + \pderiv{R}{\eta}\pderiv{\eta}{r} + \pderiv{R}{\zeta}\pderiv{\zeta}{r},\qquad
+%	\pderiv{R}{\vartheta} = \pderiv{R}{\xi}\pderiv{\xi}{\vartheta} + \pderiv{R}{\eta}\pderiv{\eta}{\vartheta} + \pderiv{R}{\zeta}\pderiv{\zeta}{\vartheta},\qquad
+%	\pderiv{R}{\varphi} = \pderiv{R}{\xi}\pderiv{\xi}{\varphi} + \pderiv{R}{\eta}\pderiv{\eta}{\varphi} + \pderiv{R}{\zeta}\pderiv{\zeta}{\varphi}
+%\end{equation*}
+%Thus,
+%\begin{equation*}
+%	\pderiv[2]{R}{r} = \pderiv{R}{y}
+%\end{equation*}

@@ -1,0 +1,220 @@
+\section{Governing physical equations}
+\label{Sec2:physicalProblem}
+The problem at hand is obviously time dependent. But we shall assume harmonic time dependency, such that all scalar function $\hat{F}=\hat{F}(\vec{x},t)$ may be written
+\begin{equation}\label{Eq2:periodicityAssumption}
+	\hat{F}(\vec{x}, t) = F(\vec{x})\euler^{-\imag\omega t}
+\end{equation}
+and corresponding for vector fields $\hat{\vec{F}} = \hat{\vec{F}}(\vec{x},t)$
+\begin{equation*}
+	\hat{\vec{F}}(\vec{x},t) = \vec{F}(\vec{x})\euler^{-\imag\omega t}
+\end{equation*}
+where $\omega$ is the angular frequency. We refer to this assumption as the \textit{harmonic time dependency assumption}. The sign in the exponential factor is just a matter of convention. Burnett uses $\euler^{\imag\omega t}$ in~\cite{Burnett1994atd}, while Ihlenburg uses $\euler^{-\imag\omega t}$ in~\cite{Ihlenburg1998fea}. In this thesis, we shall use the convention after Ihlenburg.
+
+We start by following~\cite[pp. 1-4]{Ihlenburg1998fea} in presenting the physical equation for the problem at hand.
+
+\subsection{Acoustic waves}
+The fluid domain to be considered is homogeneous throughout the domain, and we shall use simplifying assumption including linearization to end up with the wave equation. From here, we move from the time domain to the frequency domain when using the harmonic time dependency assumption.
+
+\subsubsection{The continuity equation}
+Let $\V$ be a volume element in the fluid domain with boundary $\partial \V$ and outward normal vector $\vec{n}(\vec{x})$ where $\vec{x}\in\partial\V$. Denote by $\rho(\vec{x},t)$ and $\vec{V}(\vec{x},t)$, the mass density of the fluid in $\V$ and the velocity field of the fluid, respectively. Then, $\vec{V}\cdot\vec{n}$ denotes the velocity of the normal flux out of $\V$ through the boundary $\partial \V$. Conservation of mass in $\V$ then yields
+\begin{equation}\label{Eq2:conservationOfMass}
+	\pderiv{}{t}\int_\V \rho\idiff\V = -\oint \rho\left(\vec{V}\cdot \vec{n}\right)\idiff S.
+\end{equation}
+Gauss theorem in \Cref{Eq2:GaussTheorem} let us rewrite the right hand side as
+\begin{equation*}
+	\oint \rho\left(\vec{V}\cdot \vec{n}\right)\idiff S = \oint \left(\rho\vec{V}\right)\cdot\vec{n}\idiff S = \int_\V\nabla\cdot \left(\rho\vec{V}\right)\idiff\V
+\end{equation*}
+such that \Cref{Eq2:conservationOfMass} may be written as
+\begin{equation*}
+	\int_\V \pderiv{\rho}{t}+\nabla\cdot\left(\rho\vec{V}\right)\idiff\V = 0.
+\end{equation*}
+As conservation of mass is supposed to hold for any (smooth enough) domain $\V$ it means it has to be valid pointwise and we thus end up with the \textit{continuity equation}
+\begin{equation}\label{Eq2:continuityEquation}
+	 \pderiv{\rho}{t}+\nabla\cdot\left(\rho\vec{V}\right) = 0.
+\end{equation}
+
+\subsubsection{Equation of motion}
+Newton's second law of motion implies that we have conservation of momentum. Thus, any change of momentum in the control volume $\V$ must either be due to the momentum leaving or entering the control volume, or the acts of external surface/volume forces acting on the control volume. Mathematically, this may be written as
+\begin{equation}\label{Eq2:ConservationOfMoment}
+	\pderiv{}{t}\int_\V\rho\vec{V}\idiff\V = -\oint_{\partial \V} (\rho \vec{V})(\vec{V}\cdot \vec{n})\idiff S -\oint_{\partial \V}P(\vec{x},t)\vec{n}\idiff S + \int_\V \rho \vec{g}\idiff\V
+\end{equation}
+were we have neglected viscous forces (note that this is a vector equation). The $i^{\textnormal{th}}$ component of the first term on the right hand side may (using Gauss theorem in \Cref{Eq2:GaussTheorem}) be written as
+\begin{equation*}
+	\oint_{\partial \V} (\rho  V_i)\vec{V}\cdot \vec{n}\idiff\V = \oint_{\partial \V} (\rho  V_i\vec{V})\cdot \vec{n}\idiff\V = \int_\V\nabla\cdot (\rho  V_i\vec{V})\idiff\V
+\end{equation*}
+where $V_i$ denotes the $i^{\textnormal{th}}$ component of $\vec{V}$. Using \Cref{Eq2:GaussImplication}, we have
+\begin{equation*}
+	\oint_{\partial \V}P(\vec{x},t)\vec{n}\idiff S = \int_\V\nabla P(\vec{x},t)\idiff\V.
+\end{equation*}
+Combining these surface integral transformations we may write the $i^{\textnormal{th}}$ component of \Cref{Eq2:ConservationOfMoment} as
+\begin{equation*}
+	\int_\V\pderiv{(\rho V_i)}{t}-\nabla\cdot (\rho  V_i\vec{V}) + \nabla_i P(\vec{x},t)-\rho \vec{g}_i\idiff\V = 0.
+\end{equation*}
+Using the same argument as before we get
+\begin{equation*}
+	\pderiv{(\rho V_i)}{t}-\nabla\cdot (\rho  V_i\vec{V}) = -\nabla_i P(\vec{x},t) + \rho \vec{g}_i.
+\end{equation*}
+Expanding left hand side yields
+\begin{equation*}
+	\rho\pderiv{ V_i}{t}+\pderiv{\rho}{t} V_i+\nabla\cdot (\rho\vec{V}) V_i+  (\rho \vec{V}) \cdot\nabla V_i= -\nabla_i P + \rho \vec{g}_i.
+\end{equation*}
+such that we may use \Cref{Eq2:conservationOfMass} to eliminate the second and third term of left hand side
+\begin{equation*}
+	\rho\pderiv{ V_i}{t}+ (\rho \vec{V}) \cdot\nabla V_i= -\nabla_i P + \rho \vec{g}_i.
+\end{equation*}
+Combining all components we arrive at \textit{Euler's equation}
+\begin{equation}\label{Eq2:EulerEquation}
+	\rho\pderiv{\vec{V}}{t}+ \rho (\vec{V}\cdot\nabla)\vec{V}= -\nabla P + \rho \vec{g}.
+\end{equation}
+\subsubsection{Helmholtz equation}
+We first need to linearize the continuity equation in \Cref{Eq2:continuityEquation} and Euler's equation in \Cref{Eq2:EulerEquation}. This is done by setting
+\begin{equation}\label{Eq2:linearizedExpressions}
+	P=P_0+P_1,\quad\rho=\rho_0+\rho_1,\quad\text{and}\quad\vec{V}=\vec{V}_0+\vec{V}_1
+\end{equation}
+where parameters with subscript 0 is equilibrium parameters and parameters with subscript 1 refer to small perturbed parameters. That is, we assume there is only a small perturbation of a background field for the pressure, density and the velocity field. Assuming there is no background velocity, we have $\vec{V}_0=\zerovec$. We shall also assume the background density to be constant, such that
+\begin{equation*}
+	\pderiv{\rho_0}{t} = 0\quad\text{and}\quad\nabla\rho_0 = \zerovec.
+\end{equation*}
+The background pressure field can only be due to the hydrostatic pressure from the gravity force density ($\rho\vec{g} = -\rho g \vec{e}_3$)  such that we have
+\begin{equation*}
+	P_0 = P_{\mathrm{a}} - \rho z g.
+\end{equation*}
+where $P_{\mathrm{a}}$ is the (constant) background pressure at $z=0$. This implies that
+\begin{equation*}
+	\pderiv{P_0}{t} = 0\quad\text{and}\quad \nabla P_0 = \rho\vec{g}.
+\end{equation*}
+Euler's equation thus simplifies to
+\begin{equation}\label{Eq2:simplifiedEulerEquation}
+	\rho\pderiv{\vec{V}}{t}+ \rho (\vec{V}\cdot\nabla)\vec{V}= -\nabla P_1.
+\end{equation}
+The linearization procedure is then completed by inserting the expression in \Cref{Eq2:linearizedExpressions}, and neglect the terms of second order or higher. For the continuity equation in \Cref{Eq2:continuityEquation}, we have
+\begin{equation*}
+	 \pderiv{\rho_1}{t}+\nabla\cdot\left((\rho_0+\rho_1)\vec{V}_1\right) = 0 
+\end{equation*}
+which after linearization yields the \textit{linearized version} of the continuity equation
+\begin{equation}\label{Eq2:linearizedContinuityEquation}
+	 \pderiv{\rho_1}{t}+\rho_0\nabla\cdot\vec{V}_1 = 0.
+\end{equation}
+For the simplified Euler equation in \Cref{Eq2:simplifiedEulerEquation} we get
+\begin{equation*}
+	(\rho_0+\rho_1)\pderiv{\vec{V}_1}{t}+ \rho (\vec{V}_1\cdot\nabla)\vec{V}_1 = -\nabla P_1
+\end{equation*}
+which after linearization yields the \textit{linearized version} of the Euler equation
+\begin{equation}\label{Eq2:linearizedEulerEquation}
+	\rho_0\pderiv{\vec{V}_1}{t} = -\nabla P_1.
+\end{equation}
+We shall assume a linear material law, 
+\begin{equation*}
+	P = c^2\rho\qquad \Rightarrow\qquad \pderiv{P_1}{t} = c^2\pderiv{\rho_1}{t},
+\end{equation*}
+where $c$ is the speed of sound (material parameter which we assume to be constant). Using \Cref{Eq2:linearizedContinuityEquation} and \Cref{Eq2:linearizedEulerEquation}, we get
+\begin{align*}
+	\pderiv[2]{P_1}{t} &= c^2\pderiv[2]{\rho_1}{t} = c^2\pderiv{}{t}\left(\pderiv{\rho_1}{t}\right)= c^2\pderiv{}{t}\left(-\rho_0\nabla\cdot\vec{V}_1\right) = -c^2\nabla\cdot\left(\rho_0\pderiv{\vec{V}_1}{t}\right)\\
+	&= -c^2\nabla\cdot\left(-\nabla P_1\right) = c^2\nabla^2 P_1
+\end{align*}
+which is simply the classical wave equation for the pressure 
+\begin{equation}\label{Eq2:waveEquation}
+	\frac{1}{c^2}\pderiv[2]{P_1}{t} = \nabla^2 P_1.
+\end{equation}
+Inserting $P_1(\vec{x},t) = \bar{P}_1(\vec{x},k)\euler^{-\imag \omega t}$ then yields the \textit{Helmholtz equation}
+\begin{equation*}
+	\nabla^2\bar{P}_1+k^2\bar{P}_1 = 0
+\end{equation*}
+where $k=\frac{\omega}{c}$ is called the \textit{wave number}. The pressure $\bar{P}_1$ will later be denoted by $p$.
+%
+%Let now the \textit{Fourier transformation} of the $P_1$ be given by
+%\begin{equation*}
+%	\hat{P}_1(\vec{x},\omega) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty P_1(\vec{x},t)\euler^{-\imag\omega t}\idiff t.
+%\end{equation*}
+%such that
+%\begin{equation*}
+%	P_1(\vec{x},t) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \hat{P}_1(\vec{x},\omega)\euler^{\imag\omega t}\idiff\omega.
+%\end{equation*}
+%Observe that
+%\begin{equation}\label{Eq2:FourierFormula1}
+%	\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \pderiv[2]{P_1}{t}\euler^{-\imag\omega t}\idiff t = -\omega^2 \hat{P}_1.
+%\end{equation}
+%and
+%\begin{equation}\label{Eq2:FourierFormula2}
+%	\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \nabla^2 P_1\euler^{-\imag\omega t}\idiff t = \nabla^2 \hat{P}_1.
+%\end{equation}
+%Taking the Fourier transform of \Cref{Eq2:waveEquation} we get
+%\begin{equation*}
+%	\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \frac{1}{c^2} \pderiv[2]{P_1}{t}\euler^{-\imag\omega t}\idiff t = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \nabla^2 P_1\euler^{-\imag\omega t}\idiff t
+%\end{equation*}
+%which, using \Cref{Eq2:FourierFormula1} and \Cref{Eq2:FourierFormula2}, is equivalent to
+%\begin{equation*}
+%	-\frac{\omega^2}{c^2}\hat{P}_1 = \nabla^2\hat{P}_1.
+%\end{equation*}
+%Hence, we have arrived at the \textit{Helmholtz equation}
+%\begin{equation*}
+%	\nabla^2\hat{P}_1+k^2\hat{P}_1 = 0
+%\end{equation*}
+%where $k=\frac{\omega}{c}$ is called the \textit{wave number}. \textcolor{red}{denne utledningen gir ikke mening hvis vi antar periodisitet, siden fourierintegralet ikke da vil eksistere.} Sett $P_1(\vec{x},t) = \bar{P}_1(\vec{x},k)\euler^{-\imag \omega t}$ da blir
+%\begin{equation*}
+%	\hat{P}_1(\vec{x},\omega) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty P_1(\vec{x},t)\euler^{-\imag\omega t}\idiff t = \bar{P}_1(\vec{x},k)\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty \euler^{-2\imag \omega t}\idiff t.
+%\end{equation*}
+%som er et integral som ikke eksisterer. \textcolor{red}{(Trond Jenserud skal se på dette)}.
+
+\subsection{Linear elasticity}
+One important assumption for using linear elasticity is that only small deformations of the material occurs. We will here not show in detail the derivation of the governing equation for linearized elasticity, but we present the notation used in the formulation of the isogeometric analysis. 
+
+The notations used, takes inspirations from~\cite{Cottrell2009iat}. In this section, the indices $i$, $j$, $k$ and $l$ will denote a specific spatial direction. All calculations will be in three dimensions, such that $i,j,k,l=1,2,3$. Moreover, $u_i$ shall denote the $i^{\textnormal{th}}$ component of the vector $\vec{u}$ and differentiation is denoted with a comma such that
+\begin{equation*}
+	u_{i,j} = u_{i,x_j} = \frac{\partial u_i}{\partial x_j}.
+\end{equation*}
+Finally, we use the convention that if an index is repeated, it imply summation. That is,
+\begin{equation*}
+	\sigma_{ij} n_j = \sigma_{i,1} n_1 + \sigma_{i,2} n_2 + \sigma_{i,3} n_3
+\end{equation*}
+and
+\begin{equation*}
+	\sigma_{ij,j} + f_i = \frac{\partial\sigma_{i1}}{\partial x_1} + \frac{\partial\sigma_{i2}}{\partial x_2} + \frac{\partial\sigma_{i3}}{\partial x_3} + f_i.
+\end{equation*}
+Note that we do not sum over $i$ in the latter example since the quantities are separated by a plus sign. Define now the \textit{symmetric part} of a general tensor $\vec{A}=[A_{ij}]$ to be
+\begin{equation*}
+	A_{(ij)} = A_{(ji)} := \frac{A_{ij}+A_{ji}}{2}
+\end{equation*}
+and note that if $\vec{B}=[B_{ij}] = [B_{(ij)}]$ is a symmetric tensor, then
+\begin{equation}\label{Eq2:tensorSymmetry}
+	A_{ij} B_{ij} = A_{(ij)} B_{ij}.
+\end{equation}
+That is, we can combine the components of $\vec{B}$ which are equal to reduce redundant computations.
+
+Let now $\sigma_{ij}$ denote the Cartesian components of the Cauchy \textit{stress tensor} and let $\varepsilon_{ij}$ denote the \textit{infinitesimal strain tensor} which is defined by
+\begin{equation*}
+	\varepsilon_{ij} = u_{(i,j)} = \frac{u_{i,j}+u_{j,i}}{2}.
+\end{equation*}
+We can now state the relation between $\varepsilon_{ij}$ as $\sigma_{ij}$ using the generalized Hooke's law as
+\begin{equation*}
+	\sigma_{ij} = c_{ijkl}\varepsilon_{kl}
+\end{equation*}
+where $c_{ijkl}$ are \textit{elastic coefficients}. In the case of isotropic material, these coefficients are given by
+\begin{equation*}
+	c_{ijkl} = \lambda\delta_{ij}\delta_{kl} +\mu\left(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}\right)
+\end{equation*}
+where the Kronecker delta function is given by
+\begin{equation*}
+	\delta_{ij}=\begin{cases}
+	1 &i=j\\
+	0&\text{otherwise}
+	\end{cases}
+\end{equation*}
+and the parameters $\lambda$ and $\mu$ are the \textit{Lamé parameters} which are expressed in terms of $E$ and $\nu$ (\textit{Young's modulus} and \textit{Poisson's ratio} respectively) by
+\begin{equation*}
+	\lambda=\frac{\nu E}{(1+\nu)(1-2\nu)}\quad\text{and}\quad\mu = \frac{E}{2(1+\nu)}.
+\end{equation*}
+We are now ready to state the \textit{strong form} of the linear elasticity problem in three dimensions. 
+
+Let $\Omega\subset\R^3$ be the domain with a boundary $\partial \Omega$ which is composed of two parts; $\Gamma_{D_i}$ and $\Gamma_{N_i}$. These are called \textit{Dirichlet} and \textit{Neumann} boundary conditions, respectively, and satisfies $\bigcup_{i=1}^3\Gamma_{D_i}\cup\Gamma_{N_i}=\partial\Omega$ and $\Gamma_{D_i}\cap\Gamma_{N_i}=\emptyset$. Moreover, let the functions $f_i:\Omega\to\R$, $g_i:\Gamma_{D_i}\to\R$ and $h_i:\Gamma_{N_i}\to\R$ be given. Then, find $u_i:\overline{\Omega}\to\R$ such that
+\begin{alignat}{3}
+	\sigma_{ij,j} + f_i &= \rho_{\mathrm{s}} u_{i,tt}\qquad 	&&\text{in}\quad \Omega,\label{Eq2:mainDiffEqn}\\
+	u_i &= g_i						&&\text{on}\quad \Gamma_{D_i},\label{Eq2:mainDiffEqnBC1}\\
+	\sigma_{ij} n_j &= h_i 			&&\text{on}\quad \Gamma_{N_i},\label{Eq2:mainDiffEqnBC2}
+\end{alignat}
+for $i=1,2,3$.
+
+Using the assumption of periodicity, we may insert $u_i \rightarrow u_i \euler^{-\imag\omega t}$  (and $f_i \rightarrow f_i \euler^{-\imag\omega t}$) into \Cref{Eq2:mainDiffEqn}. As $\sigma$ is a linear function of $u_i$, we get a common factor $\euler^{-\imag\omega t}$ which simplifies the equation to
+\begin{equation}
+	\sigma_{ij,j} + \omega^2 \rho_{\mathrm{s}} u_i = -f_i \qquad \text{in}\quad \Omega\label{Eq2:mainDiffEqn2}.
+\end{equation}

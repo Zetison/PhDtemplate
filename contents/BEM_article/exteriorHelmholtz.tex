@@ -1,0 +1,76 @@
+\section{Helmholtz problems}
+\label{Sec3:exteriorHelmholtz}
+The Helmholtz problem is given by
+\begin{alignat}{3}
+	\nabla^2 p + k^2 p &= 0 	\quad &&\text{in}\quad \Omega,\label{Eq3:HelmholtzEqn}\\
+	\partial_n p &= g						&&\text{on}\quad \Gamma,\label{Eq3:HelmholtzEqnNeumannCond}
+\end{alignat}
+where $\partial_n$ denotes the partial derivative in the normal direction, $\vec{n}$, on the surface $\Gamma$. Throughout this work, $\vec{n}$ is always pointing ``into'' $\Omega^+$. If $\Omega=\Omega^-$ is inside a closed boundary $\Gamma$, the problem is referred to as an interior problem. If, on the other hand, $\Omega=\Omega^+$ is the unbounded domain outside $\Gamma$ (as illustrated in \Cref{Fig3:physicalProblem}), the problem is referred to as an exterior problem where we must impose the Sommerfeld condition~\cite{Sommerfeld1949pde} 
+\begin{equation}\label{Eq3:sommerfeldCond}
+	\pderiv{p}{r}-\imag k p = o\left(r^{-1}\right)\quad \text{with}\quad r=|\vec{x}|\
+\end{equation}
+in order to restrict the field in the limit $r\to\infty$ uniformly in $\hat{\vec{x}}=\frac{\vec{x}}{r}$, such that no waves originate from infinity (to obtain uniqueness of the solution $p$).
+
+A common approach for solving unbounded scattering problems with the FEM is to introduce an artificial boundary that encloses the scatterer. On the artificial boundary some sort of absorbing boundary condition (ABC) is prescribed. The problem is then reduced to a finite domain problem, and the bounded domain between the scatterer and the artificial boundary can be discretized with finite elements. Several methods exist for handling the exterior Helmholtz problem (on unbounded domain), including
+\begin{itemize}
+	\item the perfectly matched layer (PML) method after B{\'e}renger~\cite{Berenger1994apm,Berenger1996pml}
+	\item the boundary element method~\cite{Sauter2011bem,Schanz2007bea,Marburg2008cao,Chandler_Wilde2012nab}
+	\item Dirichlet to Neumann-operators (DtN-operators)~\cite{Givoli2013nmf}
+	\item local differential ABC operators~\cite{Shirron1995soe,Bayliss1982bcf,Hagstrom1998afo,Tezaur2001tdf}
+	\item the infinite element method.~\cite{Bettess1977ie,Bettess1977dar}
+\end{itemize}
+Due to the complexity of the BeTSSi geometry considered in this work we conveniently consider the boundary element method to solve the Helmholtz problem in order to avoid the surface-to-volume parametrization discussed in the introduction.
+
+The Neumann condition (in \Cref{Eq3:HelmholtzEqnNeumannCond}), given by the function $g$, will in the case of rigid scattering be given in terms of the incident wave $p_{\mathrm{inc}}$. Zero displacement of the fluid normally on the scatterer (rigid scattering) implies that $\partial_n(p+p_{\mathrm{inc}}) = 0$, and hence
+\begin{equation}
+	g = -\pderiv{p_{\mathrm{inc}}}{n}.
+\end{equation}
+Plane incident waves (with amplitude $P_{\mathrm{inc}}$) traveling in the direction $\vec{d}_{\mathrm{s}}$ can be written as
+\begin{equation}\label{Eq3:p_inc}
+	p_{\mathrm{inc}} = P_{\mathrm{inc}}\euler^{\imag k\vec{d}_{\mathrm{s}}\cdot\vec{x}}.
+\end{equation}
+The normal derivative on the surface of any smooth geometry may then be computed by
+\begin{align}
+	\pderiv{p_{\mathrm{inc}}}{n} &= \vec{n}\cdot\nabla p_{\mathrm{inc}} = \imag k\vec{d}_{\mathrm{s}}\cdot\vec{n} p_{\mathrm{inc}}.
+\end{align}
+
+\subsection{Far field pattern}
+If the field at the scatterer is known, one can compute the solution in the exterior domain, $\Omega^+$, using the following integral solution (cf.~\cite[Theorem 2.21]{Chandler_Wilde2012nab})
+\begin{equation}\label{Eq3:KirchhoffIntegral}
+	p(\vec{x}) = \int_{\Gamma}\left[ p(\vec{y})\pderiv{\Phi_k(\vec{x},\vec{y})}{n(\vec{y})} - \Phi_k(\vec{x},\vec{y})\pderiv{p(\vec{y})}{n(\vec{y})}\right]\idiff \Gamma(\vec{y}),\quad\vec{x}\in\Omega^+
+\end{equation}
+where $\vec{y}$ is a point on the surface $\Gamma$, $\vec{n}$ lies on $\Gamma$ pointing ``into'' $\Omega^+$ at $\vec{y}$, and $\Phi_k$ is the free space Green's function for the Helmholtz equation in \Cref{Eq3:HelmholtzEqn} given (in 3D) by
+\begin{equation}\label{Eq3:FreeSpaceGrensFunction}
+	\Phi_k(\vec{x},\vec{y}) = \frac{\euler^{\imag kR}}{4\PI R},\quad\text{where}\quad R = |\vec{x} - \vec{y}|.
+\end{equation} 
+For later convenience, we note that
+\begin{align*}
+	\pderiv{\Phi_k(\vec{x},\vec{y})}{n(\vec{y})} &= \frac{\Phi_k(\vec{x},\vec{y})}{R}(\imag kR-1)\pderiv{R}{n(\vec{y})}\\
+	\pderiv{\Phi_k(\vec{x},\vec{y})}{n(\vec{x})} &= \frac{\Phi_k(\vec{x},\vec{y})}{R}(\imag kR-1)\pderiv{R}{n(\vec{x})}\\
+	\frac{\partial^2\Phi_k(\vec{x},\vec{y})}{\partial\vec{n}(\vec{y})\partial\vec{n}(\vec{x})} &= -\frac{\Phi_k(\vec{x},\vec{y})}{R^2}\left[\vec{n}(\vec{x})\cdot\vec{n}(\vec{y})(\imag kR-1) \phantom{\pderiv{R}{n(\vec{y})}}\right.\\
+	&{\hskip7em\relax}\left. +\left(k^2R^2+3(\imag kR - 1)\right)\pderiv{R}{n(\vec{x})}\pderiv{R}{n(\vec{y})}\right]
+\end{align*}
+where
+\begin{equation*}
+	\pderiv{R}{n(\vec{x})} = \frac{(\vec{x}-\vec{y})\cdot\vec{n}(\vec{x})}{R}\quad\text{and}\quad\pderiv{R}{n(\vec{y})} = -\frac{(\vec{x}-\vec{y})\cdot\vec{n}(\vec{y})}{R}.
+\end{equation*}
+The \textit{far field pattern} for the scattered pressure $p$, is defined by
+\begin{equation}\label{Eq3:farfield}
+	p_0(\hat{\vec{x}}) =  \lim_{r\to\infty} r \euler^{-\imag k r}p(r\hat{\vec{x}}),
+\end{equation}
+with $r = |\vec{x}|$ and $\hat{\vec{x}} = \vec{x}/|\vec{x}|$. Using the limits
+\begin{equation}\label{Eq3:Phi_k_limits}
+\begin{aligned}
+	&\lim_{r\to\infty} r\euler^{-\imag k r}\Phi_k(r\hat{\vec{x}},\vec{y}) = \frac{1}{4\PI}\euler^{-\imag k \hat{\vec{x}}\cdot\vec{y}}\\
+	&\lim_{r\to\infty} r\euler^{-\imag k r}\pderiv{\Phi_k(r\hat{\vec{x}},\vec{y})}{n(\vec{y})} = -\frac{\imag k}{4\PI}\euler^{-\imag k \hat{\vec{x}}\cdot\vec{y}}\hat{\vec{x}}\cdot\vec{n}(\vec{y})
+\end{aligned}
+\end{equation}
+the formula in \Cref{Eq3:KirchhoffIntegral} simplifies in the far field to (cf.~\cite[p. 32]{Ihlenburg1998fea})
+\begin{equation}\label{Eq3:KirchhoffIntegralFarField}
+	p_0(\hat{\vec{x}}) = -\frac{1}{4\PI}\int_{\Gamma}\left[ \imag k p(\vec{y})\hat{\vec{x}}\cdot\vec{n}(\vec{y}) + \pderiv{p(\vec{y})}{n(\vec{y})}\right]\euler^{-\imag k \hat{\vec{x}}\cdot\vec{y}}\idiff \Gamma(\vec{y}).
+\end{equation}
+From the far field pattern, the \textit{target strength}, $\TS$, can be computed. It is defined by
+\begin{equation}\label{Eq3:TS}
+	\TS = 20\log_{10}\left(\frac{|p_0(\hat{\vec{x}})|}{|P_{\mathrm{inc}}|}\right)
+\end{equation}
+where $P_{\mathrm{inc}}$ is the amplitude of the incident wave at the geometric center of the scatterer (i.e. the origin). Note that the $\TS$ is independent of $P_{\mathrm{inc}}$, which is a result of the linear dependency of the amplitude of the incident wave in scattering problems (i.e. doubling the amplitude of the incident wave will double the amplitude of the scattered wave).

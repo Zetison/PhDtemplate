@@ -1,0 +1,88 @@
+\documentclass[b5paper, twoside, 11pt]{book}
+%\usepackage{blindtext}
+%\newcommand{\citev}{\cite{Venas2018iao}\blindtext}
+
+%\usepackage{amsthm}
+\usepackage{graphicx}
+\graphicspath{{./graphics/}}
+\input{../config/header}
+\input{../config/header_PhD}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{empty}
+For the Laplace equation
+\begin{equation}\label{Eq3:Laplace}
+	-\nabla^2\Phi_0(\vec{x},\vec{y}) = \delta(\vec{x}-\vec{y})
+\end{equation}
+the fundamental solution is given by (in 3D)
+\begin{equation*}
+	\Phi_0(\vec{x},\vec{y}) = \frac{1}{4\PI R},\quad R = |\vec{x}-\vec{y}|.
+\end{equation*}
+\begin{theorem}\label{Thm3:theorem}
+	Let $\Omega$ be a non empty set in $\R^3$ with a piece wise smooth boundary $\Gamma=\partial\Omega$. Moreover, let $\Gamma_{\varepsilon,\mathrm{i}}\subset\Gamma$ be the part of $\Gamma$ that is inside $B_\varepsilon(\vec{x})$. Then,
+	\begin{equation}\label{Eq3:theorem}
+	\int_\Gamma \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y}) = -\lim_{\varepsilon\to 0^+}\frac{|\Omega\cap B_\varepsilon(\vec{x})|}{|B_\varepsilon(\vec{x})|} = -\lim_{\varepsilon\to 0^+}\frac{|\partial((\Omega\cap B_\varepsilon(\vec{x})))\setminus\Gamma_{\varepsilon,\mathrm{i}}|}{|\partial B_\varepsilon(\vec{x})|}
+\end{equation}
+\end{theorem}
+To prove this, we need the following lemma
+\begin{lemma}\label{Lem:Fund}
+	Let $B_\varepsilon(\vec{x})\in \R^3$ be a ball of radius $\varepsilon$ centered at $\vec{x}$. If $\Gamma_\varepsilon\subset \partial B_\varepsilon(\vec{x})$ then
+	\begin{equation*}
+		\int_{\Gamma_\varepsilon}\pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma = -\frac{|\Gamma_\varepsilon|}{|\partial  B_\varepsilon(\vec{x})|},\quad\forall\vec{x}\in\R^3.
+	\end{equation*}
+\end{lemma}
+\begin{proof}
+	Since
+	\begin{equation*}
+		\pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})} = \frac{1}{4\PI R^2}\frac{(\vec{x}-\vec{y})\cdot\vec{n}(\vec{y})}{R}
+	\end{equation*}
+	and $\frac{\vec{y}-\vec{x}}{R} = \vec{n}(\vec{y})$ for $\vec{y}\in\Gamma_\varepsilon$. We have
+	\begin{equation*}
+		\int_{\Gamma_\varepsilon}\pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma = \int_{\Gamma_\varepsilon}\frac{1}{4\PI R^2}\frac{(\vec{x}-\vec{y})\cdot\vec{n}(\vec{y})}{R}\idiff\Gamma = -\frac{1}{4\PI R^2}\int_{\Gamma_\varepsilon}\idiff\Gamma = -\frac{|\Gamma_\varepsilon|}{|\partial B_\varepsilon(\vec{x})|}.
+	\end{equation*}
+\end{proof}
+A corollary of this lemma is the following (with $\Gamma_\varepsilon = \partial B_\varepsilon(\vec{x})$)
+\begin{equation*}
+	\int_{\partial B_\varepsilon(\vec{x})}\pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma = -1.
+\end{equation*}
+A proof of \Cref{Thm3:theorem} may then be structured as follows
+\begin{proof}
+	With $\Gamma_\varepsilon = \partial((\Omega\cap B_\varepsilon(\vec{x})))\setminus\Gamma_{\varepsilon,\mathrm{i}}$, we have
+	\begin{equation*}
+		\int_\Gamma \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y}) = \left(\int_{\partial(\Omega\setminus B_\varepsilon(\vec{x}))}-\int_{\Gamma_\varepsilon}+\int_{\Gamma_{\varepsilon,\mathrm{i}}}\right) \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y})
+	\end{equation*}
+	The first integral is zero due to the divergence theorem and \Cref{Eq3:Laplace}
+	\begin{equation*}
+		\int_{\partial(\Omega\setminus B_\varepsilon(\vec{x}))} \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y}) = \int_{\Omega\setminus B_\varepsilon(\vec{x})} \nabla^2\Phi_0(\vec{x},\vec{y})\idiff\Omega = 0.
+	\end{equation*}	
+	 The second integral takes the value of the right hand side of \Cref{Eq3:theorem} due to \Cref{Lem:Fund}. It then remains to prove that
+	 \begin{equation*}
+	 	\lim_{\varepsilon\to 0^+}\int_{\Gamma_{\varepsilon,\mathrm{i}}} \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y}) = 0.
+	 \end{equation*}
+	 Since $\Gamma$ is piece wise smooth, there exist an $\bar{\varepsilon}>0$ (where we restrict $\varepsilon$ to be less than $\bar{\varepsilon}$) such that this integral may be split up into $N$ parts ($N$ being finite), $\Gamma_{\varepsilon,\mathrm{i},n}$, $n=1,\dots,N$, all of which are smooth. For each $\Gamma_{\varepsilon,\mathrm{i},n}$ the normal exist and the domain can be parametrized by $\vec{r}(\xi,\eta)$ with $\xi,\eta\in[0,\varepsilon]$ with $\vec{r}(0,0)=\vec{x}$. By Taylor expansion we have
+	 \begin{equation*}
+	 	\vec{r}(\xi,\eta) = \vec{x} + \pderiv{\vec{r}}{\xi}\xi+\pderiv{\vec{r}}{\eta}\eta+\bigoh(\varepsilon^2)
+	 \end{equation*}
+	 With $\vec{y} = \vec{r}(\xi,\eta)$ we have
+	 \begin{equation*}
+	 	\vec{n}(\vec{y})\left|\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}\right| = \pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}
+	 \end{equation*}
+	 such that (since both $\pderiv{\vec{r}}{\xi}$ and $\pderiv{\vec{r}}{\eta}$ are perpendicular to $\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}$)
+	 \begin{equation*}
+	 	(\vec{x}-\vec{y})\cdot \vec{n}(\vec{y})\left|\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}\right| = \bigoh(\varepsilon^2)
+	 \end{equation*}
+	 and thus
+	 \begin{equation*}
+	 	\pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\left|\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}\right| = \frac{1}{R^3}(\vec{x}-\vec{y})\cdot \vec{n}(\vec{y})\left|\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}\right| =  \bigoh(\varepsilon^{-1}).
+	 \end{equation*}
+	 Then,
+	 \begin{equation*}
+	 	\int_{\Gamma_{\varepsilon,\mathrm{i},n}} \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\idiff\Gamma(\vec{y}) = \int_0^\varepsilon\int_0^\varepsilon \pderiv{\Phi_0(\vec{x},\vec{y})}{n(\vec{y})}\left|\pderiv{\vec{r}}{\xi}\times\pderiv{\vec{r}}{\eta}\right|\idiff\xi\idiff\eta \sim \varepsilon.
+	 \end{equation*}
+	 What remains to be proven is
+	 \begin{equation*}
+	 	-\lim_{\varepsilon\to 0^+}\frac{|\Omega\cap B_\varepsilon(\vec{x})|}{|B_\varepsilon(\vec{x})|} = -\lim_{\varepsilon\to 0^+}\frac{|\partial((\Omega\cap B_\varepsilon(\vec{x})))\setminus\Gamma_{\varepsilon,\mathrm{i}}|}{|\partial B_\varepsilon(\vec{x})|}.
+	 \end{equation*}
+\end{proof}
+\end{document}

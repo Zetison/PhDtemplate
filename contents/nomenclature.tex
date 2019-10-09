@@ -1,0 +1,338 @@
+\chapter*{Abbreviations}
+\addcontentsline{toc}{chapter}{Abbreviations}
+\markboth{Abbreviations}{Abbreviations}%
+\begin{tabularx}{\linewidth}{p{0.17\linewidth} X}
+ABC					& Absorbing boundary condition\\
+AMR					& Adaptive mesh refinement\\
+ANSYS				& Analysis Systems\\
+ASCII				& American standard code for information interchange\\
+ASI					& Acoustic structure interaction\\
+ASIGA				& Acoustic scattering using isogeometric analysis (toolbox)\\
+BA					& Best approximation\\
+BEM					& Boundary element method\\
+BeTSSi				& Benchmark target strength simulation\\
+BGC					& Bubnov--Galerkin conjugated\\
+BGU					& Bubnov--Galerkin unconjugated\\
+BiCGstab			& Biconjugate gradient stabilized method\\
+BIE					& Boundary integral equation\\
+(C/G)CBIE			& (Collocation/Galerkin) Conventional BIE\\
+(C/G)HBIE			& (Collocation/Galerkin) Hypersingular BIE\\
+(C/G)BM				& (Collocation/Galerkin) Burton--Miller\\
+CAD					& Computer aided design\\
+CPU					& Central processing unit\\
+CHIEF				& Combined Helmholtz integral formulation\\
+DRDC 				& Defence Research and Development Canada\\
+ESBC				& Elastic sphere boundary condition\\
+FDM					& Finite difference method\\
+FEA					& Finite element analysis\\
+FEM					& Finite element method\\
+FFT					& Fast Fourier Transform\\
+FWG					& Die Forschungsanstalt der Bundeswehr f\"{u}r Wasserschall und Geophysik\\
+GF					& Gauss--Freud (quadrature)\\
+GGL					& Generalized Gauss--Laguerre (quadrature)\\
+GL					& Gauss-Legendre (quadrature)\\
+GLL					& Gauss-Lobatto-Legendre (nodes)\\
+GMRES				& Generalized minimal residual method\\
+IE(M)				& Infinite element (method)\\
+IENSG				& Infinite element for non-separable geometries\\
+IGA					& Isogeometric analysis\\
+KDT					& Kirchhoff diffraction theory\\
+LR B-splines		& Locally refined B-splines\\
+LR 					& Lloyd's Register\\
+MATLAB				& MATrix LABoratory\\
+MFS					& Method of fundamental solutions\\
+NACA				& National Advisory Committee for Aeronautics\\
+NNBC				& Neumann-Neumann boundary condition\\
+NURBS				& Non-uniform rational B-splines\\
+NSD					& Numerical steepest descent\\
+ODE					& Ordinary differential equation\\
+PDE					& Partial differential equation\\
+PGC					& Petrov--Galerkin conjugated\\
+PGU					& Petrov--Galerkin unconjugated\\
+PML					& Perfectly matched layer\\
+RAFAEL 				& Rafael advanced defense systems\\
+RAM					& Random-access memory\\
+RDDC 				& Recherche et d\'{e}veloppement pour la d\'{e}fense Canada\\
+SEM					& Spectral element method\\
+SHBC				& Sound-hard boundary condition\\
+SSBC				& Sound-soft boundary condition\\
+TKMS 				& ThyssenKrupp Marine Systems\\
+TNO 				& The Netherlands Organisation for applied scientific research\\
+TS					& Target strength\\
+WTD 71				& Wehrtechnische Dienststelle f\"{u}r Schiffe und Marinewaffen\\
+XIBEM				& Extended isogeometric boundary element method\\
+\end{tabularx}
+
+\chapter*{Notation}
+\addcontentsline{toc}{chapter}{Notation}
+\markboth{Notation}{Notation}%
+This thesis follows the following general notation conventions (inspired by the ISO-80000-2 standard).
+\begin{itemize}
+	\item The usage of bars always indicates complex conjugation. For example, $\bar{p}$.
+	\item Indices are denoted by $i,j,l,m,n$.
+	\item The usage of breve indicates the time-dependent equivalent function of the corresponding function in the frequency domain. For example, $\breve{p}(\vec{x},t)$, $p(\vec{x},\omega)$.
+	\item The usage of marks always indicates derivative. For example, $f'(\xi) = \deriv{f}{\xi}$.
+	\item The usage of tildes indicates an alternative variable. For example, $\sigma_{ij}$, $\tilde{\sigma}_{ij}$.
+	\item The usage of hats over vectors indicates normalized vectors. For example, $\hat{\vec{x}}=\vec{x}/|\vec{x}|$.
+	\item Bold notation is used for vectors, matrices and tensors. For example, $\vec{x}$, $\vec{C}$ and $\vec{\sigma}$. The components should not be written in bold notation, i.e. $x_i$, $C_{ij}$, $\sigma_{ij}$.
+	\item Units, fundamental constants and fundamental functions should be in upright mode (Euler's number $\euler$, kilograms $\si{kg}$, meter $\si{m}$, spherical Bessel function $\besselj_n$, spherical Hankel function $\hankel_n$, etc.).
+	\item Descriptive text is written in right mode i.e. $p_{\mathrm{inc}}$ (the \underline{inc}ident pressure field).
+\end{itemize}
+
+\section*{General notation}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$\vec{A}$				& Global matrix of linear equations\\
+$B_\epsilon(\vec{x})$	& Ball of radius $\epsilon$ centered at $\vec{x}$\\
+$B(p,q)$				& Bilinear form\\
+$B_{i,\check{p},\vec{t}}$ & The $i^{\mathrm{th}}$ B-spline basis function of degree $\check{p}$ and with knot vector $\vec{t}$\\
+$B_n$					& Radial integral in infinite elements\\
+$C^n$ 					& Space of continuous functions that have continuous first $n$ derivatives\\
+$C_n$ 					& Coefficients for manufactured solution\\
+$\C$ 					& Space of complex numbers\\
+$c_{\mathrm{f}}$ 		& Sound speed in fluid\\
+$\mathrm{d}$ 			& Differential \\
+$\vec{d}_{\mathrm{inc}}$& Unit vector pointing in the direction of the incident plane wave\\
+$d$ 					& Spatial dimension\\
+$D_{m\tilde{m}}$ 		& Coefficients for radial basis functions in the solution space of the infinite elements\\
+$\tilde{D}_{n\tilde{n}}$& Coefficients for radial basis functions in the test space of the infinite elements\\
+$\vec{e}$ 				& Unit basis vector\\
+$\vec{e}_i$ 			& Standard Cartesian basis vector\\
+$\vec{e}_{\mathrm{r}}$, $\vec{e}_\upvartheta$, $\vec{e}_\upvarphi$ & Basis vectors for the spherical coordinate system\\
+$\euler$ 				& Euler's number $\euler = \num{2.718281828459045}\dots$\\
+$E$ 					& Young's modulus\\ 
+$E_n$ 					& Exponential integral\\
+$f$ 					& Frequency\\
+$\fourier$ 				& Fourier transform\\
+$g$ 					& Neumann data\\
+$G$ 					& Shear modulus\\
+$G^n$ 					& Geometric continuity of order $n$ ($G^0$ being a geometry with kinks)\\
+$h$, $h_{\mathrm{max}}$  & Maximal element size\\
+%$H^1$ 					& Sobolev space\\
+$\vec{H}_n$ 			& Global matrix for the linear system of equations for the $n^{\mathrm{th}}$ mode\\
+$\hankel_n^{(i)}$ 		& The $n^{\mathrm{th}}$ spherical Hankel function of $i^{\mathrm{th}}$ kind \\
+$\imag$ 				& Imaginary unit $\imag = \sqrt{-1}$\\
+$\vec{J}$				& Jacobian matrix\\
+$J$						& Jacobian determinant\\
+$\besselj_n$ 			& The $n^{\mathrm{th}}$ spherical Bessel function of first kind\\
+$\besselJ_n$ 			& The $n^{\mathrm{th}}$ Bessel function of first kind\\
+$k$ $(k_m)$				& Angular wave number (in the $m^{\mathrm{th}}$ fluid layer)\\
+$\check{k}$				& Continuity\\
+$K$ 					& Bulk modulus\\
+$\vec{K}$				& Stiffness matrix\\
+$L(p)$					& Linear form\\
+$\vec{M}$				& Mass matrix\\
+$\mathcal{M}_{m,\check{p},\check{k}}^{\textsc{IGA}}$ 	& IGA mesh number $m$ with polynomial order $\check{p}$ and continuity $\check{k}$\\
+$\mathcal{M}_{m,\check{p},\mathrm{i}}^{\textsc{FEM}}$ 	& Isoparametric FEM mesh number $m$ with polynomial order $\check{p}$\\
+$\mathcal{M}_{m,\check{p},\mathrm{s}}^{\textsc{FEM}}$ 	& Subparametric FEM mesh number $m$ with polynomial order $\check{p}$\\
+$\N$ 					& Space of non-negative integers\\
+$\N^*$ 					& Space of positive integers\\
+$N$ 					& Number of basis functions in the radial direction for infinite elements\\
+$n_\upxi$ 				& Number of basis functions in the $\xi$-direction\\
+$n_\upeta$ 				& Number of basis functions in the $\eta$-direction\\
+$n_\upzeta$ 			& Number of basis functions in the $\zeta$-direction\\
+$n_\mathrm{dof}$ 		& Number of degrees of freedom\\
+$\vec{n}$ 				& Outward pointing (unit) normal vector\\
+$\legendre_n$ 			& Legendre polynomial\\
+$\legendre_n^m$ 		& Associated Legendre functions\\
+$p_0$ 					& Far field pattern\\
+$p$, $\breve{p}$ 		& Scattered pressure field\\
+$p_{\mathrm{inc}}$ 		& The incident wave\\
+$P_{\mathrm{inc}}$ 		& Amplitude of incident wave\\
+$p_{\mathrm{tot}}$ 		& Total pressure field $p_{\mathrm{tot}} = p + p_{\mathrm{inc}}$\\
+$\check{p}$ 			& Polynomial degree (or degree of NURBS functions)\\
+$\check{p}_\upxi$ 		& Degree of basis functions in the $\xi$-direction\\
+$\check{p}_\upeta$ 		& Degree of basis functions in the $\eta$-direction\\
+$\check{p}_\upzeta$ 	& Degree of basis functions in the $\zeta$-direction\\
+$r$ 					& Radius in the spherical (or prolate spheroidal) coordinate system\\
+$r_{\mathrm{a}}$ 		& Radius at artificial boundary in the spherical (or prolate spheroidal) coordinate system\\
+$\R$ 					& Space of real numbers\\
+$R$ 					& Distance between the arguments of $\Phi_k$, $R = |\vec{x}-\vec{y}|$\\
+$R_i$ 					& NURBS basis function (with global index $i$)\\
+$R_{i,j,l}$ 			& NURBS basis function (with local indices $i$, $j$ and $l$)\\
+$\mathcal{S}$ 			& Solution space\\
+$\mathcal{S}_h$ 		& Finite dimensional solution space\\
+$t$ 					& Time variable\\
+$\Xi$ 					& Knot vector in the $\xi$-direction\\
+$\Eta$ 					& Knot vector in the $\eta$-direction\\
+$\Zeta$ 				& Knot vector in the $\zeta$-direction\\
+$T$ 					& Period\\
+$\vec{T}$ 				& Exterior traction vector\\
+$\TS$ 					& Target strength\\
+$\vec{x}$ 				& Spatial variable in Cartesian coordinates\\
+$\vec{X}$ 				& Geometric parameterization\\
+$\vec{u}$, $\breve{\vec{u}}$ & Displacement in the solid domain\\
+$\mathcal{V}$ 			& Test space\\
+$\mathcal{V}_h$ 		& Finite dimensional test space\\
+$\bessely_n$ 			& The $n^{\mathrm{th}}$ spherical Bessel function of second kind\\
+$\besselY_n$ 			& The $n^{\mathrm{th}}$ Bessel function of second kind\\
+$\vec{y}_n$ 			& Source points for manufactured solution\\
+$\Z$ 					& Space of integers\\
+$\alpha$ ($\alpha_{\mathrm{s}}$) 			& Aspect angle (for the source point)\\
+$\Gamma$				& Boundary of scatterer\\
+$\Gamma_{\check{p}}$	& Outer boundary of BeTSSi submarine ($\check{p}\geq 2$)\\
+$\upgamma$ 				& Euler-Mascheroni constant $\upgamma = \num{0.577215664901532861}\dots$\\
+$\delta_{ij}$ 			& Kronecker delta\\
+$\Delta$ 				& Triangle constructor $\Delta(\vec{x}_1,\vec{x}_2,\vec{x}_3)\subset\R^d$\\
+$\upDelta$ 				& Difference operator\\
+$\varepsilon$ 			& Machine epsilon precision\\
+$\varepsilon_{ij}$ 		& Strain field in Cartesian coordinates\\
+$\eta$ 					& Second parameter of the parameter space\\
+$\zeta$ 				& Third parametric NURBS parameter\\
+$\vartheta$ ($\vartheta_{\mathrm{s}}$) 			& Polar angle in the spherical coordinate system (at the source point)\\
+$\boldsymbol\kappa$ 	& Set of indices (for NURBS functions in solution/test space)\\
+$\lambda$ 				& Wavelength\\
+$\nu$ 					& Poisson's ratio\\
+$\xi$ 					& First parameter of the parameter space\\
+$\xi_1$, $\xi_2$, $\xi_3$ & Area coordinates (barycentric coordinates) of a triangle\\
+$\PI$ 					& Archimedes' constant (pi) $\PI = \num{3.141592653589793}\dots$\\
+$\rho$ 					& Substitution variable $\varrho=r/r_{\mathrm{a}}$\\
+$\varrho_1$ 			& Simplifying notation variable $\varrho_1=\Upsilon/r_{\mathrm{a}}$\\
+$\varrho_2$ 			& Simplifying notation variable $\varrho_2=kr_{\mathrm{a}}$\\
+$\varrho_3$ 			& Simplifying notation variable $\varrho_3=k\Upsilon$\\
+$\rho_{\mathrm{f}}$ 	& Mass density of fluid\\
+$\rho_{\mathrm{s}}$ 	& Mass density of solid\\
+$\sigma_{ij}$ 			& Stress field in Cartesian coordinates\\
+$\tau$ 					& Minimal number of degrees of freedom per wavelength\\
+$\Upsilon$ 				& Focus in the elliptic/prolate spheroidal coordinate system\\
+$\varphi$ ($\varphi_{\mathrm{s}}$)	& Azimuth angle in the spherical coordinate system (at the source point)\\
+$\Phi_k$ 				& Fundamental solution of Helmholtz equation\\
+$\omega$ 				& Angular frequency\\
+$\Omega_{\mathrm{s}} $ 	& Solid domain\\
+$\Omega^+$ 				& Unbounded exterior fluid domain\\
+$\Omega^-$ 				& Interior fluid domain\\
+$\partial$ 				& Partial derivatives \\
+%$\nabla$ 				& Nabla operator\\
+%$\nabla^2$ 				& Laplace operator\\
+%$\prod$ 				& Product notation\\
+%$\sum$	 				& Sum notation\\
+\end{tabularx}
+
+%\section*{Introduction}
+%\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+%\end{tabularx}
+
+\section*{Notation for paper I}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$a$ ($a_m$) 			& Longitudinal angular wave number (in the $m^{\mathrm{th}}$ shell)\\
+$A_n^{(i)}$ 			& Coefficients of potential function $\phi$ in the solid domain\\
+$b$ ($b_m$) 			& Transverse angular wave number (in the $m^{\mathrm{th}}$ shell)\\
+$B_n^{(i)}$ 			& Coefficients of potential function $\psi_\upvarphi$ in the solid domain\\
+$B$ 					& Bandwidth\\
+$\vec{B}_{m,n}$ 		& Local vector of unknown coefficients in the linear system of equations for the $n^{\mathrm{th}}$ mode\\
+$c_{\mathrm{s},1}$ 		& The longitudinal wave velocity in a solid\\
+$c_{\mathrm{s},2}$ 		& The transverse wave velocity in a solid\\
+$C_\varepsilon$ 		& Upper bound for scaled frequency, regarding round-off error with precision $\varepsilon$\\
+$\vec{C}$ 				& Linear elasticity matrix\\
+$\vec{C}_n$ 			& Vector of unknown coefficients in the system of equation for the $n^{\mathrm{th}}$ mode\\
+$\vec{C}_{m,n}$ 		& Local vector of unknown coefficients in the system of equations for the $n^{\mathrm{th}}$ mode\\
+$C_n^{(i)}$ 			& Coefficients of the scattered pressure $p$\\
+$\vec{D}$ 				& Stress coordinate transformation matrix\\
+$\vec{D}_n$ 			& Right hand side vector for the linear system of equation for the  $n^{\mathrm{th}}$ mode\\
+$f_{\mathrm{c}}$ 		& Center frequency in wavelet\\
+$F_n^{(i)}$ 			& Coefficients of the incident wave expanded in Legendre functions at the outer surface\\
+$G_{p,q}^{m,n}$ 		& Meijer G-function\\
+$h_{\mathrm{r}}$, $h_\upvartheta$, $h_\upvarphi$ & Scale factors for the spherical (or prolate spheroidal) coordinate system\\
+$\vec{H}_{m,n}^{(i,j)}$ & Submatrices of $\vec{H}_n$\\
+$M$ 					& Number of spherical shells\\
+$N$ 					& Number of terms in Fourier sum\\
+$N_\varepsilon$ 		& Infinite series truncation number\\
+$Q_n^{(i)}$ 			& Derivatives of Legendre polynomials with cosine argument\\
+$R_{0,m}$ 				& Outer surface radius of $m^{\mathrm{th}}$ spherical shell\\
+$R_{1,m}$ 				& Outer surface radius of $m^{\mathrm{th}}$ spherical shell\\
+$S_{j,n}^{(i)}$ 		& Simplifying notation. Superposition of Bessel functions with argument $\xi = ar$\\
+$T_{j,n}^{(i)}$ 		& Simplifying notation. Superposition of Bessel functions with argument $\eta = br$\\
+$Z_n^{(i)}$ 			& Spherical Bessel functions\\
+$\alpha_{ij}$ 			& Cosine between two basis vectors in a coordinate transformation\\
+%$\epsilon$ 			&  \\
+$\zeta$ 				& Simplifying notation $\zeta=kr$\\
+$\eta$ 					& Simplifying notation $\eta=br$\\
+%$\Theta$ 				& \\
+%$\vartheta$ 			& \\
+%$\iota$ 				& \\
+%$\kappa$ 				& \\
+%$\mu$ 					& \\
+$\xi$ 					& Simplifying notation $\xi=ar$\\
+%$\Xi$ 					& \\
+%$\pi$ 					& \\
+%$\varrho$ 				& \\
+%$\varsigma$ 			& \\
+%$\upsilon$ 			& \\
+$\Upsilon_\varepsilon$ 	& Simplifying parameter for the upper bound $C_\varepsilon$\\
+$\upsilon$ 				& Order of Bessel function\\
+$\phi$ 					& First potential function in solid\\
+$\vec{\psi}$ 			& Second potential function in solid\\
+$\Psi$, $\vec{\Psi}$ 	& General scalar or vector function\\
+$\omega_{\mathrm{c}}$ 	& Center angular frequency in wavelet\\
+$\varphi$ 				& Azimuth angle in the spherical coordinate system\\
+$\varphi_{\mathrm{s}}$ 	& Azimuth (or aspect) angle for the source point\\
+\end{tabularx}
+
+\section*{Notation for paper II}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$d_1$, $d_2$ 			& Distances from foci in prolate coordinate system\\
+$R_0$ 					& Outer surface radius of spherical shell\\
+$R_1$ 					& Inner surface radius of spherical shell\\
+$w$ 					& Weights for weighted Sobolev spaces in $\Omega^+$ for the trial space\\
+$w^*$ 					& Weights for weighted Sobolev spaces in $\Omega^+$ for the test space\\
+$p_1$ 					& Scattered pressure in exterior domain $\Omega^+$\\
+$p_2$ 					& Scattered pressure in interior domain $\Omega^-$\\
+$Q_m$ 					& Polynomial function of the radial shape functions $\phi$\\
+$\tilde{Q}_n$ 			& Polynomial function of the radial shape functions $\psi$\\
+$\Gamma_{\mathrm{a}}$ 	& Artificial boundary\\
+$\Gamma_0$				& Outer boundary of scatterer\\
+$\Gamma_1$				& Inner boundary of scatterer\\
+$\phi_n$ 				& Basis function in radial direction in infinite elements for the trial space\\
+$\psi_n$ 				& Basis function in radial direction in infinite elements for the test space\\
+$\Omega_{\mathrm{a}} $ 	& Fluid domain inside artificial boundary $\Gamma_{\mathrm{a}}$\\
+$\Omega_{\mathrm{a}}^+$ & Fluid domain outside the artificial boundary $\Gamma_{\mathrm{a}}$\\
+\end{tabularx}
+
+%\section*{Notation for paper III}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$C^\pm$ 			& Jump-term in the exterior ($+$) or interior ($-$) problem\\
+$f_t$ 				& NACA profile function of foil with width $t$\\
+$l$ 				& Distance from the center of an element to a source point\\
+$n_{\mathrm{eqp},1}$& Number of extra quadrature points in BEM formulation (in addition to the standard $\check{p}+1$ points) in elements not containing singularity\\
+$n_{\mathrm{eqp},2}$& Number of extra quadrature points in BEM formulation (in addition to the standard $\check{p}+1$ points) in elements containing singularity\\
+$N$ 				& Number of terms in manufactured solution\\
+$s_1$				& Parameter controlling adaptivity of quadrature integration\\
+$\gamma^+$ 			& Trace operator in $\Omega^+$\\
+$\gamma^-$ 			& Trace operator in $\Omega^-$\\
+$\alpha$ 			& Coupling parameter in BM formulation\\
+$\Psi$ 				& Jump-term in the exterior (+) or interior (-) problem\\
+\end{tabularx}
+
+\section*{Notation for paper IV}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$f(\cdot)$ 			& Amplitude function in oscillatory integrals\\
+$F(\cdot)$ 			& Non-oscillatory exponentially integral\\
+$g(\cdot)$ 			& Oscillator function in oscillatory integrals\\
+$h_\xi$ 			& Path in the complex plane at which the oscillatory integral is not oscillatory\\
+$\alpha$ 			& Exponent of weight factor in GGL quadrature\\
+\end{tabularx}
+
+\section*{Notation for addendum}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$f(\cdot)$ 				& Right hand side function for the Poisson equation\\
+$l_{i,\vec{t}}$ 		& The $i^{\mathrm{th}}$ Lagrange basis function defined over the interpolation points in $\vec{t}$\\
+$\Phi_n$ 				& Generating polynomial\\
+\end{tabularx}
+
+\section*{Notation for appendices}
+\begin{tabularx}{\linewidth}{p{0.12\linewidth} X}
+$a$			 			& Longitudinal angular wave number first potential function (in the solid)\\
+$b$						& Transverse angular wave number (second potential function)\\
+$E_j$ 					& Energy of beam $B_j$\\
+$h$ 					& Solid layer thickness\\
+$N$ 					& Number of rays/beams\\
+$R$ 					& Reflection coefficient\\
+$s$ 					& Parameter for parameterizing rays\\
+$T$ 					& Transmission coefficient\\
+$\theta_1$ 				& Angle of incidence\\
+$\theta_2$ 				& Angle of refraction\\
+$\theta_3$ 				& Angle of transmission\\
+$\tau$ 					& Phase function in ray series\\
+$\phi$ 					& First potential function in solid\\
+$\psi$ 					& Second potential function in solid\\
+\end{tabularx}
+% Greek alphapet: Α α, Β β, Γ γ, Δ δ, Ε ε, Ζ ζ, Η η, Θ θ, Ι ι, Κ κ, Λ λ, Μ μ, Ν ν, Ξ ξ, Ο ο, Π π, Ρ ρ, Σ σ/ς, Τ τ, Υ υ, Φ φ, Χ χ, Ψ ψ, and Ω ω

@@ -1,0 +1,114 @@
+\section{Acoustic-structure interaction}
+\label{Sec2:coupledFluidStruct}
+In~\cite[pp. 13-14]{Ihlenburg1998fea} Ihlenburg briefly derives the governing equations for the ASI problem. Building upon this the formulas are generalized to include an interior fluid domain $\Omega^-$. The pressure in the exterior and interior fluid domain are now denoted by $p_1$ and $p_2$ (see \Cref{Fig2:artificialBoundary}).
+\begin{alignat}{3}
+	\nabla^2 p_1 + k_1^2 p_1 &= 0 	&&\text{in}\quad \Omega^+\\
+	\pderiv{p(\vec{x},\omega)}{r}-\imag k p(\vec{x},\omega) &= o\left(r^{-1}\right) &&\text{with}\quad r=|\vec{x}|\label{Eq2:sommerfeldCond2}\\
+	\rho_{\mathrm{f},1} \omega^2 u_i n_i - \pderiv{p_1}{n} &= \pderiv{p_{\mathrm{inc}}}{n}\qquad &&\text{on}\quad \Gamma_0\label{Eq2:coupling2}\\
+	\sigma_{ij}n_i n_j + p_1 &= -p_{\mathrm{inc}}\qquad &&\text{on}\quad \Gamma_0\label{Eq2:coupling1}\\
+	\sigma_{ij,j} + \omega^2 \rho_{\mathrm{s}} u_i &= 0 \qquad &&\text{in}\quad \Omega_{\mathrm{s}}\label{Eq2:strongFormLinEl}\\
+	\rho_{\mathrm{f},2} \omega^2 u_i n_i - \pderiv{p_2}{n} &= 0 \qquad &&\text{on}\quad \Gamma_1\label{Eq2:coupling2_2}\\
+	\sigma_{ij}n_i n_j + p_2 &= 0\qquad &&\text{on}\quad \Gamma_1\label{Eq2:coupling1_2}\\
+	\nabla^2 p_2 + k_2^2 p_2 &= 0 	&&\text{in}\quad \Omega^-.
+\end{alignat} 
+The first two equations represent the Helmholtz equation and Sommerfeld conditions, respectively, for the exterior domain. The wave numbers in the exterior and interior fluid domain are denoted by $k_1$ and $k_2$. The elasticity equation in \Cref{Eq2:strongFormLinEl} comes from momentum conservation (Newton's second law), while \Cref{Eq2:coupling2,Eq2:coupling1,Eq2:coupling2_2,Eq2:coupling1_2} represent the coupling equations and come from the continuity requirement of the displacement and pressures at the boundaries $\Gamma_m$. The final formula is simply the Helmholtz equation for the internal fluid domain. The function $p_{\mathrm{inc}}$ represents the incident plane wave in \Cref{Eq2:p_inc} (in the exterior domain). The mass densities of the solid and the fluid are denoted by $\rho_{\mathrm{s}}$ and $\rho_{\mathrm{f}}$, respectively, and $\sigma_{ij}(\vec{u})$ represents the stress components as a function of the displacement $\vec{u}=u_i\vec{e}_i$ in the solid. 
+
+For the domain of the scatterer, $\Omega_{\mathrm{s}}$, it can be shown that the following weak formulation is obtained from the strong form in \Cref{Eq2:strongFormLinEl} (see for example~\cite{Ihlenburg1998fea})
+\begin{equation}\label{Eq2:intermediateStepFSI}
+	\int_{\Omega_{\mathrm{s}}} \left[v_{i,j}\sigma_{ij} - \rho_{\mathrm{s}}\omega^2 u_i\bar{v}_i\right]\idiff\Omega = \int_{\Gamma_0} v_i(\sigma_{ij} n_j)\idiff\Gamma + \int_{\Gamma_1} v_i(\sigma_{ij} n_j)\idiff\Gamma.
+\end{equation}
+where the normal vectors point out of $\Omega_{\mathrm{s}}$. The integrands on the right-hand side may be rewritten using \Cref{Eq2:coupling1,Eq2:coupling1_2} in the following way. Consider a point $\vec{P}$ on $\Gamma_0$ or $\Gamma_1$, with normal vector $\vec{n}=n_i\vec{e}_i$. Let $T_i$ be the components (in Cartesian coordinates) of the exterior traction vector $\vec{T}$. That is to say, $T_i = \sigma_{ij} n_j$. One can then create a local orthogonal coordinate system at this point with unit vectors $\vec{e}_\perp$, $\vec{e}_{\|_1}$ and $\vec{e}_{\|_2}$, where the latter two vectors represent basis vectors for the tangential plane of the surface at $\vec{P}$ (and $\vec{e}_\perp$ represents the normal unit vector on this plane at $\vec{P}$). 
+
+As the scalar product is invariant to orthogonal transformations, the following holds
+\begin{equation*}
+	T_i v_i = T_x v_x + T_y v_y + T_z v_z = T_{\perp} v_{\perp} + T_{\|_1} v_{\|_1} + T_{\|_2} v_{\|_2}.
+\end{equation*}
+Since the acoustic pressure from the fluid only exerts forces normal to the surfaces $\Gamma_0$ and $\Gamma_1$, the static equilibrium conditions for the traction at $\vec{P}$ are given by
+\begin{equation*}
+	T_{\|_1}=0,\qquad T_{\|_2}=0,\quad\text{and}\quad T_{\perp} = -p_{\mathrm{tot},m},
+\end{equation*}
+where the total pressure is given by
+\begin{equation*}
+	p_{\mathrm{tot},m}= \begin{cases} p_{\mathrm{inc}} + p_1 & m = 1\\
+	p_2 & m = 2.\end{cases}
+\end{equation*}
+The scalar product may therefore be written as
+\begin{equation*}
+	T_i v_i = -p_{\mathrm{tot},m} v_{\perp} = -p_{\mathrm{tot},m} v_i n_i.
+\end{equation*}
+\Cref{Eq2:intermediateStepFSI} can thus be rewritten as
+\begin{equation}\label{Eq2:FSIeq1}
+	\int_{\Omega_{\mathrm{s}}} \left[v_{i,j}\sigma_{ij} - \rho_{\mathrm{s}}\omega^2 u_i v_i\right]\idiff\Omega = -\int_{\Gamma_0} (p_{\mathrm{inc}} + p_1) v_i n_i\idiff\Gamma-\int_{\Gamma_1} p_2 v_i n_i\idiff\Gamma.
+\end{equation}
+Moreover, from \Cref{Eq2:weakformulationHelmholtz} one obtains
+\begin{equation*}
+	\int_{\Omega^+} \left[\nabla q_1\cdot\nabla p_1 - k_1^2q_1p_1\right]\idiff\Omega = -\int_{\Gamma_0} q_1 \pderiv{p_1}{n}\idiff\Gamma
+\end{equation*}
+and
+\begin{equation*}
+	\int_{\Omega^-} \left[\nabla q_2\cdot\nabla p_2 - k_2^2q_2p_2\right]\idiff\Omega = -\int_{\Gamma_1} q_2 \pderiv{p_2}{n}\idiff\Gamma
+\end{equation*}
+where the sign of the right-hand side must be changed in order to get a normal vector that points out of $\Omega_{\mathrm{s}}$. Using now \Cref{Eq2:coupling2,Eq2:coupling2_2}
+\begin{equation}\label{Eq2:FSIeq2}
+	\frac{1}{\rho_{\mathrm{f},1} \omega^2}\int_{\Omega^+} \left[\nabla q_1\cdot\nabla p_1 -  k_1^2 q_1p_1\right]\idiff\Omega = -\int_{\Gamma_0} q_1\left(u_i n_i -\frac{1}{\rho_{\mathrm{f},1} \omega^2}\pderiv{p_{\mathrm{inc}}}{n}\right)\idiff\Gamma
+\end{equation}
+and
+\begin{equation}\label{Eq2:FSIeq3}
+	\frac{1}{\rho_{\mathrm{f},2} \omega^2}\int_{\Omega^-} \left[\nabla q_2\cdot\nabla p_2 -  k_2^2 q_2p_2\right]\idiff\Omega = -\int_{\Gamma_1} q_2 u_i n_i\idiff\Gamma.
+\end{equation}
+Adding \Cref{Eq2:FSIeq1,Eq2:FSIeq2,Eq2:FSIeq3}
+\begin{align*} %\label{Eq2:FSIbilinearForm}
+\begin{split}
+	&\frac{1}{\rho_{\mathrm{f},1} \omega^2}\int_{\Omega^+} \left[\nabla q_1\cdot\nabla p_1 -  k_1^2 q_1p_1\right]\idiff\Omega + \int_{\Gamma_0}\left[q_1 u_i n_i + p_1 v_i n_i\right]\idiff\Gamma\\
+	+&\frac{1}{\rho_{\mathrm{f},2} \omega^2}\int_{\Omega^-} \left[\nabla q_2\cdot\nabla p_2 -  k_2^2 q_2p_2\right]\idiff\Omega +\int_{\Gamma_1}\left[q_2 u_i n_i + p_2 v_i n_i\right]\idiff\Gamma\\
+	 +& \int_{\Omega_{\mathrm{s}}} \left[v_{i,j}\sigma_{ij} - \rho_{\mathrm{s}}\omega^2 u_i v_i\right]\idiff\Omega = \int_{\Gamma_0} \left[\frac{1}{\rho_{\mathrm{f},1} \omega^2}q_1\pderiv{p_{\mathrm{inc}}}{n} - p_{\mathrm{inc}} v_i n_i\right]\idiff\Gamma
+\end{split}
+\end{align*}
+where $\vec{n}=\{n_1,n_2,n_3\}$ points outwards from the solid. Defining the Sobolev spaces $\bm{\calH}_w = \bm{\calS}\times H_w^{1+}(\Omega^+) \times H^1(\Omega^-)$ and $\bm{\calH}_{w^*} = \bm{\calS}\times H_{w^*}^1(\Omega^+) \times H^1(\Omega^-)$ where $\bm{\calS} = \{\vec{u}: u_i\in H^1(\Omega_{\mathrm{s}})\}$, the weak formulation for the ASI problem then becomes (with the notation $U=\{\vec{u},p_1,p_2\}$ and $V = \{\vec{v},q_1,q_2\}$): 
+\begin{equation}
+	\text{Find}\quad U\in\bm{\calH}_w\quad \text{such that} \quad B_{\mathrm{ASI}}(V,U) = L_{\mathrm{ASI}}(V),\quad \forall V\in\bm{\calH}_{w^*}
+\end{equation}
+where
+\begin{align*}
+	B_{\mathrm{ASI}}(V,U) &= \frac{1}{\rho_{\mathrm{f},1} \omega^2}\int_{\Omega^+} \left[\nabla q_1\cdot\nabla p_1 -  k_1^2 q_1p_1\right]\idiff\Omega + \int_{\Gamma_0}\left[q_1 u_i n_i + p_1 v_i n_i\right]\idiff\Gamma\\
+	&{\hskip1em\relax}+\int_{\Omega_{\mathrm{s}}} \left[v_{i,j}\sigma_{ij} - \rho_{\mathrm{s}}\omega^2 u_i v_i\right]\idiff\Omega \\
+	&{\hskip1em\relax}+\frac{1}{\rho_{\mathrm{f},2} \omega^2}\int_{\Omega^-} \left[\nabla q_2\cdot\nabla p_2 -  k_2^2 q_2p_2\right]\idiff\Omega +\int_{\Gamma_1}\left[q_2 u_i n_i + p_2 v_i n_i\right]\idiff\Gamma
+\end{align*}
+and
+\begin{equation*}
+	L_{\mathrm{ASI}}(V) = \int_{\Gamma_0} \left[\frac{1}{\rho_{\mathrm{f},1} \omega^2}q_1\pderiv{p_{\mathrm{inc}}}{n} - p_{\mathrm{inc}} v_i n_i\right]\idiff\Gamma.
+\end{equation*}
+Let $\bm{\calS}_h=\{\vec{u}: u_i\in \calV(\Omega_{\mathrm{s}})\}\subset\bm{\calS}$ where $\calV(\Omega_{\mathrm{s}})$ is the space spanned by the NURBS basis functions used to parameterize $\calV(\Omega_{\mathrm{s}})$, and correspondingly for $\calF^-_h=\{p_2: p_2\in \calV(\Omega^-)\}\subset H^1(\Omega^-)$. Moreover, define the spaces $\bm{\calH}_{h,w} = \bm{\calS}_h \times \calF^+_{h,w} \times \calF^-_h$ and $\bm{\calH}_{h,w^*} = \bm{\calS}_h\times \calF^+_{h,w^*} \times \calF^-_h$. The Galerkin formulation for the ASI problem then becomes: 
+\begin{equation}
+	\text{Find}\quad U_h\in\bm{\calH}_{h,w}\quad \text{such that} \quad B_{\mathrm{ASI}}(V_h,U_h) = L_{\mathrm{ASI}}(V_h),\quad \forall V_h\in\bm{\calH}_{h,w^*}.
+\end{equation}
+%The $H^1$-norm for the three domains $\Omega = \Omega^+\cup \Omega_{\mathrm{s}}\cup\Omega^-$ is defined by
+%\begin{equation}\label{Eq2:H1Norm}
+%	\Hnorm{U}{\Omega} = \sqrt{\Hnorm{p_1}{\Omega_{\mathrm{a}}}^2 + \Hnorm{\vec{u}}{\Omega_{\mathrm{s}}}^2 + \Hnorm{p_2}{\Omega^-}^2}.
+%\end{equation}
+%where
+%\begin{equation*}
+%	\Hnorm{p}{\Omega} = \sqrt{\int_{\Omega} |p|^2 + \sum_{i=1}^3\left|\pderiv{p}{x_i}\right|^2\idiff\Omega}\quad\text{and}\quad
+%	\Hnorm{\vec{u}}{\Omega} = \sqrt{\int_\Omega \sum_{i=1}^3\left|u_i\right|^2 + \sum_{i=1}^3 \sum_{j=1}^3\left|\pderiv{u_i}{x_j}\right|^2\idiff\Omega}.
+%\end{equation*}
+As the bilinear forms treated in this work are not $V$-elliptic \cite[p. 46]{Ihlenburg1998fea}, they do not induce a well-defined energy-norm. For this reason, the energy norm for the fluid domains $\Omega_{\mathrm{a}}$ are defined by
+\begin{equation}\label{Eq2:energyNormFluids}
+	\energyNorm{p_1}{\Omega_{\mathrm{a}}} = \sqrt{\int_{\Omega_{\mathrm{a}}} \left|\nabla p_1\right|^2 + k_1^2|p_1|^2 \idiff\Omega}\quad\text{and}\quad\energyNorm{p_2}{\Omega^-} = \sqrt{\int_{\Omega^-} \left|\nabla p_2\right|^2 + k_2^2|p_2|^2 \idiff\Omega}
+\end{equation}
+and for the solid domain (using Einstein summation convention)
+\begin{equation}
+	\energyNorm{\vec{u}}{\Omega_{\mathrm{s}}} = \sqrt{\int_{\Omega_{\mathrm{s}}} u_{(i,j)}c_{ijkl}\bar{u}_{(k,l)} + \rho_{\mathrm{s}}\omega^2|\vec{u}|^2\idiff\Omega}
+\end{equation}
+where
+\begin{equation*}
+	u_{(i,j)} = \frac{1}{2}\left(\pderiv{u_i}{x_j} + \pderiv{u_j}{x_i}\right)
+\end{equation*}
+and elastic coefficients expressed in terms of Young's modulus, $E$, and the Poisson's ratio, $\nu$, as~\cite[p. 110]{Cottrell2009iat}
+\begin{equation*}
+	c_{ijkl} = \frac{\nu E}{(1+\nu)(1-2\nu)}\delta_{ij}\delta_{kl} +\frac{E}{2(1+\nu)}(\delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk}).
+\end{equation*}
+The energy norm for the coupled problem with $\Omega = \Omega_{\mathrm{a}}\cup \Omega_{\mathrm{s}}\cup\Omega^-$ is then defined by
+\begin{align}\label{Eq2:energyNorm}
+	\energyNorm{U}{\Omega} = \sqrt{\frac{1}{\rho_{\mathrm{f},1}\omega^2}\energyNorm{p_1}{\Omega_{\mathrm{a}}}^2 + \energyNorm{\vec{u}}{\Omega_{\mathrm{s}}}^2 + \frac{1}{\rho_{\mathrm{f},2}\omega^2}\energyNorm{p_2}{\Omega^-}^2}.
+\end{align}
+As the unconjugated formulations do not converge in the far field, the norm in the exterior domain is taken over the $\Omega_{\mathrm{a}}$ instead of $\Omega^+$. 

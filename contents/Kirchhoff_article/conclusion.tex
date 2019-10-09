@@ -1,0 +1,28 @@
+\section{Conclusion}
+\label{Sec4:conclusions}
+This article addresses acoustic scattering characterized by sound waves reflected by man-made elastic objects. The present approach is characterized by:
+\begin{itemize}
+	\item The scattered pressure is approximated by Kirchhoff approximation.
+	\item The computations are evaluated on the exact computer aided design model.
+	\item The Helmholtz integrals are evaluated by the numerical steepest descent.
+\end{itemize}
+
+The main finding of the present study is that Kirchhoff approximation may be computed with a complexity independent of the frequency in the isogeometric analysis framework.
+
+Furthermore, the following observations are made
+\begin{itemize}
+	\item The accuracy of the method converges as a function of the frequency, as opposed to a triangular approximation method where the accuracy diverges.
+	\item The computational complexity of the Kirchhoff approximation method is at least one order less than finite/boundary element methods resulting in computational savings in orders of magnitudes. The cost of these savings is reduced accuracy, and for some geometries the Kirchhoff approximation simply is not applicable.
+	\item The NSD formulation outperforms the triangulation approximation approach when considering the computational time as a function of the error or frequency.
+\end{itemize}
+
+The Kirchhoff approximation method in an isogeometric framework has good potential, but many challenges remains to be resolved before the presented code is fully automated.
+
+Some challenges remain to be resolved for this work to be applicable to general CAD geometries. First, for each incident wave and for each element in the CAD mesh, all resonance and stationary points must be found. This could be implemented as a preprocessing step. Second, if the shadow boundary does not coincide with element boundaries, this must be resolved in the NSD algorithm. The parent domain will in this case not be rectangular, but rather parametrized boundary which requires special treatment in the NSD algorithm. Moreover, this challenge will affect the first challenge as potential resonance points may lie on the shadow boundary. Third, interior stationary points have not been considered in this work but is discussed in~\cite{Huybrechs2007tco}. Finally, rules must be established for the number of Gauss-Legendre points and Gauss-Laguerre points needed in the hybrid method.
+
+To have an automated algorithm that tackles all of these challenges is a huge task. The integrals from the usage of curvilinear facets in~\cite{Lavia2018mhf} contains well behaved oscillatory functions ($g$ is second order polynomial) and may for this reason be a simpler approach. Especially since it is easier to discretize the scatterer, $\Gamma$, with curvilinear triangles in such a way that the shadow boundary lies on element edges.
+
+\section*{Acknowledgements}
+This work was supported by the Department of Mathematical Sciences at the Norwegian University of Science and Technology and by the Norwegian Defence Research Establishment.
+
+We would like to thank Arieh Iserles for hosting us at our research stay at the Department of Applied Mathematics and Theoretical Physics at University of Cambridge (UK) during the fall of 2016. His guidance related to highly oscillatory integration is highly appreciated. We would also like to thank Daan Huybrechs at K.U. Leuven University (Belgium) for valuable comments about the numerical steepest descent method. 

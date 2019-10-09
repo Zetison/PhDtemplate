@@ -1,0 +1,26 @@
+
+\section{List of discovered errors}
+
+
+\begin{itemize}
+	\item In~\cite[pp. 191-192]{Ihlenburg1998fea} Ihlenburg writes that ``... We observe that no resonance peaks are formed at higher eigenmodes for the shells S05 and S15, ...''.
+	
+	Ihlenburg uses too few samples in the FRF plot to find the resonance peaks at higher eigenmodes.
+	
+	\item The original article~\cite[p. 4156]{Hughes2005iac} has a misprint in the analytic solution (equation 20). The correct solution is
+\begin{equation*}
+	u_{\mathrm{r}}(r) = \frac{1}{E}\frac{P R_1^2}{R_0^2 - R_1^2}\left((1-2\nu)(1+\nu)r+\frac{R_0^2(1+\nu)}{r}\right)
+\end{equation*}
+which can be written as \Cref{Eq2:analyticSolutionSolidCircularCylinder}.
+
+This solution is derived in \Cref{Sec2:solidCircularCylinderSolution}. Where it is also showed that if the solution varies only with $r$ and $\vartheta$, the internal pressure loading $\cos 2\vartheta$ imposes restrictions on the parameter $\nu$. In fact, if we demand that $0\leq \nu\leq 0.5$ then $\nu = 0$ or $\nu = \frac12$.
+
+\item In~\cite[p. 188]{Meirovitch1967ami} there is a misprint in the first eigenfrequency: $C_{01} = 1.015$ where the true value is $C_{01} = 1.0173886$. Hughes copies this misprint in~\cite{Hughes2005iac} such that he compares his result with $\omega_{01} = 53.863$ when the true value is $\omega_{01} = 54.117$. Hence, in~\cite{Cottrell2009iat} there seems to be convergence to the wrong result when this is not the case.
+
+Moreover, the three first eigenmodes in~\cite{Hughes2005iac} does not represent the eigenmodes corresponding to the lowest eigenvalues as the book suggests in Figure 5.20.
+
+\item There is an inconsistency in the length ($L$) of Scordelis-Lo roof in Figure 4.12 and Figure 4.13 in~\cite[pp. 125-126]{Cottrell2009iat}. Moreover, the scaling factor should rather be 20 than 200 in 4.13 in~\cite[p. 126]{Cottrell2009iat}.
+
+\item Mulig også en feil i convergensplottet til Hughes~\cite[p. 129]{Cottrell2009iat} for $p=4$, da jeg oppnår bedre resultater her. Har opplevd tilsvarende fenomener når et sett med gausspunkt har en marginal feil.
+
+\end{itemize}

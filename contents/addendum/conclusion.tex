@@ -1,0 +1,10 @@
+\section{Conclusions}
+The usage of Lagrange polynomials yields a convenient method of obtaining a geometry approximation as interpolation and least squares (approximated with Lobatto quadrature) are equivalent. The geometry approximation is then obtained simply by evaluating the geometry parametrization in the GLL nodes in the parametric space. Thus, using this procedure, any tensor IGA mesh with exact geometry can easily be transformed to a SEM mesh with spectral convergence to the same exact geometry. 
+
+The spectral properties of IGA and SEM are similar, but IGA has instability with respect to high polynomial orders due to conditioning of the system. Moreover, due to the Kronecker delta property of the Lagrange basis functions, the computational times for both building and solving the system is favorable for SEM compared to IGA in the $\check{p}$-refinement case.
+
+The usage of Lagrange polynomials as basis functions in the SEM increases the sparsity of the global matrices compared to any other set of basis functions for finite element analysis when pure $\check{p}$-refinement is used. Moreover, the choice of the GLL nodes as the nodes both for the Lagrange polynomials and integrational approximation increases the stability and computational efficiency, respectively. 
+
+Whenever there is a need to resolve the wavelength in acoustic scattering problems the geometry approximation becomes of less importance, as the error from the mesh resolution of the waves dominated the geometrical errors.
+
+The examples illustrated in this work have $C^\infty$-continuity which are ideal for SEM, as the basis functions are maximally smooth within each patch. Such problems would be optimally solved by spectral methods in the sense of convergence order. In the context of engineering, however, not only is an error of $0.1\%$ (where IGA is competitive anyways) satisfactory results, we do not necessarily have smooth solutions. One must then turn to adaptive techniques, which is more suited for FEM than SEM.

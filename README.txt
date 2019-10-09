@@ -1,0 +1,2 @@
+Compile document with
+pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|bibtex bu1.aux|bibtex bu2.aux|bibtex bu3.aux|bibtex bu4.aux|bibtex bu5.aux|bibtex bu6.aux|bibtex bu7.aux|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|"C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe" %.pdf

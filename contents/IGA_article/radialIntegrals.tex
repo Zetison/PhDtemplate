@@ -1,0 +1,42 @@
+\section{Evaluation of radial integrals}
+\label{Sec2:radIntegrals}
+The exponential integral
+\begin{equation}
+	E_n(z) = \int_1^\infty \frac{\euler^{-z\rho}}{\rho^n}\idiff \rho,\qquad \Re(z) \geq 0
+\end{equation}
+is of great importance for the unconjugated formulations in the IEM. It is therefore important to be able to evaluate the integral accurately and efficiently, also for large (absolute) values of $z$ (which will correspond to high frequencies). In~\cite[p. 229, 5.1.12]{Abramowitz1965hom} the series representation for evaluation of these functions can be found\footnote{Here, $\upgamma$ is the Euler-Mascheroni constant which is defined by 
+\begin{equation*}
+\upgamma  = \lim_{n\to\infty}\left[-\ln(n)+\sum_{m=1}^n \frac{1}{m}\right]=0.577215664901532860606512090082\dots.
+\end{equation*}}
+\begin{equation}\label{Eq2:seriesRepresentation}
+	E_n(z) = \frac{(-z)^{n-1}}{(n-1)!}\left[-\ln z-\upgamma+\sum_{m=1}^{n-1}\frac{1}{m}\right] -\sum_{\substack{m=0\\m\neq n-1}}^\infty \frac{(-z)^m}{(m-n+1)m!}
+\end{equation}
+with the empty sum interpreted to be zero. Moreover, using the continued fraction notation
+\begin{equation}
+	b_0+\frac{a_1}{b_1+}\frac{a_2}{b_2+}\frac{a_3}{b_3+}\cdots = b_0+\cfrac{a_1}{b_1+\cfrac{a_2}{b_2+\cfrac{a_3}{b_3+\cdots}}}
+\end{equation}
+the continued fraction representation of these functions is given by~\cite[p. 229, 5.1.22]{Abramowitz1965hom}
+\begin{equation}\label{Eq2:contFracRepresentation}
+	E_n(z) = \euler^{-z}\left(\frac{1}{z+}\frac{n}{1+}\frac{1}{z+}\frac{n+1}{1+}\frac{2}{z+}\frac{n+2}{1+}\frac{3}{z+}\cdots\right).
+\end{equation}
+In~\cite[p. 222]{Press1988nri} Press et al. present an even faster converging continued fraction given by
+\begin{equation}\label{Eq2:contFracRepresentation2}
+	E_n(z) = \euler^{-z}\left(\frac{1}{z+n-}\frac{1\cdot n}{z+n+2-}\frac{2(n+1)}{z+n+4-}\frac{3(n+2)}{z+n+6-}\cdots\right).
+\end{equation}
+It is here suggested to use \Cref{Eq2:seriesRepresentation} when $|z|\lesssim 1$ and \Cref{Eq2:contFracRepresentation} or \Cref{Eq2:contFracRepresentation2} when $|z|\gtrsim 1$. Press et al. then continue to present efficient algorithms for evaluation of these formulas.
+
+Using series expansions at infinity
+\begin{equation}
+	\frac{1}{\rho^2-\varrho_1^2} = \frac{1}{\varrho_1^2}\sum_{j=1}^\infty \left(\frac{\varrho_1}{\rho}\right)^{2j},
+\end{equation}
+the radial integrals for 3D infinite elements may be computed by
+\begin{align}
+	\int_1^\infty \frac{1}{\rho^n}\idiff\rho &= \frac{1}{n-1}\\
+	\int_1^\infty \frac{1}{(\rho^2-\varrho_1^2)\rho^{n-1}}\idiff\rho &= \sum_{j=0}^\infty \frac{\varrho_1^{2j}}{2j+n}
+\end{align}
+in the conjugated case and
+\begin{align}
+	\int_1^\infty \frac{\euler^{2\imag \varrho_2 \rho}}{\rho^n}\idiff\rho &= E_n(-2\imag \varrho_2)\\
+	\int_1^\infty \frac{\euler^{2\imag \varrho_2\rho}}{(\rho^2-\varrho_1^2)\rho^{n-1}}\idiff\rho &= \sum_{j=0}^\infty \varrho_1^{2j}E_{2j+n+1}(-2\imag \varrho_2)
+\end{align}
+in the unconjugated case.

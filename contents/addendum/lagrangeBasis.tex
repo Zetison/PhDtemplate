@@ -1,0 +1,112 @@
+\section{Lagrange basis functions and GLL nodes}
+The Lagrange polynomials are given by\footnote{Note that we do not use the conventional notation $l_i(x)$ for the Lagrange basis functions due to conflict with the index $l$.}
+\begin{equation*}
+	l_i(\xi) = \prod_{\substack{j = 1 \\ j\neq i}}^n\frac{\xi-\xi_j}{\xi_i-\xi_j}
+\end{equation*}
+where $\Xi = \{\xi_i\}_{i=1}^n$ are the interpolation nodes. Note the important interpolatory property of the Lagrange basis functions
+\begin{equation}\label{Eq5:LagrangeProperty}
+	l_i(\xi_j) = \delta_{ij}
+\end{equation}
+where $\delta_{ij}$ is the Kronecker delta
+\begin{equation*}
+	\delta_{ij} = \begin{cases}
+		1 & i = j\\
+		0 & i \neq j.
+	\end{cases}
+\end{equation*}
+Also note that the derivative of the Lagrange basis functions are given by
+\begin{equation*}
+	l'_i(\xi) = \sum_{\substack{l = 1\\l\neq i}}^n\frac{1}{\xi_i-\xi_l}\prod_{\substack{j = 1\\  j\neq i,l}}^n\frac{\xi-\xi_j}{\xi_i-\xi_j}.
+\end{equation*}
+In particular,
+\begin{equation}\label{Eq5:derivativesAtNodes}
+	l'_i(\xi_i) = \sum_{\substack{l=1\\l\neq i}}^n \frac{1}{\xi_i-\xi_l} \quad
+\end{equation}
+and
+\begin{equation}\label{Eq5:derivativesAtNodes2}
+	l_i'(\xi_l) = \frac{1}{\xi_i-\xi_l}\prod_{\substack{j = 1\\  j\neq i,l}}^n\frac{\xi_l-\xi_j}{\xi_i-\xi_j}\qquad l \neq i.
+\end{equation}
+\begin{definition}\label{Def:nodes}
+The Gauss-Lobatto-Legendre (GLL\footnote{These nodes also goes by the name Legendre-Gauss-Lobatto (LGL) nodes.}) nodes, $\{\xi_i\}_{i=1}^n$, are the roots of the completed Lobatto polynomial of degree $n$. That is, they are the solutions to the following equation
+	\begin{equation*} %\label{Eq5:CompleteLobatto}
+		(1-\xi^2)\legendre'_{n-1}(\xi) = 0
+	\end{equation*}
+	where $\legendre_{\check{p}}(\xi)$ are the Legendre polynomial of degree $\check{p}$.
+\end{definition}
+Note that $\xi_1= -1$ and $\xi_n=1$. Inspired by \cite[p. 305-306]{Fichtner2010fsw} we present the following theorem\footnote{The converse theorem was proved in \cite[p. 305-306]{Fichtner2010fsw}.}.
+\begin{theorem}
+	Let $\{\xi_i\}_{i=1}^n$ be the GLL nodes. Then the Lagrange polynomials defined by these nodes have the property
+	\begin{equation*}
+		l_i'(\xi_i) = \begin{cases}
+			-\frac{n(n-1)}{4} & i=1\\
+			\frac{n(n-1)}{4} & i=n\\
+			0 & \text{otherwise.}
+		\end{cases}
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	Consider the \textit{generating polynomial}
+	\begin{equation*}
+		\Phi_n(\xi) = \prod_{j=1}^n (\xi-\xi_j) = (\xi-\xi_1)(\xi-\xi_2)\cdots(\xi-\xi_n)
+	\end{equation*}
+	and note that (using the product rule)
+	\begin{equation}\label{Eq5:dPhi}
+		\Phi_n'(\xi) = \sum_{l=1}^n \prod_{\substack{j=1\\j\neq l}}^n (\xi-\xi_j)\qquad\Rightarrow\qquad  \Phi_n'(\xi_i) = \prod_{\substack{j=1\\j\neq i}}^n (\xi_i-\xi_j)
+	\end{equation}
+	and
+	\begin{equation*}
+		\Phi_n''(\xi) = \sum_{l=1}^n \sum_{m=1}^n \prod_{\substack{j=1\\j\neq l,m}}^n (\xi-\xi_j)\qquad\Rightarrow\qquad  \Phi_n''(\xi_i) = 2\sum_{\substack{l=1\\l\neq i}}^n \prod_{\substack{j=1\\j\neq i,l}}^n (\xi_i-\xi_j).
+	\end{equation*}
+	Then, by writing the sum of fractions in \Cref{Eq5:derivativesAtNodes} as a single fraction (with a common denominator) we get
+	\begin{equation}\label{Eq5:BderivPhi}
+		l_i'(\xi_i) = \sum_{\substack{j=1\\j\neq i}}^n \frac{1}{\xi_i-\xi_j} = \frac{\displaystyle\sum_{\substack{l=1\\l\neq i}}^n\prod_{\substack{j=1\\j\neq i,l}}^n (\xi_i-\xi_j)}{\displaystyle\prod_{\substack{j=1\\j\neq i}}^n (\xi_i-\xi_j)} =\frac{\frac12\Phi_n''(\xi_i)}{\Phi_n'(\xi_i)}.
+	\end{equation}
+	Since $\{\xi_i\}_{i=2}^{n-1}$ are the roots of $\legendre_{n-1}'(\xi)$ we may write
+	\begin{equation}\label{Eq5:LegendreDeriv}
+		\legendre_{n-1}'(\xi) = C\prod_{j=2}^{n-1}(\xi-\xi_j)
+	\end{equation}
+	for some non-zero constant $C$, and thus
+	\begin{equation}\label{Eq5:LegendrePhiCouple}
+		 \left(\xi^2-1\right)\legendre_{n-1}'(\xi) = C\Phi_n(\xi).
+	\end{equation}
+	We know that the Legendre polynomials $\legendre_{n-1}(\xi)$ solves the Legendre differential equation
+	\begin{equation}\label{Eq5:LegendreDiff}
+		\deriv{}{\xi}\left[\left(1-\xi^2\right)\deriv{}{\xi}\legendre_{n-1}(\xi)\right] + n(n-1)\legendre_{n-1}(\xi) = 0.
+	\end{equation}
+	Combining \Cref{Eq5:LegendrePhiCouple} and \Cref{Eq5:LegendreDiff} yields
+	\begin{equation*}
+		-C\Phi_n'(\xi) = -2\xi \legendre_{n-1}'(\xi) + \left(1-\xi^2\right)\legendre_{n-1}''(\xi) = -n(n-1)\legendre_{n-1}(\xi)
+	\end{equation*}
+	and then
+	\begin{equation}\label{Eq5:LegendrePhiCouple2}
+		C\Phi_n''(\xi) = n(n-1)\legendre_{n-1}'(\xi).
+	\end{equation}
+	This means that $\Phi_n''(\xi_i)=0$ for $i=2,\dots,n-1$, and thus, from \Cref{Eq5:BderivPhi} we see that $l_i'(\xi_i)=0$ for $i=2,\dots,n-1$.
+	
+	Using \Cref{Eq5:dPhi,Eq5:LegendreDeriv,Eq5:LegendrePhiCouple2} we have
+	\begin{align*}
+		C\Phi_n''(\xi_1) &= n(n-1)\legendre_{n-1}'(\xi_1) = n(n-1)C\prod_{j=2}^{n-1} (\xi_1-\xi_j) \\
+		&= C\frac{n(n-1)}{\xi_1-\xi_n} \Phi_n'(\xi_1)  = -C\frac{n(n-1)}{2} \Phi_n'(\xi_1) 
+	\end{align*}
+	and correspondingly
+	\begin{equation*}
+		C\Phi_n''(\xi_n) = C\frac{n(n-1)}{2} \Phi_n'(\xi_n) 
+	\end{equation*}
+	which enables us to write $l_1'(\xi_1)$ and $l_n'(\xi_n)$ as (using \Cref{Eq5:BderivPhi})
+	\begin{equation*}
+		l_1'(\xi_1) =- \frac{n(n-1)}{4}\quad\text{and}\quad l_n'(\xi_n) = \frac{n(n-1)}{4},
+	\end{equation*}
+	respectively.
+\end{proof}
+\begin{remark}
+	Using \Cref{Eq5:dPhi} one can rewrite \Cref{Eq5:derivativesAtNodes2} as
+	\begin{equation*}
+	l_i'(\xi_l) = \frac{1}{\xi_i-\xi_l}\prod_{\substack{j = 1\\  j\neq i,l}}^n\frac{\xi_l-\xi_j}{\xi_i-\xi_j}= \frac{1}{\xi_l-\xi_i}\frac{\Phi_n'(\xi_l)}{\Phi_n'(\xi_i)}\qquad l \neq i.
+	\end{equation*}
+\end{remark}
+\begin{remark}
+	Using \Cref{Eq5:derivativesAtNodes2} one can evaluate the following special cases in closed form
+	\begin{equation*}
+	l_n'(\xi_1) = \frac{(-1)^n}{2}\quad\text{and}\quad l_1'(\xi_n) = -\frac{(-1)^n}{2}.
+	\end{equation*}
+\end{remark}

@@ -1,0 +1,12 @@
+\label{Part:appendices}
+\renewcommand{\contents}{contents/appendices}%
+\markboth{Appendices}{}%
+\crefalias{section}{appsec}
+\renewcommand{\thesection}{\Alph{section}}%
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}%   
+\startappendixeqnumbering%
+\chapter*{Appendices}
+\input{\contents/infiniteElementsBilinearForm}
+\input{\contents/raytracing}
+\input{biblatexCode}

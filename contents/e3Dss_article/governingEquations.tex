@@ -1,0 +1,78 @@
+\section{Governing equations}
+\label{Sec1:govEquations}
+In this section the governing equations for the problem at hand will be presented. In~\cite[pp. 13-14]{Ihlenburg1998fea} Ihlenburg briefly derives the governing equations for the acoustic-structure interaction problem. As the physical problem of interest is a time dependent problem, it is natural to first present the governing equations in the time-domain before presenting the corresponding equations in the frequency domain (obtained by Fourier transformation). It is noted right away that the fields described in this paper (both in the time-domain and frequency-domain) are all perturbation fields.
+
+\subsection{Governing equations in the time domain}
+Einstein's summation convention will be used throughout this work, such that repeated indices in products imply summation. For example, any vector $\vec{x}\in\R^3$ can be expressed as
+\begin{equation}
+	\vec{x}=\begin{bmatrix}
+	x_1\\
+	x_2\\
+	x_3
+\end{bmatrix} = \sum_{i=1}^3 x_i\vec{e}_i = x_i\vec{e}_i,
+\end{equation}
+where $\vec{e}_i\in\R^3$ is the standard basis vectors in a three-dimensional Euclidean space.
+
+Let $\breve{\vec{u}} = \breve{u}_i\vec{e}_i$ be the time-dependent displacement field in a given solid domain, and $\breve{\vec{\sigma}}$ the corresponding stress tensor (see \Cref{Sec1:LinearElasticity} for details). Each of the components depend on the spatial variable $\vec{x}$ and the time variable $t$, such that $\breve{\vec{u}} = \breve{\vec{u}}(\vec{x},t)$. The solid domain is then governed by Navier's equation of motion~\cite{Fender1972sfa} (derived from Newton's second law) 
+\begin{equation}\label{Eq1:navierTime}
+	G\nabla^2\breve{\vec{u}}+\left(K+\frac{G}{3}\right)\nabla(\nabla \cdot\breve{\vec{u}}) = \rho_{\mathrm{s}}\pderiv[2]{\breve{\vec{u}}}{t},
+\end{equation}
+which is equivalent to~\cite[p. 223]{Slaughter2002tlt}
+\begin{equation}
+	\pderiv{\breve{\sigma}_{ij}}{x_j} = \rho_{\mathrm{s}}\pderiv[2]{\breve{u}_i}{t},\quad i=1,2,3.
+\end{equation}
+The \textit{bulk modulus}, $K$, and the \textit{shear modulus}, $G$, can be defined by the Young's modulus, $E$, and Poisson's ratio, $\nu$, as
+\begin{equation}
+	K = \frac{E}{3(1-2\nu)}\quad\text{and}\quad G = \frac{E}{2(1+\nu)}.
+\end{equation}
+
+Correspondingly, denote by $\breve{p}$ the time-dependent scattered pressure field in a given fluid domain, which is governed by the wave equation
+\begin{equation}\label{Eq1:waveEquation}
+	\nabla^2 \breve{p} = \frac{1}{c_{\mathrm{f}}^2} \pderiv[2]{\breve{p}}{t}.
+\end{equation}
+
+\subsection{Governing equations in the frequency domain}
+The dimension of the governing equations may be reduced by one using a time--frequency Fourier\footnote{The sign convention in the Fourier transform differs from the classical Fourier transform~\cite{ISO2009qau}, but agrees with most literature on the subject, for example~\cite{Fender1972sfa,Ihlenburg1998fea,Jensen2011coa,Goodman1962rat}.} pair~\cite[p. 71]{Jensen2011coa}\begin{align}
+	\Psi(\vec{x},\omega) = \left(\fourier\breve{\Psi}(\vec{x},\cdot)\right)(\omega) &= \int_{-\infty}^\infty \breve{\Psi}(\vec{x},t)\euler^{\imag \omega t}\idiff t\label{Eq1:Psi}\\
+	\breve{\Psi}(\vec{x},t) = \left(\fourier^{-1}\Psi(\vec{x},\cdot)\right)(t)  &= \frac{1}{2\PI}\int_{-\infty}^\infty \Psi(\vec{x},\omega)\euler^{-\imag \omega t}\idiff \omega\label{Eq1:Psit}
+\end{align}
+where $\Psi$ represents the scattered pressure field $p$ or the displacement field $\vec{u}$. The frequency $f$ and the angular frequency $\omega$ is related by $\omega = 2\PI f$, and the angular wave number is given by $k=\omega/c_{\mathrm{f}}$.
+
+Consider first the scattered pressure. By differentiating \Cref{Eq1:Psit} twice with respect to time, such that
+\begin{equation}
+	\pderiv[2]{}{t}\breve{p}(\vec{x},t) = -\omega^2\breve{p}(\vec{x},t),
+\end{equation}
+the following is obtained (using \Cref{Eq1:waveEquation})
+\begin{align*}
+	\nabla^2 p(\vec{x},\omega) + k^2 p(\vec{x},\omega) &= \int_{-\infty}^\infty \nabla^2\breve{p}(\vec{x},t)\euler^{\imag \omega t}\idiff t + \int_{-\infty}^\infty k^2 \breve{p}(\vec{x},t)\euler^{\imag \omega t}\idiff t\\
+	&= \int_{-\infty}^\infty \left[\nabla^2\breve{p}(\vec{x},t)-\frac{1}{c_{\mathrm{f}}^2}\pderiv[2]{}{t}\breve{p}(\vec{x},t)\right]\euler^{\imag \omega t}\idiff t = 0.
+\end{align*}
+That is, $p(\vec{x},\omega)$ satisfies the Helmholtz equation
+\begin{equation}\label{Eq1:helmholtz}
+	\nabla^2 p + k^2p = 0.
+\end{equation}
+A corresponding argument shows that the displacement field $\vec{u}(\vec{x},\omega)$ satisfies
+\begin{equation}\label{Eq1:navier}
+	G\nabla^2\vec{u}+\left(K+\frac{G}{3}\right)\nabla(\nabla \cdot\vec{u}) +\rho_{\mathrm{s}}\omega^2\vec{u} = \zerovec.
+\end{equation}
+The scattered pressure, $p$, must in addition to the Helmholtz equation satisfy the Sommerfeld radiation condition for the outermost fluid layer~\cite{Sommerfeld1949pde}
+\begin{equation}\label{Eq1:Sommerfeld}
+	\pderiv{p(\vec{x},\omega)}{r}-\imag k p(\vec{x},\omega) = o\left(r^{-1}\right)\quad r=|\vec{x}|
+\end{equation}	
+as $r\to\infty$ uniformly in $\hat{\vec{x}}=\frac{\vec{x}}{r}$.
+
+The coupling conditions (Neumann-to-Neumann) between the solid and the fluid boundaries are given by~\cite[pp. 13-14]{Ihlenburg1998fea}
+\begin{align}
+	\rho_{\mathrm{f}} \omega^2 u_i n_i - \pderiv{p_{\mathrm{tot}}}{n} &= 0\\
+	\sigma_{ij}n_i n_j + p_{\mathrm{tot}} &= 0
+\end{align}
+where $\vec{n}$ is the normal vector at the surface, and $p_{\mathrm{tot}}$ is the total pressure\footnote{Since only perturbation fields are considered, $p_{\mathrm{tot}}$ does not include the static background pressure (and does therefore not represent the physical total pressure field).} (scattered pressure with the incident pressure field added for the outermost fluid). In addition, since the fluid is assumed to be ideal, there is no tangential traction at the surfaces. For spherical symmetric objects $\vec{n}=\vec{e}_{\mathrm{r}}$, such that the coupling equations reduces to
+\begin{align}
+	\rho_{\mathrm{f}} \omega^2 u_{\mathrm{r}} - \pderiv{p_{\mathrm{tot}}}{r} &= 0\label{Eq1:firstBC}\\
+	\sigma_{\mathrm{rr}} + p_{\mathrm{tot}} &= 0\label{Eq1:secondBC}
+\end{align}
+in the spherical coordinate system (see \Cref{Sec1:sphericalCoordinates}). The tangential traction free boundary conditions become~\cite[p. 15]{Chang1994voa}
+\begin{align}
+	\sigma_{\mathrm{r}\upvartheta} &= 0\label{Eq1:traction1}\\
+	\sigma_{\mathrm{r}\upvarphi} &= 0\label{Eq1:traction2}.
+\end{align}

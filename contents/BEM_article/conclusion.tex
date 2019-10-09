@@ -1,0 +1,38 @@
+%\clearpage
+\section{Conclusions}
+\label{Sec3:conclusions}
+This article addresses acoustic scattering characterized by sound waves reflected by man-made elastic objects. The present approach is characterized by:
+\begin{itemize}
+	\item The scatterer is discretized using isogeometric analysis (IGA), which enables discretization directly from the basis functions used in the computer aided design (CAD) description of the model.
+	\item Both collocation and Galerkin method are considered in combination with several boundary integral equation (BIE) formulations including the conventional (CBIE) formulation and the Burton--Miller (BM) formulation.
+	\item The method of manufactured solution is used as a quality insurance.
+\end{itemize}
+
+The main finding of the present study is that the use of IGA significantly increases the accuracy compared to the use of $C^0$ finite element analysis (FEA) due to increased inter-element continuity of the spline basis functions.
+
+Furthermore, the following observations are made
+\begin{itemize}
+	\item IGA's ability to represent the geometry exactly was observed to be of less importance for accuracy when comparing to higher order ($\hat{p}\geq 2$) isoparametric FEA. However, a more significant improvement offered by IGA is due to higher continuity of the spline basis functions in the solution space.
+	\item For linear approximation of the geometry using classical boundary element method (BEM) the convergence order is reduced for higher order sub parametric elements.
+	\item For resolved meshes, the IGA framework enables roughly the same accuracy per element (compared to higher order isoparametric FEA) even though the number of degrees of freedom is significantly reduced.
+	\item IGA is more computationally efficient than FEA to obtain highly accurate solutions. That is, when the mesh is sufficiently resolved, a given accuracy is obtained computationally faster using IGA.
+	\item The collocation simulations have reduced accuracy compared to Galerkin simulations, especially for the hypersingular BIE (HBIE) formulation and BM formulation. Better located collocation points may remedy this difference and is suggested as future work.
+	\item The method of manufactured solution enables a convenient method of checking the mesh quality and to some extent the numerical accuracy of the rigid body scattering problem. It can be used to check the presence of fictitious eigenfrequencies.
+	\item The improved adaptive integration procedure presented in this work uses significantly less quadrature points than the integration procedure presented in~\cite{Simpson2014aib} for a given accuracy.
+	\item The presence of non-Lipschitz domain does not in principle cause problems for the analysis suitability of the problem as the best approximation is not significantly affected by such areas. However, for the boundary element method, the integral over singular kernels in such domain may cause problems. This is especially the case for highly accurate solution as round-off errors may become significant.
+	\item Regularizing the weakly singular integrands in the BIEs does not eliminate the need for special quadrature rules around the source points. The small reduction in the number of quadrature points needed for the three versions of the regularized conventional BIE (RCBIE1, RCBIE2 and RCBIE3) formulations compared to the CBIE formulation is arguable not significant.
+	\item Using the collocation method, an advantage for the CBIE formulation compared with the regularized formulations (RCBIE1, RCBIE2 and RCBIE3) is that there is no need to compute the normal vector at the collocation point for the CBIE formulation which could be problematic if the geometric mapping is singular at that point (as is the case for the north and south pole of the parametrization in \Cref{Fig3:parm1} and several locations for the BeTSSi submarine).
+	\item The Galerkin method obtains results remarkably close to the best approximation combined with any formulation, illustrating the sharpness of the a priori error estimate in~\Cref{Eq3:aprioriErrorEstimate}.
+\end{itemize}
+The Burton-Miller formulation yields somewhat reduced accuracy in combination with the collocation method, which is the cost of removing fictitious eigenfrequencies. Another popular alternative is the combined Helmholtz integral formulation (CHIEF) framework which does not have this reduction in accuracy but has other downsides. By adding more constraints to the linear system of equations, the CHIEF method can remove fictitious eigenfrequencies with the cost of having to solve an over determined linear system of equations (using for example least squares). The main disadvantage with the CHIEF framework, however, is arguably the difficulty of finding interior points at which to evaluate the BIEs. This is especially problematic for high frequencies. An approach for solving this issue was made in~\cite{Wu1991awr}. The results in this work may be improved even further with the discontinuous IGABEM~\cite{Sun2019dib}.
+
+The boundary element method is the method of choice in the BeTSSi community for obtaining accurate results for the BeTSSi submarine, mainly to avoid surface-to-volume parametrization. Although IGABEM seems to be a prominent framework to solve acoustic scattering problems, there are still issues on the BeTSSi submarine that was not resolved in this paper, in particular the integration procedure over non-Lipschitz areas on the BeTSSi submarine.
+
+\section*{Acknowledgements}
+This work was supported by the Department of Mathematical Sciences at the Norwegian University of Science and Technology and by the Norwegian Defence Research Establishment.
+
+The publication of the BeTSSi models (storage of large data files) was provided by UNINETT Sigma2 - the National Infrastructure for High Performance Computing and Data Storage in Norway.
+
+The authors would like to thank Jan Ehrlich and Ingo Schaefer (WTD 71) for their simulations on the BeTSSi submarine and additional fruitful discussions.
+
+The authors would also like to thank the reviewers for detailed response and many constructive comments.

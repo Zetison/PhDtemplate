@@ -1,0 +1,767 @@
+\section{Analytic solution for spherical shell}
+\label{Sec2:analyticSolution}
+There are few known analytic solution to full 3D scattering problems, but for the spherical shell, the exact solution is known (the exact solution is also known for a solid sphere, but this case will not be considered). Whenever the spherical shell is analyzed, we shall mainly use the parameters found in \Cref{Tab2:sphericalShellParameters}. It is typically also possible to construct analytic solution to an in homogeneous Helmholtz equation by inserting an arbitrary smooth solution and calculate the resulting right hand side. Correspondingly for elasticity problems with body forces. However, for the homogeneous equations one does not have this liberty. Elastic scattering on a spherical shell thus serves as a valuable test problem before geometries with higher complexity may be analyzed.
+\begin{table}
+	\centering
+	\caption[Parameters for spherical shell]{Parameters for spherical shell.}
+	\label{Tab2:sphericalShellParameters}
+	\begin{tabular}{l l}
+		\toprule
+		Parameter & Description\\
+		\midrule
+		$E = 2.07\cdot 10^{11}\unit{Pa}$ & Young's modulus\\
+		$\rho_s = 7669\unit{kg/m^3}$ & Density of solid\\
+		$\rho_{\mathrm{f}} = 1000\unit{kg/m^3}$ & Density of fluid\\
+		$\nu = 0.3$ & Poisson's ratio\\
+		$c_{\mathrm{f}} = 1524\unit{m/s}$ & Fluid speed of sound\\
+		$t = 0.15\unit{m}$ & Thickness of the shell\\
+		$R = 5\unit{m}$ & Radius of the midsurface of the shell\\
+		$R_0 = 5.075\unit{m}$ & Outer radius of the shell\\
+		$P_0 = 1$ & Amplitude of incident wave\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Fundamental functions}
+Exact solutions for the spherical shell are heavily based on the spherical coordinate system defined in \Cref{Sec2:sphericalCoordinates}. Some fundamental functions then naturally arise, and we shall briefly present their notation in the following.
+
+As the \textit{Bessel functions} (or \textit{cylindrical harmonics}) are implemented in \MATLAB, we shall use these functions as a starting point. 
+
+\subsubsection{Legendre polynomials}
+The Legendre polynomials are defined recursively by (cf.~\cite[p. 332]{Abramovitz1964ham})
+\begin{equation*}
+	(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x)
+\end{equation*}
+starting with $P_0(x) = 1$ and $P_1(x) = x$. The first five of these two sets of functions are illustrated in \Cref{Fig2:legendrePolynomials}. The solutions presented involving these functions appears as $P_n(\cos\vartheta)$, so we also plot these functions in \Cref{Fig2:legendrePolynomials2}.
+\tikzsetnextfilename{legendrePolynomials}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			legend style={
+				at={(0.97,0.03)},
+				anchor=south east
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$x$,
+			ylabel=$P_n$,
+%			ymax=19,
+			ymin=-1.4,	
+			ymax=1.4,		
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n0.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n1.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n2.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n3.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n4.dat};
+			\addlegendentry{$P_0$}
+			\addlegendentry{$P_1$}
+			\addlegendentry{$P_2$}
+			\addlegendentry{$P_3$}
+			\addlegendentry{$P_4$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Legendre polynomials]{\textbf{Legendre polynomials}: The first 5 Legendre polynomials $P_n(x)$.}
+\label{Fig2:legendrePolynomials}
+\vspace{2cm}
+	\tikzsetnextfilename{legendrePolynomials2}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			legend style={
+				at={(0.03,0.03)},
+				anchor=south west
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$\vartheta$,
+			ylabel=$P_n(\cos\vartheta)$,
+%			ymax=19,
+%			ymin=-4,		
+			ymin=-1.4,	
+			ymax=1.4,	
+		    xtick={0,0.785398163397448, 1.570796326794897,2.356194490192345, 3.141592653589793},
+		    xticklabels={$0$,$\frac{\pi}{4}$,$\frac{\pi}{2}$,$\frac{3\pi}{4}$,$\pi$},
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n0_cosTheta.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n1_cosTheta.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n2_cosTheta.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n3_cosTheta.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/legendre_n4_cosTheta.dat};
+			\addlegendentry{$P_0(\cos\vartheta)$}
+			\addlegendentry{$P_1(\cos\vartheta)$}
+			\addlegendentry{$P_2(\cos\vartheta)$}
+			\addlegendentry{$P_3(\cos\vartheta)$}
+			\addlegendentry{$P_4(\cos\vartheta)$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Legendre polynomials as a function of the polar angle]{\textbf{Legendre polynomials}: The first 5 Legendre polynomials $P_n$ evaluated at $\cos\vartheta$ for $\vartheta\in[0, \pi]$.}
+\label{Fig2:legendrePolynomials2}
+\end{figure}
+
+\subsubsection{Bessel functions}
+The Bessel functions of the first kind are defined by
+\begin{equation*}
+	J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma(m+\alpha+1)}\left(\frac{x}{2}\right)^{2m+\alpha},
+\end{equation*}
+while the Bessel functions of the second kind are defined by
+\begin{equation*}
+	Y_\alpha(x) = \frac{J_\alpha \cos(\alpha\pi)-J_{-\alpha}(x)}{\sin(\alpha\pi)},
+\end{equation*}
+where
+\begin{equation*}
+	Y_n(x) = \lim_{\alpha\to n} Y_\alpha(x)
+\end{equation*}
+whenever $n\in\Z$ (cf.~\cite[p. 358]{Abramovitz1964ham}). The derivatives of these functions are given by
+\begin{equation*}
+	J_\alpha'(x) = \begin{cases}
+		\frac{1}{2}\left(J_{\alpha-1}-J_{\alpha+1}\right)\quad&\alpha\neq 0\\
+		-J_1(x) \quad &\alpha=0
+	\end{cases}
+\end{equation*}
+and
+\begin{equation*}
+	Y_\alpha'(x) = \begin{cases}
+		\frac{1}{2}\left(Y_{\alpha-1}-Y_{\alpha+1}\right)\quad&\alpha\neq 0\\
+		-Y_1(x) \quad &\alpha=0.
+	\end{cases}
+\end{equation*}
+The first five functions of these two sets of functions are illustrated in \Cref{Fig2:besselFunctions1} and \Cref{Fig2:besselFunctions2}, respectively.
+\tikzsetnextfilename{besselFunctions1}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$x$,
+			ylabel=$J_n$,
+			ymin=-0.55,	
+			ymax=1.15,	
+%			ymax=19,
+%			ymin=-1,		
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel1_n0.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel1_n1.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel1_n2.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel1_n3.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel1_n4.dat};
+			\addlegendentry{$J_0$}
+			\addlegendentry{$J_1$}
+			\addlegendentry{$J_2$}
+			\addlegendentry{$J_3$}
+			\addlegendentry{$J_4$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Bessel function of first kind]{\textbf{Bessel function of first kind}: The first 5 Bessel functions of first kind $J_n(x)$.}
+\label{Fig2:besselFunctions1}
+\vspace{2cm}
+	\tikzsetnextfilename{besselFunctions2}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			legend style={
+				at={(0.97,0.03)},
+				anchor=south east
+			},
+			xlabel=$x$,
+			ylabel=$Y_n$,
+			ymax=0.6,
+			ymin=-1,	
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel2_n0.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel2_n1.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel2_n2.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel2_n3.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/bessel2_n4.dat};
+			\addlegendentry{$Y_0$}
+			\addlegendentry{$Y_1$}
+			\addlegendentry{$Y_2$}
+			\addlegendentry{$Y_3$}
+			\addlegendentry{$Y_4$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Bessel function of second kind]{\textbf{Bessel function of second kind}: The first 5 Bessel functions of second kind $Y_n(x)$.}
+\label{Fig2:besselFunctions2}
+\end{figure}
+
+We may now use these definitions to define the \textit{spherical Bessel functions}. The spherical Bessel functions of the first kind are defined by (cf.~\cite[p. 437]{Abramovitz1964ham})
+\begin{equation*}
+	j_n(x) = \sqrt{\frac{\pi}{2x}}J_{n+\frac{1}{2}}(x)
+\end{equation*}
+and the second kind are defined by
+\begin{equation*}
+	y_n(x) = \sqrt{\frac{\pi}{2x}}Y_{n+\frac{1}{2}}(x).
+\end{equation*}
+The first five functions of these two sets of functions are illustrated in \Cref{Fig2:sphericalBesselFunctions1} and \Cref{Fig2:sphericalBesselFunctions2}. The derivatives of these functions are simply found by the product rule
+\begin{equation*}
+	j_n'(x) = \sqrt{\frac{\pi}{2x}}J_{n+\frac{1}{2}}'(x) -\frac{1}{2} \sqrt{\frac{\pi}{2}}\frac{1}{x^{3/2}}J_{n+\frac{1}{2}}(x)
+\end{equation*}
+and
+\begin{equation*}
+	y_n'(x) = \sqrt{\frac{\pi}{2x}}Y_{n+\frac{1}{2}}'(x) -\frac{1}{2} \sqrt{\frac{\pi}{2}}\frac{1}{x^{3/2}}Y_{n+\frac{1}{2}}(x).
+\end{equation*}
+
+\tikzsetnextfilename{sphericalBesselFunctions1}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$x$,
+			ylabel=$j_n$,
+%			ymax=19,
+%			ymin=-1,	
+			ymin=-0.55,	
+			ymax=1.15,		
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel1_n0.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel1_n1.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel1_n2.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel1_n3.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel1_n4.dat};
+			\addlegendentry{$j_0$}
+			\addlegendentry{$j_1$}
+			\addlegendentry{$j_2$}
+			\addlegendentry{$j_3$}
+			\addlegendentry{$j_4$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Spherical Bessel function of first kind]{\textbf{Spherical Bessel function of first kind}: The first 5 Spherical Bessel functions of first kind $j_n(x)$.}
+\label{Fig2:sphericalBesselFunctions1}
+\vspace{2cm}
+	\tikzsetnextfilename{sphericalBesselFunctions2}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			legend style={
+				at={(0.97,0.03)},
+				anchor=south east
+			},
+			xlabel=$x$,
+			ylabel=$y_n$,
+			ymax=0.6,
+			ymin=-1,	
+%			xmin = 0.2,
+%			xmax = 0.72
+			]
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel2_n0.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel2_n1.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel2_n2.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel2_n3.dat};
+			\addplot table[x=x,y=y] {../../data/plotData/fundamentalFunctions/sphericalBessel2_n4.dat};
+			\addlegendentry{$y_0$}
+			\addlegendentry{$y_1$}
+			\addlegendentry{$y_2$}
+			\addlegendentry{$y_3$}
+			\addlegendentry{$y_4$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Spherical Bessel function of second kind]{\textbf{Spherical Bessel function of second kind}: The first 5 Spherical Bessel function of second kind $y_n(x)$.}
+\label{Fig2:sphericalBesselFunctions2}
+\end{figure}
+
+\subsubsection{Spherical Hankel functions}
+The spherical Hankel functions of the first kind are now given by
+\begin{equation*}
+	h_n(x) = j_n(x) +  \imag y_n(x)
+\end{equation*}
+with a derivative given by
+\begin{equation*}
+	h_n'(x) = j_n'(x) +  \imag y_n'(x).
+\end{equation*}
+The spherical Hankel functions of the second kind are simply defined by
+\begin{equation*}
+	h_n^{(2)}(x) = j_n(x) -  \imag y_n(x).
+\end{equation*}
+As these solution will represent in-going waves in scattering problems, they will not be used (They will be eliminated by the Sommerfield condition, which we will come back to).
+
+\subsection{Simplifying notations}
+In~\cite[pp. 12-20]{Chang1994voa} the exact 3D elasticity solution for the spherical shell is presented. We shall repeat the final formulas here, but will adopt them to the notation of the thesis and do some simplifications in the expressions. As the formulas involved are quite comprehensive, we shall start by defining some simplifying notation. For convenience, we define
+\begin{equation*}
+	Z_{n}^{(1)}(x) = j_n(x),\quad\text{and}\quad Z_{n}^{(2)}(x) = y_n(x),
+\end{equation*}
+such that we can define
+\begin{align*}
+	U_1^{(i)}(x) &= nZ_n^{(i)}(x)-xZ_{n+1}^{(i)}(x)\\
+	U_3^{(i)}(x) &= n(n+1)Z_n^{(i)}(x)\\
+	T_{11}^{(i)}(x) &= \left[n^2-n-\frac{1}{2}\left(\frac{\beta}{\alpha}\right)^2 x^2\right] Z_n^{(i)}(x) + 2xZ_{n+1}^{(i)}(x)\\
+	T_{13}^{(i)}(x) &= n(n+1)\left[(n-1)Z_n^{(i)}(x) - xZ_{n+1}^{(i)}(x)\right]\\
+	T_{21}^{(i)}(x) &= \left[-n^2-\frac{1}{2}\left(\frac{\beta}{\alpha}\right)^2 x^2+x^2\right] Z_n^{(i)}(x) - xZ_{n+1}^{(i)}(x)\\
+	T_{23}^{(i)}(x) &= -(n^2+n)\left[n Z_n^{(i)}(x) - xZ_{n+1}^{(i)}(x)\right] \\
+	T_{31}^{(i)}(x) &= \left[n-\frac{1}{2}x^2+\left(\frac{\alpha}{\beta}\right)^2 x^2\right] Z_n^{(i)}\left(\frac{\alpha}{\beta}x\right) - \frac{\alpha}{\beta}x Z_{n+1}^{(i)}\left(\frac{\alpha}{\beta}x\right)\\
+	T_{33}^{(i)}(x) &= n(n+1)Z_n^{(i)}(x)\\
+	T_{41}^{(i)}(x) &= (n-1) Z_n^{(i)}(x) - xZ_{n+1}^{(i)}(x)\\
+	T_{43}^{(i)}(x) &= \left(n^2-1-\frac{1}{2}x^2\right) Z_n^{(i)}(x) + xZ_{n+1}^{(i)}(x)
+\end{align*}
+where
+\begin{equation*}
+	\alpha=\frac{\omega}{c_1},\quad \beta=\frac{\omega}{c_2},\quad c_1 = \sqrt{\frac{\lambda+2\mu}{\rho_s}},\quad c_2 = \sqrt{\frac{\mu}{\rho_s}}.
+\end{equation*}
+Moreover, we define the coefficients $A_n$, $B_n$, $C_n$ and $D_n$ by
+\begin{equation*}
+	A_0 = \frac{\frac{R_0^2}{2\mu}T_{11}^{(2)}(\alpha R_1)}{\nabla^2_0},\quad B_0=0,\quad
+	C_0 = -\frac{\frac{R_0^2}{2\mu}T_{11}^{(1)}(\alpha R_1)}{\nabla^2_0},\quad D_0=0
+\end{equation*}
+for $n=0$ where
+\begin{equation*}
+	\nabla^2_0=\begin{vmatrix}
+		T_{11}^{(1)}(\alpha R_0) & T_{11}^{(2)}(\alpha R_0)\\
+		T_{11}^{(1)}(\alpha R_1) & T_{11}^{(2)}(\alpha R_1)
+	\end{vmatrix},
+\end{equation*}
+and for $n>0$ we have
+\begin{equation*}
+	A_n = \frac{\nabla^2_{n1}}{\nabla^2_n},\quad B_n = \frac{\nabla^2_{n2}}{\nabla^2_n},\quad C_n = \frac{\nabla^2_{n3}}{\nabla^2_n},\quad D_n = \frac{\nabla^2_{n4}}{\nabla^2_n}
+\end{equation*}
+where
+\begin{equation}\label{Eq2:DeterminantForSphericalShell}
+	\nabla^2_n = \begin{vmatrix}
+		T_{11}^{(1)}(\alpha R_0) & T_{13}^{(1)}(\beta R_0) & T_{11}^{(2)}(\alpha R_0) & T_{13}^{(2)}(\beta R_0)\\
+		T_{11}^{(1)}(\alpha R_1) & T_{13}^{(1)}(\beta R_1) & T_{11}^{(2)}(\alpha R_1) & T_{13}^{(2)}(\beta R_1)\\
+		T_{41}^{(1)}(\alpha R_0) & T_{43}^{(1)}(\beta R_0) & T_{41}^{(2)}(\alpha R_0) & T_{43}^{(2)}(\beta R_0)\\
+		T_{41}^{(1)}(\alpha R_1) & T_{43}^{(1)}(\beta R_1) & T_{41}^{(2)}(\alpha R_1) & T_{43}^{(2)}(\beta R_1)
+	\end{vmatrix}
+\end{equation}
+\begin{equation*}
+	\nabla^2_{n1} = \frac{R_0^2}{2\mu}\begin{vmatrix}
+		T_{13}^{(1)}(\beta R_1) & T_{11}^{(2)}(\alpha R_1) & T_{13}^{(2)}(\beta R_1)\\
+		T_{43}^{(1)}(\beta R_0) & T_{41}^{(2)}(\alpha R_0) & T_{43}^{(2)}(\beta R_0)\\
+		T_{43}^{(1)}(\beta R_1) & T_{41}^{(2)}(\alpha R_1) & T_{43}^{(2)}(\beta R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{n2} = -\frac{R_0^2}{2\mu}\begin{vmatrix}
+		T_{11}^{(1)}(\alpha R_1) & T_{11}^{(2)}(\alpha R_1) & T_{13}^{(2)}(\beta R_1)\\
+		T_{41}^{(1)}(\alpha R_0) & T_{41}^{(2)}(\alpha R_0) & T_{43}^{(2)}(\beta R_0)\\
+		T_{41}^{(1)}(\alpha R_1) & T_{41}^{(2)}(\alpha R_1) & T_{43}^{(2)}(\beta R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{n3} = \frac{R_0^2}{2\mu}\begin{vmatrix}
+		T_{11}^{(1)}(\alpha R_1) & T_{13}^{(1)}(\beta R_1) & T_{13}^{(2)}(\beta R_1)\\
+		T_{41}^{(1)}(\alpha R_0) & T_{43}^{(1)}(\beta R_0) & T_{43}^{(2)}(\beta R_0)\\
+		T_{41}^{(1)}(\alpha R_1) & T_{43}^{(1)}(\beta R_1) & T_{43}^{(2)}(\beta R_1)
+	\end{vmatrix}
+\end{equation*}
+\begin{equation*}
+	\nabla^2_{n4} = -\frac{R_0^2}{2\mu}\begin{vmatrix}
+		T_{11}^{(1)}(\alpha R_1) & T_{13}^{(1)}(\beta R_1) & T_{11}^{(2)}(\alpha R_1)\\
+		T_{41}^{(1)}(\alpha R_0) & T_{43}^{(1)}(\beta R_0) & T_{41}^{(2)}(\alpha R_0)\\
+		T_{41}^{(1)}(\alpha R_1) & T_{43}^{(1)}(\beta R_1) & T_{41}^{(2)}(\alpha R_1)
+	\end{vmatrix}.
+\end{equation*}
+The \textit{mechanical impedance} is now defined by
+\begin{equation*}
+	Z_n=\frac{R_0}{-\imag\omega\left[A_n U_1^{(1)}(\alpha R_0) + C_n U_1^{(2)}(\alpha R_0) + B_n U_3^{(1)}(\beta R_0) + D_n U_3^{(2)}(\beta R_0)\right]}
+\end{equation*}
+and the \textit{specific acoustic impedance} is given by
+\begin{equation*}
+	z_n = \imag\rho_{\mathrm{f}} c_{\mathrm{f}}\frac{h_n(kR_0)}{h_n'(kR_0)}.
+\end{equation*}
+
+\subsection{Vibration of spherical shell in vacuum}
+The eigenvalues of a spherical elastic shell in vacuum is found by solving $\nabla^2_n=0$ (given by \Cref{Eq2:DeterminantForSphericalShell}) for all \textit{modes} $n$. For each mode $n$ there will be infinitely many eigenvalues. For a given $n$, we denote by $\omega_{nm}$ the eigenvalue corresponding to the $\mathrm{m}^\mathrm{th}$ zero of $\nabla^2_n$. The resulting eigenvalues seems to grow as $n$ grows for large $n$ (as shown in \Cref{Fig2:vibrationsOfSphericalShellInVacuumEigenvalues}). In \Cref{Tab2:sphericalShellFirstEigenValues} we show the first 4 zeros of $\nabla^2_n$ for $n$ from 0 to 20. The first four (lowest) eigenvalues are found to be $\omega_{21} = 764.12055$, $\omega_{31} = 907.96676$, $\omega_{41} = 972.16922$ and $\omega_{51} = 1017.829$.
+\begin{table}
+	\centering
+	\caption[Eigenvalues for spherical shell]{\textbf{Vibration of spherical shell in vacuum}: Eigenvalues.}
+	\label{Tab2:sphericalShellFirstEigenValues}
+	\pgfplotstableset{% global config, for example in the preamble
+	% these columns/<colname>/.style={<options>} things define a style
+	% which applies to <colname> only.
+	columns/n/.style={int detect,column type=r,column name=\textsc{$n$}}, 
+	columns/omega_n_0/.style={/pgf/number format/fixed, sci sep align, column name=\textsc{$\omega_{n1}$}},
+	columns/omega_n_1/.style={/pgf/number format/fixed, sci sep align, column name=\textsc{$\omega_{n2}$}},
+	columns/omega_n_2/.style={/pgf/number format/fixed, sci sep align, column name=\textsc{$\omega_{n3}$}},
+	columns/omega_n_3/.style={/pgf/number format/fixed, sci sep align, column name=\textsc{$\omega_{n4}$}},
+	every head row/.style={before row=\toprule,after row=\midrule},
+	every last row/.style={after row=\bottomrule}
+	}
+	\pgfplotstabletypeset[fixed zerofill,precision=6, 1000 sep={\,},1000 sep in fractionals]{../../data/plotData/analyticEigenValuesSphericalShell/sortedEigenvalues.dat}
+\end{table}
+
+\begin{figure}
+	\centering
+	\ifplotData
+	\tikzset{every mark/.append style={scale=0.3}}
+\tikzsetnextfilename{vibrationsOfSphericalShellInVacuumEigenvalues1}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = 0.95\textwidth,
+				height = 0.25\paperheight,
+				% xtick={100, 1000, 10000,100000},
+				%xticklabels={100, 1000, 10000,100000},
+				%ytick={0.001,0.01, 0.1, 1.0, 10.0, 100.0},
+				%yticklabels={0.001,0.01, 0.1, 1.0, 10.0, 100.0},
+				enlarge x limits = true,
+				cycle list={%
+					{myYellow, mark=*}, 
+					{mycolor, mark=*}, 
+					{myGreen, mark=*}, 
+					{myCyan, mark=*}, 
+					{myRed, mark=*},
+				},
+				legend style={
+					at={(0.97,0.03)},
+					anchor=south east,
+				},
+				%xticklabels={0.2, 0.15, 0.1, 0.05, 0},
+				%xmin=80, 
+				ymin=-19000,
+				ymax=220000,
+				% xmax=200000, 
+				xlabel=$n$,
+				ylabel=$\omega_{nm}$]
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/0.dat};
+				\addlegendentry{$1^\mathrm{st}$ zero of $\nabla^2_n$}
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/1.dat};
+				\addlegendentry{$2^\mathrm{nd}$ zero of $\nabla^2_n$}
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/2.dat};
+				\addlegendentry{$3^\mathrm{rd}$ zero of $\nabla^2_n$}
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/3.dat};
+				\addlegendentry{$4^\mathrm{th}$ zero of $\nabla^2_n$}					
+				\addplot [black, dotted] coordinates{(-1, -19000) (10, -19000) (10, 150000) (-1, 150000) (-1, -19000)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{subfigure}
+	\tikzsetnextfilename{vibrationsOfSphericalShellInVacuumEigenvalues2}
+	\begin{subfigure}[b]{0.23\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width = \textwidth,
+				height = 0.25\paperheight,
+				% xtick={100, 1000, 10000,100000},
+				%xticklabels={100, 1000, 10000,100000},
+				%ytick={0.001,0.01, 0.1, 1.0, 10.0, 100.0},
+				%yticklabels={0.001,0.01, 0.1, 1.0, 10.0, 100.0},
+				enlarge x limits = true,
+				cycle list={%
+					{myYellow, mark=*}, 
+					{mycolor, mark=*}, 
+					{myGreen, mark=*}, 
+					{myCyan, mark=*}, 
+					{myRed, mark=*},
+				},
+				%xticklabels={0.2, 0.15, 0.1, 0.05, 0},
+				%xmin=80, 
+				% ymin=0.0007,
+				% xmax=200000, 
+				xlabel=$n$,
+				xmin=-1, 
+				xmax=10, 
+				ymin=-19000,
+				ymax=150000,
+				%ylabel=$\omega_{nm}$,
+	%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+				%yticklabels={},
+				]
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/0.dat};
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/1.dat};
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/2.dat};
+				\addplot table[x=n,y=Eigenvalues] {../../data/plotData/analyticEigenValuesSphericalShell/3.dat};
+			\end{axis}
+		\end{tikzpicture} 
+	\end{subfigure}
+	\fi
+	\caption[Plot of eigenvalues for spherical shell in vacuum]{\textbf{Vibrations of spherical shell in vacuum:} All eigenvalues below $2\cdot 10^5$, which results in 1186 eigenvalues. The plot on the right shows a magnification of the domain inside the dotted lines.}\label{Fig2:vibrationsOfSphericalShellInVacuumEigenvalues}
+\end{figure}
+
+\subsection{Scattering on a rigid sphere}
+\label{Subsubsec:scatteringOnRigidSphere}
+Let the plane wave
+\begin{equation*}
+	p_{\textrm{inc}}(r,\vartheta) = P_0\euler^{\imag kz} = P_0\euler^{\imag kr\cos\vartheta}
+\end{equation*}
+be scattered on a sphere with radius $R$. The resulting scattered wave is then
+\begin{equation*}
+	p_{\mathrm{s}\infty} (r,\vartheta) = -P_0\sum_{n=0}^\infty \imag^n (2n+1) P_n(\cos\vartheta)\frac{j_n'(kR)}{h_n'(kR)} h_n(kr).
+\end{equation*}
+For details of this solution see~\cite[p. 28]{Ihlenburg1998fea}.
+%such that the total pressure is given by
+%\begin{equation*}
+%	p(r,\vartheta) = p_{\textrm{inc}}(r,\vartheta) + p_{s\infty} (r,\vartheta).
+%\end{equation*}
+
+\subsection{Scattering on elastic spherical shell}
+\tikzsetnextfilename{IllustrationOfScattering}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[scale=0.9]
+		\def\a{5}		% Radius of the midsurface of the shell
+		\def\aa{6}		% Radius of the midsurface of the shell
+		\def\rOuter{5.075}		% Ending iteration (if no overlap is wanted set this to be \D-1)
+		\def\t{0.25} 		% Starting angle of characteristics in fan	
+		\def\axisScale{8} 		% Scale length of the axis
+		\def\arrowScale{0.7} 		% Scale length of the axis
+		\def\sqrtTwo{1.414213562373095}
+		
+		\draw[->] (-\a-\axisScale*\t/2,0) -- (\a+\axisScale*\t/2,0) node[right] {$z$};
+		\draw[->] (0,-\a-\axisScale*\t/2) -- (0,\a+\axisScale*\t/2) node[above] {$x$};
+		
+		\filldraw[fill=solid] (0,0) circle (\a+\t/2);
+		\filldraw[fill=white] (0,0) circle (\a-\t/2);
+		\draw[dotted] (0,0) circle (\a);
+		
+		\draw[-] (-\a+\t/2,0) -- (\a-\t/2,0);
+		\draw[-] (0,-\a+\t/2) -- (0,\a-\t/2);
+		\draw[dashed] (0,0) -- (-\aa,\aa) node[above left]{$\vec{P}_{\mathrm{s}}(r_{\mathrm{s}},\alpha_{\mathrm{s}},\beta_{\mathrm{s}})$};
+		
+		\draw[->] (180+45:\a+1) node[above, left] {$t$}  -- (180+45:\a+\t/2);
+		\draw[->] (180+45:\a-1) -- (180+45:\a-\t/2);
+		
+		\draw[->] (0,0) -- node[above=0.1cm, left] {$R$} (180+30:\a);
+		\draw[->] (0,0) -- node[above, left] {$R_1$} (180+45+15:\a-\t/2);
+		\draw[->] (0,0) -- node[below=0.5cm, right=-0.2cm] {$R_0$} (180+45+30:\a+\t/2);
+		
+		\draw[->] (0.5,0) arc (0:135:0.5);
+		\draw (0.3, 0.7) node{$\alpha_{\mathrm{s}}$};
+		
+		\draw[dashed] (0,0) -- (\aa,\aa) node{$\bullet$} node[above]{$\vec{P}_{\mathrm{f}}(r_{\mathrm{f}},\alpha_{\mathrm{f}},\beta_{\mathrm{f}})$};
+		\draw[->] (1,0) arc (0:45:1);
+		\draw (1.2, 0.4) node{$\alpha_{\mathrm{f}}$};
+		
+		\draw[->] (-\aa,\aa) -- (-\aa+1.5,\aa-1.5);
+		\def\dx{2};
+		\def\dy{2};
+		\def\x{-0.95*\aa-\dx/2};
+		\def\y{0.95*\aa-\dy/2};
+		\draw (\x,\y) -- (\x+\dx,\y+\dy);
+		\def\x{-0.9*\aa-\dx/2};
+		\def\y{0.9*\aa-\dy/2};
+		\draw (\x,\y) -- (\x+\dx,\y+\dy);
+		\def\x{-0.85*\aa-\dx/2};
+		\def\y{0.85*\aa-\dy/2};
+		\draw (\x,\y) -- (\x+\dx,\y+\dy);
+	\end{tikzpicture}
+	\caption[The spherical shell in the $xz$-plane]{\textbf{Scattering on elastic spherical shell}: The spherical shell in the $xz$-plane. Here with $R=5$ and $t=0.25$ (the calculations uses $t=0.15$ and are here set to 0.25 only for visualization purposes).}
+	\label{Fig2:IllustrationOfScattering}
+\end{figure}
+The full 3D exact solution to the elastic scattering problem is given by
+\begin{equation}\label{Eq2:exact3DscatteringSphericalShellSol}
+	p(r,\vartheta) = p_{\mathrm{s},\infty}(r,\vartheta) + p_{\mathrm{s},\mathrm{r}}(r,\vartheta)
+\end{equation}
+where
+\begin{equation*}
+	p_{\mathrm{s},\infty}(r,\vartheta) = -P_0\sum_{n=0}^\infty (2n+1)\imag^n P_n(\cos\vartheta) \frac{j_n'(kR_0)}{h_n'(kR_0)}h_n(kr)
+\end{equation*}
+and
+\begin{equation*}
+	p_{\mathrm{s},\mathrm{r}}(r,\vartheta) = \frac{P_0\rho_{\mathrm{f}} c_{\mathrm{f}}}{(kR_0)^2}\sum_{n=0}^\infty \frac{\imag^n(2n+1)P_n(\cos\vartheta)h_n(kr)}{[h_n'(kR_0)]^2(Z_n+z_n)}.
+\end{equation*}
+Here, $p_{\mathrm{s},\infty}$ represent a scattered wave from a rigid body, and $p_{\mathrm{s},\mathrm{r}}$ represent the pressure corresponding to the forced vibrations of the elastic body in fluid (loaded with the sum of incident pressure $p_{\mathrm{inc}}$ and the rigid body scattered pressure $p_{\mathrm{s},\infty}$) (see~\cite[p. 2]{Chang1994voa} for more details). Note that we do not include the incident pressure field $p_{\mathrm{inc}}$ in $p$, as this field is not present in the numerical solution. However, to compute the total physical pressure at the wet surface this field must be included (in addition to the constant background pressure).
+\begin{figure}
+	\centering
+	\ifplotData
+	\tikzsetnextfilename{BackScatteredPressure1}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				cycle list={%
+					{mycolor}
+				},
+				width = 0.95\textwidth,
+				height = 0.25\paperheight,
+				%width=0.45*350pt,
+				%height=0.5*250pt,
+				xlabel=$k$,
+				ylabel=$|F(k)|$,
+				ymax=30,
+				ymin=-4,
+				]
+				\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_fine2.dat};
+				\addplot [black, dotted] coordinates{(1.362, -4) (1.38, -4) (1.38, 30) (1.362, 30) (1.362, -4)};
+			\end{axis}
+		\end{tikzpicture}
+	\end{subfigure}
+	\tikzsetnextfilename{BackScatteredPressure2}
+	\begin{subfigure}[b]{0.23\textwidth}
+		\begin{tikzpicture}
+			\begin{axis}[
+				width =\textwidth,
+				height = 0.25\paperheight,
+				cycle list={%
+					{mycolor}
+				},				
+%xticklabel style={
+%rotate 90,
+%/pgf/number format/precision=12,
+%},
+				xtick={8.7431},
+				xticklabels={1.3715},
+	%			ytick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
+				yticklabels={},
+				%xmin=80, 
+				%xmax=100000, 
+				xlabel=$k$,
+				%ylabel=$|F(k)|$,
+				ymax=30,
+				ymin=-4,
+				]
+				\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_specialCase.dat};
+			\end{axis}
+		\end{tikzpicture} 
+	\end{subfigure}
+	\fi
+	\caption[Far-field pattern of backscattered pressure for elastic spherical shell]{\textbf{Scattering on elastic spherical shell}: Far-field pattern of backscattered pressure (we set $\alpha_{\mathrm{s}} = \alpha_{\mathrm{f}} = \pi$) for elastic spherical shell (monostatic calculation). The plot on the right shows a magnification (in $x$-direction) of the domain inside the dotted lines. The length of the domain of this plot is $\nabla^2 k = 10^{-6}$.}
+\label{Fig2:BackScatteredPressure}
+\end{figure} 
+
+In \Cref{Fig2:BackScatteredPressure} we plot the modulus of the function
+\begin{equation*}
+	F(k) = r_{\mathrm{f}}\euler^{\imag k r_{\mathrm{f}}} p(r_{\mathrm{f}},\alpha_{\mathrm{f}},\beta_{\mathrm{f}})
+\end{equation*}
+where $\vec{P}_{\mathrm{f}}$ is the far field point which depends on $r_{\mathrm{f}}$, $\alpha_{\mathrm{f}}$ and $\beta_{\mathrm{f}}$ (cf. \Cref{Fig2:IllustrationOfScattering}). This plot illustrates the complexity of the exact solution at hand. It seems to be discontinuous at the eigenmodes (with wave numbers found in \Cref{Tab2:comparisons}), but if zoomed in enough, we observe the spikes to be smooth as well. As \Cref{Fig2:BackScatteredPressure} illustrates, we must magnify a lot to show details of the higher eigenmodes. If such a detailed plot was to be illustrated using uniform sampling, we would need several millions of samples. Due to the complexity of the functions involved, this would be very time consuming, so it is more practical to use non uniform sampling. Needless to say, to find these higher eigenmodes using a numerical approximation will be very hard, even though we know a priori the exact location of the analytic eigenmodes. 
+\tikzsetnextfilename{BackScatteredPressureDensities}
+\begin{figure}
+	\centering
+	\ifplotData
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{myRed}, 
+				{mycolor}, 
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$k$,
+			ylabel=$|F(k)|$,
+			ymax=19,
+			ymin=-4,		
+			xmin = 0.2,
+			xmax = 0.72
+			]
+			\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_air_fine2.dat};
+			\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_fine2.dat};
+			\addlegendentry{Air: $\rho_{\mathrm{f}}=1$}
+			\addlegendentry{Water: $\rho_{\mathrm{f}}=1000$}
+		\end{axis}
+	\end{tikzpicture}
+	\fi
+	\caption[Scattering from elastic shell with different fluid densities]{\textbf{Scattering on elastic spherical shell}: Scattering from elastic shell with different fluid densities.}
+\label{Fig2:BackScatteredPressureDensities}
+\end{figure}
+
+In \Cref{Fig2:BackScatteredPressureDensities} we also show the effect of low density of the fluid. As we can see from \Cref{Tab2:comparisons}, the eigenmodes of a spherical shell surrounded by air (with low density) comes close to the corresponding wave numbers for a spherical shell in vacuum. As Ihlenburg points out, an increase in the density of the acoustic medium around the spherical shell results in a larger shift to the left of the eigenmodes.
+\begin{table}
+	\centering
+	\caption[Comparison of wave number of modes]{\textbf{Spherical shell:} Comparison of wave number of modes in the case of air and water ($\rho_{\mathrm{f}}=1$ and $\rho_{\mathrm{f}}=1000$ respectively) and shall theory solution (for water) versus the values for spherical shell in vacuum.}
+	\label{Tab2:comparisons}
+	\pgfplotstableset{% global config, for example in the preamble
+	% these columns/<colname>/.style={<options>} things define a style
+	% which applies to <colname> only.
+	columns/vacuum/.style={/pgf/number format/fixed, sci sep align, column name={Vacuum $\rho_{\mathrm{f}}=0$}},
+	columns/air/.style={/pgf/number format/fixed, sci sep align, column name={Air $\rho_{\mathrm{f}}=1$}},
+	columns/water/.style={/pgf/number format/fixed, sci sep align, column name={Water $\rho_{\mathrm{f}}=1000$}},
+	columns/shelltheory/.style={/pgf/number format/fixed, sci sep align, column name={Shell theory $\rho_{\mathrm{f}}=1000$}},
+	every head row/.style={before row=\toprule,after row=\midrule},
+	every last row/.style={after row=\bottomrule}
+	}
+	\pgfplotstabletypeset[fixed zerofill,precision=9, 1000 sep={\,},1000 sep in fractionals]{../../data/plotData/analyticEigenValuesSphericalShell/comparison.dat}
+\end{table}
+
+Ihlenburg uses a shell theory solution as a reference solution. The only difference will then be the function $Z_n$ which in the case of shell theory is given by
+\begin{equation*}
+	Z_0 = \frac{E t\left[\Omega^2 - 2(1+nu)\right]}{\imag\omega R^2\left(1-\nu^2\right)}
+\end{equation*}
+for $n=0$ and
+\begin{equation*}
+	Z_n = \frac{\begin{vmatrix}
+	\Omega^2-\left(1+\beta^2\right)(\nu+\lambda_n-1) & -\beta^2(\nu+\lambda_n - 1)-(1+\nu)\\
+	-\lambda_n \left(\beta^2(\nu+\lambda_n-1)+(1+\nu)\right) & \Omega^2-2(1+\nu)-\beta^2\lambda_n (\nu+\lambda_n-1)
+	\end{vmatrix}}{-\imag\omega\begin{vmatrix}
+		\Omega^2-\left(1+\beta^2\right)(\nu+\lambda_n-1) & 0\\
+		-\lambda_n\left[\beta^2(\nu+\lambda_n-1)(1+\nu)\right] & -\frac{R^2\left(1-\nu^2\right)}{Et}
+	\end{vmatrix}}
+\end{equation*}
+for $n>0$, where
+\begin{equation*}
+	\Omega = \frac{R\omega}{c_s},\quad\omega = kc_{\mathrm{f}},\quad c_s = \sqrt{\frac{E}{(1+\nu^2)\rho_s}},\quad \lambda_n = n(n+1)\quad\text{and}\quad \beta = \frac{t}{\sqrt{12}R}.
+\end{equation*}
+\tikzsetnextfilename{shellTheory3Dcomparison}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{myRed}, 
+				{mycolor}, 
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			xlabel=$k$,
+			ylabel=$|F(k)|$,
+			ymax=30,
+			ymin=-7			
+			]
+			\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_shelltheory2.dat};
+			\addplot table[x=k,y=F_k] {../../data/plotData/backscatteredPressureSphericalShell/analytic_fine2.dat};
+			\addlegendentry{Shell theory solution}
+			\addlegendentry{Full 3D exact solution}
+		\end{axis}
+	\end{tikzpicture}
+	\caption[Comparison between shell theory solution and full 3D exact solution]{\textbf{Scattering on elastic spherical shell}: Comparison between shell theory solution and full 3D exact solution.}
+\label{Fig2:shellTheory3Dcomparison}
+\end{figure}
+
+In \Cref{Fig2:shellTheory3Dcomparison} we plot both our full 3D solution and this shell theory solution. The error is significant and is specially large at the eigenmodes. In \Cref{Fig2:shellTheory3DcomparisonError} a more informative picture regarding the error is computed. Due to the large variation of the data sets, the most reasonable norm is the absolute difference divided by the maximum absolute value. That is, for two finite data sets $\{x_i\}$ and $\{y_i\}$ the relative difference $E_i$ for each pair $(x_i,y_i)$ is given by
+\begin{equation}\label{Eq2:absoluteRelDiffNew}
+	E_i = \frac{| x_i - y_i|}{\mathrm{max}(|x_i|, |y_i|)}
+\end{equation}
+We obviously also here see large errors at every eigenmode, but also elsewhere, the error is significant. In average, the error lies above 1\%. In the applications of complex geometries, this result would be acceptable, but we want to be able to perform convergence analysis on this spherical shell where the obtained error may end up being far below 1\%. This way, we can draw conclusion of which sets of parameters increases the convergence rate the most. The exactness of the solution is therefore considered to be of importance.
+\tikzsetnextfilename{shellTheory3DcomparisonError}
+\begin{figure}
+	\centering
+	\ifplotData
+	\begin{tikzpicture}
+		\begin{semilogyaxis}[
+			width = 0.95\textwidth,
+			height = 0.3\paperheight,
+			cycle list={%
+				{mycolor}, 
+			},
+			%width=0.45*350pt,
+			%height=0.5*250pt,
+			%ymax=30,
+			%ymin=-7
+			xlabel=$k$,
+			ylabel=Relative absolute difference (\%)			
+			]
+			\addplot table[x=k,y=F_k,y expr= \thisrow{F_k}*100] {../../data/plotData/backscatteredPressureSphericalShell/error2.dat};
+		\end{semilogyaxis}
+	\end{tikzpicture}
+	\fi
+	\caption[Error between shell theory solution and full 3D exact solution]{\textbf{Scattering on elastic spherical shell}: Error between shell theory solution and full 3D exact solution.}
+\label{Fig2:shellTheory3DcomparisonError}
+\end{figure}

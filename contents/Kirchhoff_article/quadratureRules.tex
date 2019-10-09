@@ -1,0 +1,50 @@
+\section{Quadrature rules}
+Let
+\begin{equation*}
+	a_n = \int_0^\infty x^n\euler^{-x^{r+1}}\idiff x=\frac{1}{r+1}\Gamma\left(\frac{n+1}{r+1}\right)
+\end{equation*}
+then, the polynomials are defined by
+\begin{equation*}
+	P_n(x) = \frac{1}{c_n}\begin{vmatrix}
+		1 & x & \dots & x^n\\
+		a_0 & a_1 & \dots & a_n\\
+		a_1 & a_2 & \dots & a_{n+1}\\
+		\vdots & \vdots & \ddots & \vdots\\
+		a_{n-1} & a_n & \dots & a_{2n-1}\\
+	\end{vmatrix}
+\end{equation*}
+By requiring the condition $P_n(0) = 1$ we determine the arbitrary constants $c_n$ by $c_0=1$ and
+\begin{equation*}
+	c_n = \begin{vmatrix}
+		a_1 & a_2 & \dots & a_n\\
+		a_2 & a_3 & \dots & a_{n+1}\\
+		\vdots & \vdots & \ddots & \vdots\\
+		a_n & a_{n+1} & \dots & a_{2n-1}\\
+	\end{vmatrix}	
+\end{equation*}
+for $n>1$.
+
+For $r=0$ these polynomials reduce to the Laguerre polynomials. For $r=1$ the first 5 polynomials are given by
+\begin{align*}
+	P_0(x)&=1\\
+	P_1(x)&=1-\sqrt{\PI}x\\
+	P_2(x)&=1-\frac{2\sqrt{\PI}}{4-\PI}x+\frac{2(\PI-2)}{4-\PI}x^2\\
+	P_3(x)&=1-\frac{2\sqrt{\PI}(10-3\PI)}{16-5\PI}x+\frac{2(3\PI-8)}{16-5\PI}x^2-\frac{4\sqrt{\PI}(\PI-3)}{16-5\PI}x^3\\
+	P_4(x)&=1-\frac{\sqrt{\PI}(104-33\PI)}{9\PI^2-69\PI+128}x-\frac{36\PI^2-195\PI+256}{9\PI^2-69\PI+128}x^2-\frac{2\sqrt{\PI}(9\PI-28)}{9\PI^2-69\PI+128}x^3+\frac{2(6\PI^2-29\PI+32)}{9\PI^2-69\PI+128}x^4
+\end{align*}
+If the polynomials are written as
+\begin{equation*}
+	P_n(x) = \sum_{i=0}^n b_i x^i
+\end{equation*}
+using the multinomial theorem for expanding $P_n^2(x)$ we get
+\begin{equation*}
+	\gamma_n=\int_0^\infty P_n^2(x)\euler^{-x^{r+1}} \idiff x = \sum_{i=0}^{2n} a_i\begin{cases}
+		\sum_{j=0}^i b_j b_{i-j} & i \leq n\\
+		\sum_{j=0}^{2n-i}
+			b_{n-j}b_{i+j-n} & i > n
+	\end{cases}
+\end{equation*}
+The Gaussian quadrature points $\{x_{i,n}\}_{i=1}^n$ are now found by solving $P_n(x_{i,m})=0$ (for example by Newton's method). The corresponding weights are found by the relation \cite{Hildebrand1987itn}
+\begin{equation*}
+	w_{i,n} = \frac{A_n\gamma_{n-1}}{A_{n-1} P_n'(x_{i,n})P_{n-1}(x_{i,n})},\quad A_n = (-1)^n\left(\prod_{i=1}^n x_{i,n}\right)^{-1}.
+\end{equation*}

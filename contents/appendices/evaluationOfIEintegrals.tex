@@ -1,0 +1,41 @@
+\section{A note on the infinite element method}
+\label{Sec:evaluationOfIEintegrals}
+The following problem occurs only in the very special scenario when quadrature points are placed at the poles (for the coordinate system used by the infinite elements) of the artificial boundary (refer to \cite{Venas2018iao} for details and notations).
+
+The integrand of the angular integrals \cite[Eq. (A.18)]{Venas2018iao} must be evaluated by limiting expressions at the poles ($\vartheta\to 0^+$ and $\vartheta\to \PI^-$). For the integrals
+\begin{equation*}
+	A_{IJ}^{(1)} = \int_{\varphi=0}^{2\PI}\int_{\vartheta=0}^\PI R_IR_J\sin\vartheta|J_3|\idiff\eta\idiff\xi
+\end{equation*}
+and
+\begin{equation*}
+	A_{IJ}^{(3)} = \int_{\varphi=0}^{2\PI}\int_{\vartheta=0}^\PI R_IR_J\cos^2\vartheta\sin\vartheta|J_3|\idiff\eta\idiff\xi
+\end{equation*}
+the problematic factors at the poles can be evaluated to be (using Maple)
+\begin{align*}
+	\lim_{\vartheta\to 0^+}\sin\vartheta|J_3| &= \frac{J_{1,1}J_{2,2}-J_{1,2}J_{2,1}}{r_{\mathrm{a}}^2-\Upsilon^2}= -\lim_{\vartheta\to \PI^-}\sin\vartheta|J_3|.
+\end{align*}
+where $J_{i,j}$ are the components of the matrix
+\begin{equation*}
+	\vec{J} = \begin{bmatrix}
+		\pderiv{x}{\xi} & \pderiv{x}{\eta}\\
+		\pderiv{y}{\xi} & \pderiv{y}{\eta}\\
+		\pderiv{z}{\xi} & \pderiv{z}{\eta}
+	\end{bmatrix}.
+\end{equation*}
+Note that
+\begin{equation*}
+	\lim_{\vartheta\to 0^+}J_{3,1} = 0,\qquad\lim_{\vartheta\to \PI^-}J_{3,1} = 0,\qquad\lim_{\vartheta\to 0^+}J_{3,2} = 0,\qquad\lim_{\vartheta\to \PI^-}J_{3,2} = 0.
+\end{equation*}
+The remaining angular integrals must be resolved by considering the limit of the sum of the integrals. Consider
+\begin{align*}
+	&A_{IJ}^{(2)}B_{\tilde{n}+\tilde{m}+j}^{(1)}+A_{IJ}^{(4)}B_{\tilde{n}+\tilde{m}+j-1}^{(2)}-\varrho_1^2 A_{IJ}^{(5)}B_{\tilde{n}+\tilde{m}+j+1}^{(2)}\\
+	&\qquad = \int_1^\infty \frac{\euler^{2\imag \varrho_2\rho}}{\rho^{\tilde{n}+\tilde{m}+j}}\int_{\varphi=0}^{2\PI}\int_{\vartheta=0}^\PI \left(\pderiv{R_I}{\vartheta} \pderiv{R_J}{\vartheta}+ \frac{\rho^2-\varrho_1^2\cos^2\vartheta}{\rho^2-\varrho_1^2}\pderiv{R_I}{\varphi} \pderiv{R_J}{\varphi}\frac{1}{\sin^2\vartheta}\right)\sin\vartheta|J_3|\idiff\eta\idiff\xi\idiff\rho
+\end{align*}
+where $j=0$ for Bubnov Galerkin formulations and $j=2$ for Petrov Galerkin formulations.
+The limit values at the poles for the integrand of this integral is given by (using Maple)
+\begin{align*}
+	&\lim_{\vartheta\to 0^+}\left(\pderiv{R_I}{\vartheta} \pderiv{R_J}{\vartheta}+ \frac{\rho^2-\varrho_1^2\cos^2\vartheta}{\rho^2-\varrho_1^2}\pderiv{R_I}{\varphi} \pderiv{R_J}{\varphi}\frac{1}{\sin^2\vartheta}\right)\sin\vartheta|J_3|\\
+	&\qquad = \frac{\left(J_{1,1}^2+J_{2,1}^2\right)\pderiv{R_J}{\eta}\pderiv{R_I}{\eta} - \left(J_{1,1}J_{1,2}+J_{2,1}J_{2,2}\right)\left(\pderiv{R_J}{\eta}\pderiv{R_I}{\xi}+\pderiv{R_J}{\xi}\pderiv{R_I}{\eta}\right) + \left(J_{1,2}^2+J_{2,2}^2\right)\pderiv{R_J}{\xi}\pderiv{R_I}{\xi}}{J_{1,1}J_{2,2}-J_{1,2}J_{2,1}} \\
+	&\qquad = -\lim_{\vartheta\to \PI^-}\left(\pderiv{R_I}{\vartheta} \pderiv{R_J}{\vartheta}+ \frac{\rho^2-\varrho_1^2\cos^2\vartheta}{\rho^2-\varrho_1^2}\pderiv{R_I}{\varphi} \pderiv{R_J}{\varphi}\frac{1}{\sin^2\vartheta}\right)\sin\vartheta|J_3|
+\end{align*}
+Computationally, if a quadrature point is placed at one of the poles, this limiting value should be added to the computation of the integral $A_{IJ}^{(2)}$, while $A_{IJ}^{(4)}$ and $A_{IJ}^{(5)}$ gets no contribution from this quadrature point.

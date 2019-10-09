@@ -1,0 +1,101 @@
+\documentclass[b5paper, twoside, 11pt]{book}
+% Compile the document with the following:
+% pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|bibtex introduction.aux|bibtex PaperI.aux|bibtex PaperII.aux|bibtex PaperIII.aux|bibtex PaperIV.aux|bibtex addendum.aux|bibtex appendices.aux|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|"C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe" %.pdf
+
+\usepackage{graphicx}
+\graphicspath{{./graphics/}}
+\input{../../LaTeX/config/header}
+\input{../../LaTeX/config/header_PhD}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagenumbering{roman}%
+\input{\contents/titlepage}
+\cleardoublepage
+
+\thispagestyle{empty}
+\null\vfill
+\begin{flushright}
+	To my family.
+	%To my family, homo sapiens.
+\end{flushright}
+\cleardoublepage
+\KOMAoptions{automark}%
+\input{\contents/preface}
+\cleardoublepage
+
+\tableofcontents
+
+\cleardoublepage
+
+\input{\contents/nomenclature}
+
+\cleardoublepage
+
+%\input{\contents/acknowledgement}
+%
+%\cleardoublepage
+
+\pagenumbering{arabic}
+\setcounter{part}{-1} % make introduction start as part 0 (to have the first paper as Paper I)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Include introduction
+\paperTitle{}%
+\paperJournal{}%
+\publicationStatus{}%
+\paperAuthors{}%
+\includePaper{Introduction}{}{\include{introduction}}%
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Include paper I
+\paperTitle{Exact 3D Scattering Solutions for Spherical Symmetric Scatterers}%
+\paperJournal{Journal of Sound and Vibration}%
+\publicationStatus{Published in \textit{\the\paperJournal} (2019) \textbf{440}:439--479}%
+\paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Jenserud}%
+\includePaper{}{}{\include{PaperI}}%
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Include paper II
+\paperTitle{Isogeometric Analysis of Acoustic Scattering using Infinite Elements}%
+\paperJournal{Computer Methods in Applied Mechanics and Engineering}%
+\publicationStatus{Published in \textit{\the\paperJournal} (2018) \textbf{335}:152--193}%
+\paperAuthors{Jon~Vegard~Ven{\aa}s, Trond~Kvamsdal and Trond~Jenserud}%
+\includePaper{}{}{\include{PaperII}}%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Include paper III
+\paperTitle{Isogeometric Boundary Element Method for Acoustic Scattering by a Submarine}%
+%\paperTitle{Isogeometric Boundary Element Method}%
+\paperJournal{Computer Methods in Applied Mechanics and Engineering}%
+\publicationStatus{Accepted in \textit{\the\paperJournal}}%
+\paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\includePaper{}{}{\include{PaperIII}}%
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Include paper IV
+\paperTitle{Isogeometric Kirchhoff Approximation using Numerical Steepest Descent}%
+\paperJournal{}%
+\publicationStatus{Work in progress}%
+\paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\includePaper{}{}{\include{PaperIV}}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Include addendum
+\renewcommand{\graphicsFolder}{../../opplaering/MA8502/graphics}%
+\paperTitle{Spectral Element Analysis of Acoustic Scattering using Infinite Elements}%
+\paperJournal{}%
+\publicationStatus{}%
+\paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\includePaper{Addendum}{withDash}{\include{addendum}}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Include appendix
+\paperTitle{}%
+\paperJournal{}%
+\publicationStatus{}%
+\paperAuthors{}%
+\includePaper{Appendices}{}{\include{appendices}}%
+\end{document}
