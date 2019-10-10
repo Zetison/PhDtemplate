@@ -6,7 +6,7 @@ The isogeometric framework is illustrated in~\Cref{Fig:wineGlass}, where a wine 
 
 \begin{figure}
 	\centering    
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/wineGlass}
+	\includegraphics{wineGlass}
 	\caption{\textbf{The isogeometric framework}: Isogeometric analysis (IGA) avoids the creation of an analysis suitable discretization step of the finite element method (FEM) as it uses the discretization given by the computer aided design (CAD) system.}
 	\label{Fig:wineGlass}
 \end{figure}
@@ -14,176 +14,6 @@ The isogeometric framework is illustrated in~\Cref{Fig:wineGlass}, where a wine 
 The classical $\check{p}$-refinement and $h$-refinement are often obtained for more accurate solutions in FEA. IGA comes with an additional refinement feature called the $\check{k}$-refinement with not only an increase in polynomial order, but also the continuity. This is the beauty of IGA as it allows control of the continuity in the discretization spaces. The mathematical potential of the $\check{k}$-refinement is presented in~\cite{BeiraodaVeiga2011sef}, and the application of this technique will be illustrated in paper II and paper III.
 
 Since IGAs conception in 2005, it has obtained an impressive growth in terms of published articles, citations and active researchers in the field. IGA has excelled in a number of applications including continuum damage models~\cite{Verhoosel2011aia}, blood flow~\cite{Bazilevs2006ifi,Zhang2007psv,Morganti2015psi}, free surface flow~\cite{Akkerman2011iao}, wind energy~\cite{Hsu2011hpc,Bazilevs2012ifi}, fracture mechanics~\cite{Borden2012apf,Borden2014aho,Moutsanidis2018hpf}, topology optimization~\cite{Dede2012iaf}, shape optimization~\cite{Manh2011iso,Kiendl2014iso}, shell theory~\cite{Benson2010isa}, contact problems~\cite{Dittmann2014iaa,Temizer2011cti}, structural vibrations~\cite{Cottrell2006iao}, immersed boundary methods~\cite{Schillinger2012aid}, sliding interfaces~\cite{Bazilevs2008nbi}, and phase-field modeling~\cite{Gomez2008iao}. The academic interest of IGA has so far been a huge success, and it remains to see when the industry fully incorporates this progress into modeling software. Classical finite element technologies are deeply rooted into comprehensive software, but we can already see several major software companies showing interest (i.e. Abaqus~\cite{Lai2017icw}).	
-
-
-%
-%%\begin{frame}{Introduction}
-%%\framesubtitle{NURBS}
-%\begin{itemize}
-%	\item Non-Uniform Rational B-splines (NURBS) builds upon B-splines. 
-%	\item Usage of NURBS futures exact geometry representation, and circumvents the mesh generating process
-%\begin{figure}
-%	\centering  
-%	\begin{subfigure}[t]{0.28\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{../../graphics/sphericalShell/triangles}
-%		\caption{Linear}
-%	\end{subfigure} 
-%	~ 
-%	\begin{subfigure}[t]{0.28\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{../../graphics/sphericalShell/sphericalShellMesh5_2linear_FEM}
-%		\caption{Bilinear}
-%	\end{subfigure}     
-%	~
-%	\begin{subfigure}[t]{0.28\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{../../graphics/sphericalShell/sphericalShellMesh1_2_0}
-%		\caption{NURBS (exact)}
-%	\end{subfigure}
-%	\caption{Parametrizations of a spherical shell.}
-%\end{figure}
-%\end{itemize}
-%
-%
-%%\begin{frame}{Introduction}
-%%\framesubtitle{NURBS}
-%\begin{itemize}
-%	\item Given a polynomial degree $p$ and a knot vector $\Xi = \{\xi_1,\dots,\xi_{n+p+1}\}$ then the $n$ B-splines $\{B_{i,p,\Xi}\}_{i=1}^n$ are given by the recursive formula
-%\begin{equation*}
-%	B_{i,p,\Xi}(\xi) = \frac{\xi-\xi_i}{\xi_{i+p}-\xi_i}B_{i,p-1,\Xi}(\xi)+\frac{\xi_{i+p+1} - \xi}{\xi_{i+p+1} -\xi_{i+1}}B_{i+1,p-1,\Xi}(\xi)
-%\end{equation*}
-%starting with
-%\begin{equation*}
-%	B_{i,0,\Xi}(\xi)=\begin{cases}
-%		1 & \text{if } \xi_i\leq \xi < \xi_{i+1}\\
-%		0 & \text{otherwise.}
-%\end{cases}
-%\end{equation*}
-%	\item Including a set of weights $\{w_i\}_{i=1}^n$ we can define the NURBS basis functions by
-%\begin{equation*}
-%	R_i^{p}(\xi) = \frac{B_{i,p,\Xi}(\xi)w_i}{W(\xi)}\quad\text{with}\quad W(\xi) = \sum_{\tilde{i}=1}^n B_{\tilde{i},p,\Xi}(\xi) w_{\tilde{i}}.
-%\end{equation*}
-%\end{itemize}
-%
-%
-%%\begin{frame}{Introduction}
-%%\framesubtitle{NURBS}
-%\begin{itemize}
-%	\item NURBS offers control of the continuity
-%\begin{figure}
-%	\centering    
-%	\only<1>{  
-%	\begin{subfigure}{0.4\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesCpm1p2}
-%		\caption{The knots 1/3 and 2/3 are not repeated. Here, $p=2$.}
-%	\end{subfigure} 
-%	~
-%	\begin{subfigure}{0.45\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesC0p2}
-%		\caption{The knots 1/3 and 2/3 are repeated $m=p$ times. Here, $p=2$.}
-%	\end{subfigure}
-%	}\only<2>{ 
-%	\begin{subfigure}{0.4\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesCpm1p3}
-%		\caption{The knots 1/3 and 2/3 are not repeated. Here, $p=3$.}
-%	\end{subfigure} 
-%	~
-%	\begin{subfigure}{0.45\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesC0p3}
-%		\caption{The knots 1/3 and 2/3 are repeated $m=p$ times. Here, $p=3$.}
-%	\end{subfigure}
-%	}\only<3>{ 
-%	\begin{subfigure}{0.4\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesCpm1p4}
-%		\caption{The knots 1/3 and 2/3 are not repeated. Here, $p=4$.}
-%	\end{subfigure} 
-%	~
-%	\begin{subfigure}{0.45\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesC0p4}
-%		\caption{The knots 1/3 and 2/3 are repeated $m=p$ times. Here, $p=4$.}
-%	\end{subfigure}
-%	}\only<4>{ 
-%	\begin{subfigure}{0.4\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesCpm1p5}
-%		\caption{The knots 1/3 and 2/3 are not repeated. Here, $p=5$.}
-%	\end{subfigure} 
-%	~
-%	\begin{subfigure}{0.45\textwidth}
-%		\centering
-%		\includegraphics[width=0.3\paperwidth]{gfx/BsplinesC0p5}
-%		\caption{The knots 1/3 and 2/3 are repeated $m=p$ times. Here, $p=5$.}
-%	\end{subfigure}
-%	}
-%	\caption{B-splines.}
-%\end{figure}	
-%\end{itemize}
-%
-%
-%
-%%\begin{frame}{Introduction}
-%%\framesubtitle{NURBS}
-%\begin{itemize}
-%	\item Consider $\Xi = \left\{0,0,0,\frac{1}{3},\frac{2}{3},\frac{2}{3},1,1,1\right\}$, $p=2$, $\vec{P}_1=(5,2)$, $\vec{P}_2=(3,2)$, $\vec{P}_3=(1,6)$, $\vec{P}_4=(4,3)$, $\vec{P}_5=(7,6)$ and $\vec{P}_6=(7,1)$
-%	\begin{figure}
-%		\centering  
-%		\begin{subfigure}[t]{0.45\textwidth}
-%			\centering
-%			\only<1>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurve1}
-%			\caption{Curve and control polygon}
-%			}\only<2>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurveRefined1_1}
-%			\caption{Knot locations before refinement}
-%			}\only<3>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurveRefined2_1}
-%			\caption{Control polygon before refinement}
-%			}\only<4>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurve1}
-%			\caption{Before degree elevation}
-%			}
-%		\end{subfigure} 
-%		~ 
-%		\begin{subfigure}[t]{0.45\textwidth}
-%			\centering
-%			\only<1>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurve2}
-%			\caption{Curve and location of knots}
-%			}\only<2>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurveRefined1_2}
-%			\caption{Knot locations after refinement}
-%			}\only<3>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/splineCurveRefined2_2}
-%			\caption{Control polygon after refinement}
-%			}\only<4>{
-%			\includegraphics[width=\textwidth]{../../articles/master/TikzFigures/BsplineCurveDegreeElevated2}
-%			\caption{After degree elevation}
-%			}
-%		\end{subfigure}  
-%	\end{figure} 
-%\end{itemize}
-%
-%
-%
-%%\begin{frame}{Introduction}
-%%\framesubtitle{NURBS}
-%\begin{itemize}
-%	\item A NURBS surface is defined by a tensor product extension
-%	\begin{equation*}
-%		\vec{X}(\xi,\eta) = \sum_{i=1}^n\sum_{j=1}^m \vec{P}_{i,j}w_{i,j}R_i^{\check{p}_\upxi}(\xi) R_j^{\check{p}_\upeta}(\eta)
-%	\end{equation*}
-%	\begin{figure}
-%		\centering
-%		\includegraphics[scale=0.3]{../../graphics/M3/mesh1}
-%	\end{figure}
-%\end{itemize}
 
 \subsection{B-splines}
 \renewcommand{\Xi}{{\vec{t}}}
@@ -227,19 +57,19 @@ To ease the understanding of B-splines we shall construct an illustrative exampl
         \centering
         \begin{subfigure}{0.33\textwidth}
         	\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_3_0}
+			\includegraphics{Bspline_B_3_0}
             \caption{Plot of $B_{3,0}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
         	\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_4_0}
+			\includegraphics{Bspline_B_4_0}
             \caption{Plot of $B_{4,0}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
         	\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_6_0}
+			\includegraphics{Bspline_B_6_0}
             \caption{Plot of $B_{6,0}$.}
         \end{subfigure}
         \caption[Plot of B-splines with $\check{p}=0$]{Plot of the non-zero B-splines of order zero, where the knot vector is given by $\Xi = \{0, 0, 0, 1, 2, 2, 3, 3, 3\}$. Note that $B_{j,0}\equiv 0$ for $j\in\{1,2,5,6,7,8\}$.}   
@@ -248,32 +78,32 @@ To ease the understanding of B-splines we shall construct an illustrative exampl
 		\par\bigskip	
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_2_1}
+			\includegraphics{Bspline_B_2_1}
             \caption{Plot of $B_{2,1}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_3_1}
+			\includegraphics{Bspline_B_3_1}
             \caption{Plot of $B_{3,1}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_4_1}
+			\includegraphics{Bspline_B_4_1}
             \caption{Plot of $B_{4,1}$.}
         \end{subfigure}
 		\par\bigskip	
 		\par\bigskip	
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_5_1}
+			\includegraphics{Bspline_B_5_1}
             \caption{Plot of $B_{5,1}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_6_1}
+			\includegraphics{Bspline_B_6_1}
             \caption{Plot of $B_{6,1}$.}
         \end{subfigure}
         \caption[Plot of B-splines with $\check{p}=1$]{Plot of the non-zero B-spline basis functions (of first degree), where the knot vector is given by $\Xi = \{0, 0, 0, 1, 2, 2, 3, 3, 3\}$. Note that $B_{j,1}\equiv 0$ for $j\in\{1,7\}$.}		
@@ -282,38 +112,38 @@ To ease the understanding of B-splines we shall construct an illustrative exampl
 \begin{figure}
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_1_2}
+			\includegraphics{Bspline_B_1_2}
             \caption{Plot of $B_{1,2}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_2_2}
+			\includegraphics{Bspline_B_2_2}
             \caption{Plot of $B_{2,2}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_3_2}
+			\includegraphics{Bspline_B_3_2}
             \caption{Plot of $B_{3,2}$.}
         \end{subfigure}
 		\par\bigskip	
 		\par\bigskip	
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_4_2}
+			\includegraphics{Bspline_B_4_2}
             \caption{Plot of $B_{4,2}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_5_2}
+			\includegraphics{Bspline_B_5_2}
             \caption{Plot of $B_{5,2}$.}
         \end{subfigure}%
         \hspace*{0.005\textwidth}%
         \begin{subfigure}{0.33\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/Bspline_B_6_2}
+			\includegraphics{Bspline_B_6_2}
             \caption{Plot of $B_{6,2}$.}
         \end{subfigure}
         \caption[Plot of B-splines with $\check{p}=2$]{Plot of the 6 different B-spline basis functions (of second degree), where the knot vector is given by $\Xi = \{0, 0, 0, 1, 2, 2, 3, 3, 3\}$.}
@@ -323,13 +153,13 @@ To ease the understanding of B-splines we shall construct an illustrative exampl
         \centering      
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_1}
+			\includegraphics{splineCurve_1}
             \caption{Curve and control polygon.}
         \end{subfigure}%
         \hspace*{0.02\textwidth}%
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_2}
+			\includegraphics{splineCurve_2}
             \caption{Curve and location of knots.}
         \end{subfigure}
         \caption[Plot of a spline curve]{Plot of a spline curve. Since $\vec{P}_1=(5,2)$, this is the point where the curve starts ($\xi=0$).}\label{Fig:splineCurve}
@@ -363,13 +193,13 @@ Let's continue our example by inserting the knots $\xi = 0.5$ and $\xi = 1.5$ in
         \centering        
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_3}
+			\includegraphics{splineCurve_3}
             \caption{Curve with mesh before refinement.}
         \end{subfigure}%
         \hspace*{0.02\textwidth}%
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_4}
+			\includegraphics{splineCurve_4}
         	\caption{Curve with mesh after refinement.}
         \end{subfigure}
         \caption{Mesh comparison for knot refinement.}\label{Fig:splineCurveRefined}
@@ -379,13 +209,13 @@ In \Cref{Fig:splineCurveRefined2} we see that the control polygon has changed. I
         \centering        
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_5}
+			\includegraphics{splineCurve_5}
             \caption{Control polygon before refinement.}
         \end{subfigure}%
         \hspace*{0.02\textwidth}% 
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_6}
+			\includegraphics{splineCurve_6}
             \caption{Control polygon after refinement.}
         \end{subfigure}
         \caption{Control polygon comparison for knot insertion.}\label{Fig:splineCurveRefined2}
@@ -508,14 +338,14 @@ This algorithm may be optimized as discussed in~\cite{Huang2004ede} but will not
         \centering        
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_7}
+			\includegraphics{splineCurve_7}
             \caption{Curve and control polygon after degree elevation.}
             \label{Fig:BsplineCurveDegreeElevated}
         \end{subfigure}%
         \hspace*{0.02\textwidth}%
         \begin{subfigure}{0.49\textwidth}
        		\centering
-			\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/splineCurve_8}
+			\includegraphics{splineCurve_8}
             \caption{Control polygon comparison showing the corner cutting effect.}
             \label{Fig:BsplineCurveDegreeElevated2}
         \end{subfigure}
@@ -528,14 +358,14 @@ In \Cref{Fig:graphDiffCoeff1} we have a graph which illustrates this process. Th
 
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/degreeElevation_1}
+	\includegraphics{degreeElevation_1}
 	\caption{Graph of differential coefficients of $\vec{P}(\xi)$ in the example.}
 	\label{Fig:graphDiffCoeff1}
 \end{figure}
 In \Cref{Fig:graphDiffCoeff2} we illustrate how the differential coefficients of $\vec{Q}(\xi)$ are computed. The coefficients in red are first computed (step 3), the coefficients in green are then computed (step 4) such that the coefficients in yellow may be computed (step 5). The rest of the coefficients are computed by \Cref{Eq:coeffFormula6}. Note that $\vec{Q}_5^2$ is not really needed.
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/degreeElevation_2}
+	\includegraphics{degreeElevation_2}
 	\caption{Differential coefficients of $\vec{Q}(\xi)$ in the example.}
 	\label{Fig:graphDiffCoeff2}
 \end{figure}
@@ -552,26 +382,26 @@ We may extend our spline curve example into a volume by adding the knot vectors 
 	\centering        
 	\begin{subfigure}{0.49\textwidth}
 		\centering     
-		\includegraphics[width=0.7\textwidth]{../../graphics/splineVolume}
+		\includegraphics[width=0.7\textwidth]{splineVolume}
 		\caption{Spline volume.}
 	\end{subfigure}%
     \hspace*{0.02\textwidth}%
 	\begin{subfigure}{0.49\textwidth}
 		\centering     
-		\includegraphics[width=0.7\textwidth]{../../graphics/splineVolumeKnotIns1}
+		\includegraphics[width=0.7\textwidth]{splineVolumeKnotIns1}
 		\caption{Knots inserted in the $\xi$-direction.}
 	\end{subfigure}
 	\bigskip\par
 	\bigskip\par
 	\begin{subfigure}{0.49\textwidth}
 		\centering     
-		\includegraphics[width=0.7\textwidth]{../../graphics/splineVolumeKnotIns2}
+		\includegraphics[width=0.7\textwidth]{splineVolumeKnotIns2}
 		\caption{Knots inserted in the $\eta$-direction.}
 	\end{subfigure}%
     \hspace*{0.02\textwidth}%
 	\begin{subfigure}{0.49\textwidth}
 		\centering     
-		\includegraphics[width=0.7\textwidth]{../../graphics/splineVolumeKnotIns3}
+		\includegraphics[width=0.7\textwidth]{splineVolumeKnotIns3}
 		\caption{Knots inserted in the $\zeta$-direction.}
 	\end{subfigure}
 	\caption[Spline volume and its knot insertions]{Spline volume and its knot insertions. We here choose to first insert knots in the $\xi$-direction followed by the $\eta$- and $\zeta$-direction, respectively.}
@@ -592,8 +422,6 @@ where $\tilde{\vec{Q}}_i$ is to be determined using B\"{o}hms method $s$ times. 
 Let's say we want to insert the knots $\{0.5, 1.5\}$ in the $\xi$-direction (as we did for the spline curve) and the knots $\{0.5\}$ and $\{0.25, 0.5, 0.75\}$ for the $\eta$- and $\zeta$-direction, respectively. The result (in \Cref{Fig:SplineVolume}) is a refined mesh from 3 elements to 40 elements.
 
 A corresponding procedure is done for degree elevation in spline volumes.
-
-
 
 \subsection{NURBS}
 \renewcommand{\Xi}{{\vec{t}}}
@@ -623,7 +451,7 @@ There are several ways to construct a circle using NURBS (but we need ${\check{p
 and the control points $\vec{P}_1 = (0,0)$, $\vec{P}_2 = (1,1)$, $\vec{P}_3 = (0,1)$, $\vec{P}_4 = (-1,1)$, $\vec{P}_5 = (-1,0)$, $\vec{P}_6 = (-1,-1)$, $\vec{P}_7 = (0,-1)$, $\vec{P}_8 = (1,-1)$ and $\vec{P}_9 = (1,0)$. This will produce the unit circle, which is depicted in \Cref{Fig:NURBScurve}. Note that there are no non-repeated knots in the knot vector, so we will have interpolation between the location of the knots and the control polygon (since $\check{p} = 2$).
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/NURBScurve} 
+	\includegraphics{NURBScurve} 
 	\caption[NURBS representation of a unit circle]{NURBS representation of a unit circle with the corresponding control polygon. The curve goes counterclockwise around the unit circle (which is a result of the corresponding ordering in the control points), starts at $(1,0)$ and ends at $(1,0)$.}\label{Fig:NURBScurve}
 \end{figure}
 
@@ -646,13 +474,13 @@ In \Cref{Fig:NURBScurveRefined} we have inserted the knots $\{0.5, 0.5, 1.5, 2.2
 	\centering    
 	\begin{subfigure}{0.49\textwidth}
 		\centering
-		\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/NURBScurve_2} 
+		\includegraphics{NURBScurve_2} 
 		\caption{Knot locations after refinement.}
 	\end{subfigure}%
 	\hspace*{0.02\textwidth}%
 	\begin{subfigure}{0.49\textwidth}
 		\centering
-		\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/NURBScurve_3} 
+		\includegraphics{NURBScurve_3} 
 		\caption{Control polygon after refinement.}
 	\end{subfigure}      
 	\caption{Knot insertion for a NURBS circle.}\label{Fig:NURBScurveRefined}

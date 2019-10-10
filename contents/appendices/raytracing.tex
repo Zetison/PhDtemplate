@@ -36,14 +36,14 @@ Assuming the object under consideration is parametrized by NURBS, the control po
 	\centering
 	\begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\includegraphics[scale=0.3]{../../graphics/S1/mesh3}
+		\includegraphics[scale=0.3]{mesh3}
 		\caption{The control polygon bounds the scatterer.}
 		\label{Fig:boundingBox}
 	\end{subfigure}%
 	\hspace*{0.02\textwidth}%
 	\begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\includegraphics[scale=0.4]{../../graphics/S1/beam2}
+		\includegraphics[scale=0.4]{beam2}
 		\caption{Three beams having support at $\vec{x}$.}
 		\label{Fig:supportBeam}
 	\end{subfigure}
@@ -156,7 +156,7 @@ where we have reflection iff $D\geq 0$. A ray reflecting at a surface point with
 with $\|\vec{d}_{\mathrm{r}}\| = \|\vec{d}_{\mathrm{i}}\| = \|\vec{n}\| = 1$.
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/specularReflection}
+	\includegraphics{specularReflection}
 	\caption{\textbf{Ray tracing}: \textit{The law of reflection} states that the angle of incidence is equal to the angle of reflection.}
 \end{figure}
 
@@ -165,7 +165,7 @@ Then, $E = \int_{\partial V_0} |p_{\mathrm{inc}}|^2\idiff S = |P_{\mathrm{inc}}|
 Based on the previous formulas, we find (see \Cref{Fig:asymptotic})
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/asymptotic}
+	\includegraphics{asymptotic}
 	\caption{Computation of exact beam scattering solution.}
 	\label{Fig:asymptotic}
 \end{figure}%
@@ -195,37 +195,37 @@ which is the asymptotic limit of the analytic solution as $k\to\infty$~\cite{Fil
 As can be seen from~\Cref{Fig:S1_sweep3,Fig:S1_sweep2,Fig:S1_sweep1}, beam approximation increase in accuracy as a function of the number of initial beams (geometry approximation), $N$, and increase in accuracy as a function of frequency (for sufficiently high $N$), but loses accuracy from the plane wave approximation for high frequencies at a fixed $N$. This is very similar to corresponding simulations using Kirchhoff approximation investigated in paper IV. The geometric approximation can be improved by adapting the beams for the incident wave and splitting beams at edge reflections. As the raytracing part is independent of frequency, frequency sweep calculations are very efficient using ray/beam tracing. In~\Cref{Fig:BI_1,Fig:BI_2,Fig:BI_3} it can clearly be seen that the ability to model forward scattering using ray/beam tracing is lacking.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/S1_sweep_3}
+	\includegraphics[width=\textwidth]{S1_sweep_3}
 	\caption{\textbf{Frequency sweep of rigid sphere}: The target strength is plotted against the dimensionless wave number.}
 	\label{Fig:S1_sweep3}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/S1_sweep_2}
+	\includegraphics[width=\textwidth]{S1_sweep_2}
 	\caption{\textbf{Frequency sweep of rigid sphere}: The relative error (of the far field) is plotted against the dimensionless wave number.}
 	\label{Fig:S1_sweep2}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/S1_sweep_1}
+	\includegraphics[width=\textwidth]{S1_sweep_1}
 	\caption{\textbf{Frequency sweep of rigid sphere}: The relative absolute error (of the far field) is plotted against the dimensionless wave number.}
 	\label{Fig:S1_sweep1}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/BI_1}
+	\includegraphics[width=\textwidth]{BI_1}
 	\caption{\textbf{Bistatic scattering of rigid sphere}: The target strength is plotted against the aspect angle at $f=\SI{20}{kHz}$.}
 	\label{Fig:BI_1}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/BI_2}
+	\includegraphics[width=\textwidth]{BI_2}
 	\caption{\textbf{Bistatic scattering of rigid sphere}: The relative error (of the far field) is plotted against the aspect angle at $f=\SI{20}{kHz}$.}
 	\label{Fig:BI_2}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/BI_3}
+	\includegraphics[width=\textwidth]{BI_3}
 	\caption{\textbf{Bistatic scattering of rigid sphere}: The relative absolute error (of the far field) is plotted against the aspect angle at $f=\SI{20}{kHz}$.}
 	\label{Fig:BI_3}
 \end{figure}
@@ -238,12 +238,12 @@ A ray tracing algorithm is presented by Martin et al.~\cite{Martin2000prt}. The 
 	\centering
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[scale=0.3]{../../graphics/M3/M3_M3_1}
+		\includegraphics[scale=0.3]{M3_M3_1}
 	\end{subfigure}%
 	
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[scale=0.3]{../../graphics/M3/M3_M3_3}
+		\includegraphics[scale=0.3]{M3_M3_3}
 	\end{subfigure}
 	\caption{Uniform refinements gives a basis for the bounding boxes.}
 	\label{Fig:M3_M3}
@@ -277,7 +277,7 @@ where~\cite[p. 108]{Venas2015iao}
 In~\Cref{Fig:M3_MS} a comparison is made with the beam tray tracing algorithm, the Kirchhoff algorithm (paper IV) and a reference solution created by IGABEM (paper III). The ray tracing procedure fails to obtain accurate results for the far field from the straight sections of the geometry as opposed to the Kirchhoff approximation. On the other hand, the Kirchhoff approximation (based on a simple physical optics approximation) does not model multiple reflections. A remedy for this is to use the Kirchhoff approximation based on the rays leaving the scatterer.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/M3_MS_4}
+	\includegraphics[width=\textwidth]{M3_MS_4}
 	\caption{Scattering on BeTSSi model 3 at $\SI{1}{kHz}$.}
 	\label{Fig:M3_MS}
 \end{figure}
@@ -286,7 +286,7 @@ In~\Cref{Fig:M3_MS} a comparison is made with the beam tray tracing algorithm, t
 For thin elastic layers, rigid boundary conditions perform poorly even for the high frequency spectrum ($f \sim \SI{10}{kHz}$). A ray hitting a surface should be divided into a reflected ray and a transmitted ray. Computation of the transmission and reflection coefficient is then necessary. The steps are presented in the following based on the work of Brekhovskikh~\cite{Brekhovskikh2012wil}.
 \begin{figure}
 	\centering
-	\includegraphics{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/Snell}
+	\includegraphics{Snell}
 	\caption{The incident wave is both reflected and transmitted (into longitudinal and transverse waves) through a solid infinitely large plate.}
 \end{figure}
 
@@ -449,13 +449,13 @@ and
 For the BeTSSi model 3 a thickness of $h=\SI{8}{mm}$ is used (water on both sides of shell) and for BeTSSi model 1 and 2 a thickness of $h=\SI{20}{mm}$ is used (water in layer 1 and air in layer 3). As can be seen from~\Cref{Fig:absRVStheta_1}, the elastic shell has reduced transparency for higher frequencies. \Cref{Fig:absRVStheta_2} illustrates how well air is approximated with vacuum.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/absRVStheta_1}
+	\includegraphics[width=\textwidth]{absRVStheta_1}
 	\caption{Reflection coefficient for steel plate ($h=\SI{8}{mm}$) in water}
 	\label{Fig:absRVStheta_1}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/raytracing_PhD/absRVStheta_2}
+	\includegraphics[width=\textwidth]{absRVStheta_2}
 	\caption{Transmission coefficient for steel plate ($h=\SI{20}{mm}$) between water and air}
 	\label{Fig:absRVStheta_2}
 \end{figure}

@@ -1,0 +1,42 @@
+\section{The incident wave}
+\label{Sec1:incidentWave}
+The coefficients $F_n^{(1)}$ and $F_n^{(2)}$ in \Cref{Eq1:IncidentWaveConds} may be computed by using the orthogonality property of the Legendre polynomials in \Cref{Eq1:legendreOrthogonality}. In fact, any square integrable function $\Psi(\vartheta)$ on the interval $[0,\PI]$ can be written as (see~\cite[p. 27]{Ihlenburg1998fea})
+\begin{equation}
+	\Psi(\vartheta) = \sum_{n=0}^\infty \Psi_n \legendre_n(\cos\vartheta)
+\end{equation}
+where
+\begin{equation}\label{Eq1:H_n}
+	\Psi_n = \frac{2n+1}{2}\int_0^\PI \Psi(\vartheta) \legendre_n(\cos\vartheta)\sin\vartheta\idiff\vartheta.
+\end{equation}
+For example, a plane wave traveling along the $x_3$-axis can be expanded as~\cite[10.1.47]{Abramowitz1965hom}
+\begin{equation}\label{Eq1:planeWave}
+\begin{aligned}
+	p_{\mathrm{inc}}(\vec{x},\omega) &= P_{\mathrm{inc}}(\omega)\euler^{\imag k_1 x_3} = P_{\mathrm{inc}}(\omega)\euler^{\imag k_1 r\cos\vartheta}\\
+	&= P_{\mathrm{inc}}(\omega)\sum_{n=0}^\infty (2n+1)\imag^n j_n(k_1 r)\legendre_n(\cos\vartheta)
+\end{aligned}
+\end{equation}
+such that
+\begin{align}
+	F_n^{(1)} = P_{\mathrm{inc}}(\omega) (2n+1)\imag^n j_n(k_1 R_{0,1})\\
+	F_n^{(2)} = P_{\mathrm{inc}}(\omega) (2n+1)\imag^n k_1 j_n'(k_1 R_{0,1}).
+\end{align}
+Another example of an incident wave satisfying the axisymmetry property, is a wave due to a point source located at $\vec{x}_{\mathrm{s}} = -r_{\mathrm{s}}\vec{e}_3$. The incident wave can then be expressed with the fundamental solution of the Helmholtz equation
+\begin{equation}
+	p_{\mathrm{inc}}(\vec{x},\omega) = P_{\mathrm{inc}}(\omega)\frac{r_{\mathrm{s}}}{|\vec{x}_{\mathrm{s}}-\vec{x}|}\euler^{\imag k_1 |\vec{x}_{\mathrm{s}}-\vec{x}|},\quad |\vec{x}_{\mathrm{s}}-\vec{x}| = \sqrt{r^2+2r_{\mathrm{s}}r\cos\vartheta + r_{\mathrm{s}}^2}.
+\end{equation}
+By a simple substitution $v=\cos\vartheta$ in \Cref{Eq1:H_n} one gets
+\begin{align}\label{Eq1:coeffsG}
+\begin{split}
+	F_n^{(1)} &= P_{\mathrm{inc}}(\omega)\frac{2n+1}{2}r_{\mathrm{s}}\int_{-1}^1 \frac{\euler^{\imag k_1 q(v)}}{q(v)}\legendre_n(v)\idiff v\\
+	F_n^{(2)} &= P_{\mathrm{inc}}(\omega)\frac{2n+1}{2}r_{\mathrm{s}}\int_{-1}^1 \left(R_{0,1}+r_{\mathrm{s}}v\right)\frac{\euler^{\imag k_1 q(v)}}{q^3(v)}\left[\imag k_1 q(v) - 1\right]\legendre_n(v)\idiff v
+	\end{split}
+\end{align}
+where
+\begin{equation*}
+	q(v) = \sqrt{R_{0,1}^2+2r_{\mathrm{s}}R_{0,1}v+r_{\mathrm{s}}^2}.
+\end{equation*}
+One can obtain simple expressions for some of these coefficients, for example
+\begin{equation*}
+	F_0^{(1)} = P_{\mathrm{inc}}(\omega)\sinc\left(k_1R_{0,1}\right)\euler^{\imag k_1 r_{\mathrm{s}}}.
+\end{equation*}
+But in general, one needs to use a numerical routine to evaluate the integrals in \Cref{Eq1:coeffsG}.

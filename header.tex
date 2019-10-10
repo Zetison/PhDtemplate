@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load packages
+
+\usepackage{amsmath,amsfonts,amssymb} % for maths
+\usepackage{mathtools} % contains amsthm
+\usepackage{upgreek} % to get greek letters in upright mode, like \upphi
+\usepackage{easybmat} % to easily create large block matrices
+\usepackage{fixmath} % provides upercase greek: \upxi,\upeta,...
+\usepackage[font=footnotesize,list=true]{subcaption} % Needed for subfigures
+\usepackage{booktabs} % needed for \toprule, \bottomrule,... in tables
+\usepackage[version-1-compatibility,exponent-product=\cdot]{siunitx} % for nice SI unit formatting
+\renewcommand{\ang}[1]{{{#1}^\circ}}
+\usepackage{bm} % to get nice symbols in boldface mode
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{lmodern}
+
+
+\newcommand{\graphicsFolder}{graphics}
+
+\newcommand*{\contents}{contents}%
+\newcommand*{\FiguresAndTables}{FiguresAndTables}%
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathematical: commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\vec}[1]{\mathbold #1} % ISO80000-2 format
+\newcommand{\besselj}{\mathrm{j}} 	% ISO80000-2 format
+\newcommand{\bessely}{\mathrm{y}} 	% ISO80000-2 format
+\newcommand{\besselJ}{\mathrm{J}} 	% ISO80000-2 format
+\newcommand{\besselY}{\mathrm{Y}}  	% ISO80000-2 format
+\newcommand{\legendre}{\mathrm{P}} 	% ISO80000-2 format
+\newcommand{\hankel}{\mathrm{h}}   	% ISO80000-2 format
+\newcommand{\Diff}{\upDelta} % For differentials
+
+\newcommand{\diff}{\mathrm{d}} % For differentials
+\newcommand{\idiff}{\, \mathrm{d}} % For differentials in integrals.
+\newcommand{\zerovec}{\mathbf{0}}
+\newcommand{\transpose}{\top}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\PI}{\uppi}
+\newcommand{\euler}{\mathrm{e}}
+\newcommand{\imag}{\mathrm{i}}
+\newcommand{\bigoh}{\mathcal{O}}
+\providecommand*{\pderiv}[3][]{\frac{\partial^{#1}#2}{\partial #3^{#1}}}
+\providecommand*{\deriv}[3][]{\frac{\diff^{#1}#2}{\diff #3^{#1}}}
+\providecommand*{\ppderiv}[3]{\frac{\partial^2{#1}}{\partial #2 \partial #3}}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+
+
+\DeclareMathSymbol{\GAMMA}{\mathalpha}{operators}{0}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\Atan}{atan2}
+\DeclareMathOperator{\fourier}{\mathcal{F}}
+\DeclareMathOperator{\TS}{TS}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\renewcommand\Re{\operatorname{Re}}
+\renewcommand\Im{\operatorname{Im}}
+\newcommand{\cond}{\operatorname{Cond}}
+
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calH}{\mathcal{H}}
+\renewcommand{\Xi}{{\vec{t}_\upxi}}
+\newcommand{\Eta}{{\vec{t}_\upeta}}
+\newcommand{\Zeta}{{\vec{t}_\upzeta}}
+
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+
+\newcommand{\sgn}[1]{%
+  \operatorname{sgn}\left(
+   #1
+  \right)
+}
+
+\newcommand{\Hnorm}[2]{%
+  \left\|
+   #1
+  \right\|_{H^1(#2)}
+}
+\newcommand{\energyNorm}[2]{%
+  {\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}_{#2}
+}
+\newcommand{\innerProd}[2]{\langle #1, #2\rangle}
+
+% Fix redundant white spacing around \left \right commands
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+\newcommand{\round}[1]{\ensuremath{\left\lfloor{#1}\right\rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil{#1}\right\rceil}}
+\newcommand{\st}{\,:\,}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Write pretty Language names like \LaTeX
+\usepackage{xspace}
+\newcommand{\MATLAB}{\textsc{Matlab}\xspace}
+\def\cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}\xspace}
+\def\ccpp{{C/C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}\xspace}
+\newcommand{\COMSOL}{\textsc{Comsol} Multiphysics\textregistered\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listings:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage[T1]{fontenc} % Fix tilde sign in listings
+%\usepackage{courier}	 % Fix font for listings	 
+%\usepackage[numbered,framed]{matlab-prettifier} % this package ruins vectorgraphics on \copyright and \textregistered
+%\usepackage{accsupp}    % enable copy pasting code in PDF without the numbers
+%\renewcommand{\thelstnumber}{% Line number printing mechanism
+%  \protect\BeginAccSupp{ActualText={}}\arabic{lstnumber}\protect\EndAccSupp{}%
+%}
+%\lstset{
+%	linewidth			= \textwidth, 	% needed in beamer
+%	xleftmargin			= 2em, 			% needed in beamer
+%	xrightmargin		= 2em, 			% needed in beamer
+%	style            	= Matlab-editor,
+%	basicstyle			= \tiny\ttfamily,
+%	deletekeywords		= {zeros,num2str,reshape},
+%}
+%\lstMakeShortInline[basicstyle=\small\ttfamily\color{cyan}]|
+
+%\newcommand{\inlineListings}[1]{\lstinline[basicstyle=\ttfamily]|#1|}
+

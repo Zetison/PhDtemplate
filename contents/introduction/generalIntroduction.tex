@@ -20,8 +20,7 @@ with the wave number $k=\omega/c_{\mathrm{f}}$.
 \Cref{Fig:physicalProblem} illustrates the general problem setup considered in this thesis. For subsurface acoustics, the unbounded domain $\Omega^+$ is modeled as water whereas internal fluid domains may either be water or air (i.e. pressure hulls in submarines). Sound signals is the only practical way of transmitting sound in water~\cite{Jensen2011coa}, and so an understanding of the physical properties of such signals are important, not only for sonar (sound navigation ranging) technologies, but also the study of marine life. The precise behavior of subsurface sound waves is dependent on a vast set of parameters including the temperature, the salinity and the depth. In this work, however, linearized equations like the wave equation in~\Cref{Eq:waveEquation} will be used with constant sound speed, $c_{\mathrm{f}}$. That is, the fluid domains are assumed to be homogeneous.
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleIGA_PhD/physicalProblem}
-%	\includegraphics[scale=1]{\graphicsFolder/Figure1}
+	\includegraphics[scale=1]{physicalProblem}
 	\caption{Illustration of the physical problem. A plane incident wave, $p_{\mathrm{inc}}(\vec{x})$, is scattered by the scatterer, $\Omega_{\mathrm{s}}$, in an unbounded domain, $\Omega^+$, resulting in the scattered wave, $p(\vec{x})$. The scatterer, which is bounded by the boundaries $\Gamma_1$ and $\Gamma_2$, envelops a fluid domain, $\Omega^-$.}
 	\label{Fig:physicalProblem}
 \end{figure}
@@ -45,12 +44,12 @@ with $r = |\vec{x}|$ and $\hat{\vec{x}} = \vec{x}/|\vec{x}|$ being the far field
 	\centering
 	\begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/elevationAspect}
+		\includegraphics{elevationAspect}
 	\end{subfigure}%
 	\hspace*{0.02\textwidth}%
 	\begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\includegraphics{../../LaTeX/createFigures/TikzFigures/phd/elevationAspect_2}
+		\includegraphics{elevationAspect_2}
 	\end{subfigure}
 	\caption{Illustration of the aspect angle $\alpha$ and the elevation angle $\beta$ describing an observation point $\vec{x}$. The direction of the incident wave can be represented in terms of the aspect angle $\alpha_{\mathrm{s}}$ and the elevation angle $\beta_{\mathrm{s}}$.}
 	\label{Fig:elevationAspect}
@@ -87,21 +86,21 @@ An example of a test case that was presented on the workshop in the Hague was a 
 	\centering
 	\begin{subfigure}{\textwidth}
 		\centering
-		\includegraphics[width=0.6\textwidth]{../../graphics/M1} % width = 0.6613/0.7
+		\includegraphics[width=0.6\textwidth]{M1} % width = 0.6613/0.7
 		\caption{The BeTSSi model 1 - air filled}
 	\end{subfigure}%
 	\par\bigskip
 	\par\bigskip
 	\begin{subfigure}{\textwidth}
 		\centering
-		\includegraphics[width=0.6419\textwidth]{../../graphics/M2} % width = 0.6613/0.7
+		\includegraphics[width=0.6419\textwidth]{M2} % width = 0.6613/0.7
 		\caption{The BeTSSi model 2 - air filled}
 	\end{subfigure}%
 	\par\bigskip
 	\par\bigskip
 	\begin{subfigure}{\textwidth}
 		\centering
-		\includegraphics[width=0.76\textwidth]{../../graphics/M3/M3} % width = 0.6613/0.7
+		\includegraphics[width=0.76\textwidth]{M3} % width = 0.6613/0.7
 		\caption{The BeTSSi model 3 - water filled}
 		\label{Fig:BeTSSi_M3}
 	\end{subfigure}%
@@ -109,26 +108,26 @@ An example of a test case that was presented on the workshop in the Hague was a 
 	\par\bigskip
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\includegraphics[width=0.3\textwidth]{../../graphics/BeTSSi_M4} % width = 0.6613/0.7
+		\includegraphics[width=0.3\textwidth]{BeTSSi_M4} % width = 0.6613/0.7
 		\caption{The BeTSSi model 4}
 	\end{subfigure}%
 	\hspace*{0.005\textwidth}%
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\includegraphics[width=0.45\textwidth]{../../graphics/BeTSSi_M5A}
+		\includegraphics[width=0.45\textwidth]{BeTSSi_M5A}
 		\caption{The BeTSSi model 5A}
 	\end{subfigure}%
 	\hspace*{0.005\textwidth}%
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\includegraphics[width=0.2\textwidth]{../../graphics/BeTSSi_M5B}
+		\includegraphics[width=0.2\textwidth]{BeTSSi_M5B}
 		\caption{The BeTSSi model 5B}
 	\end{subfigure}
 	\par\bigskip
 	\par\bigskip
 	\begin{subfigure}{\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{../../graphics/BCA/CAD}
+		\includegraphics[width=\textwidth]{CAD}
 		\caption{The outer hull of the BeTSSi submarine}
 	\end{subfigure}
 	\caption{\textbf{BeTSSi models}: The BeTSSi model 3 is described and analyzed in~\cite{Venas2015iao} and the BeTSSi submarine is described and analyzed in~\cite{Venas2019ibe}.}
@@ -136,7 +135,7 @@ An example of a test case that was presented on the workshop in the Hague was a 
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../graphics/betssi}
+	\includegraphics[width=\textwidth]{betssi}
 	\caption{The full BeTSSi submarine has internal structures including 8 torpedo tubes, cylindrical hydrophone array, and bulkheads.}
 	\label{Fig:FullBeTSSi}
 \end{figure}
@@ -144,7 +143,7 @@ An example of a test case that was presented on the workshop in the Hague was a 
 The results are illustrated in~\Cref{Fig:BT_RBC_MS}. Clearly such a complex benchmark requires advanced software to obtain accurate solutions which are arguably lacking in this benchmark test case. The state-of-the-art is not satisfactory, which is a motivation for the research in the BeTSSi community. To first obtain accurate solutions for simpler benchmark examples is crucial in order to advance to this level of complexity.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/phd/BT_RBC_MS}
+	\includegraphics[width=\textwidth]{BT_RBC_MS}
 	\caption{Monostatic scattering of the full BeTSSi submarine at $f=\SI{1}{kHz}$ sweeping through the elevation angle $\beta$ at $\alpha=\ang{90}$.}
 	\label{Fig:BT_RBC_MS}
 \end{figure}

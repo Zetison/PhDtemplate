@@ -4,8 +4,8 @@
 
 \usepackage{graphicx}
 \graphicspath{{./graphics/}}
-\input{../../LaTeX/config/header}
-\input{../../LaTeX/config/header_PhD}
+\input{header}
+\input{header_PhD}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +18,6 @@
 \null\vfill
 \begin{flushright}
 	To my family.
-	%To my family, homo sapiens.
 \end{flushright}
 \cleardoublepage
 \KOMAoptions{automark}%
@@ -46,40 +45,44 @@
 \paperJournal{}%
 \publicationStatus{}%
 \paperAuthors{}%
+\graphicspath{{./graphics/introduction/}}
 \includePaper{Introduction}{}{\include{introduction}}%
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Include paper I
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Include paper I
 \paperTitle{Exact 3D Scattering Solutions for Spherical Symmetric Scatterers}%
 \paperJournal{Journal of Sound and Vibration}%
 \publicationStatus{Published in \textit{\the\paperJournal} (2019) \textbf{440}:439--479}%
 \paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Jenserud}%
+\graphicspath{{./graphics/paperI/}}
 \includePaper{}{}{\include{PaperI}}%
-%%%%
+%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Include paper II
 \paperTitle{Isogeometric Analysis of Acoustic Scattering using Infinite Elements}%
 \paperJournal{Computer Methods in Applied Mechanics and Engineering}%
 \publicationStatus{Published in \textit{\the\paperJournal} (2018) \textbf{335}:152--193}%
 \paperAuthors{Jon~Vegard~Ven{\aa}s, Trond~Kvamsdal and Trond~Jenserud}%
+\graphicspath{{./graphics/paperII/}}
 \includePaper{}{}{\include{PaperII}}%
-%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% Include paper III
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Include paper III
 \paperTitle{Isogeometric Boundary Element Method for Acoustic Scattering by a Submarine}%
-%\paperTitle{Isogeometric Boundary Element Method}%
 \paperJournal{Computer Methods in Applied Mechanics and Engineering}%
 \publicationStatus{Accepted in \textit{\the\paperJournal}}%
 \paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\graphicspath{{./graphics/paperIII/}}
 \includePaper{}{}{\include{PaperIII}}%
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Include paper IV
 \paperTitle{Isogeometric Kirchhoff Approximation using Numerical Steepest Descent}%
 \paperJournal{}%
 \publicationStatus{Work in progress}%
 \paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\graphicspath{{./graphics/paperIV/}}
 \includePaper{}{}{\include{PaperIV}}%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,6 +92,7 @@
 \paperJournal{}%
 \publicationStatus{}%
 \paperAuthors{Jon~Vegard~Ven{\aa}s and Trond~Kvamsdal}%
+\graphicspath{{./graphics/addendum/}}
 \includePaper{Addendum}{withDash}{\include{addendum}}%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,5 +101,6 @@
 \paperJournal{}%
 \publicationStatus{}%
 \paperAuthors{}%
+\graphicspath{{./graphics/appendices/}}
 \includePaper{Appendices}{}{\include{appendices}}%
 \end{document}

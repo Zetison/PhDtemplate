@@ -1,0 +1,218 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load packages
+\usepackage[hmargin=2cm,vmargin=2.5cm]{geometry} % to control margins: hmargin is left/right margin, and vmargin is top/bottom margin
+
+% The following is used to get ragged right toc
+\usepackage{tocbasic}
+\DeclareTOCStyleEntry[
+  indent=0pt,
+  numwidth=0pt,
+  pagenumberbox={\mbox},
+  raggedentrytext
+]{tocline}{part}
+\DeclareTOCStyleEntry[
+  pagenumberbox={\mbox},
+  raggedentrytext
+]{tocline}{chapter}
+\DeclareTOCStyleEntries[
+  raggedentrytext
+]{tocline}{section,subsection,subsubsection,paragraph,subparagraph}
+
+\usepackage[headsepline,automark,markcase=noupper]{scrlayer-scrpage}
+\renewcommand*\chaptermarkformat{}
+\renewcommand*\sectionmarkformat{}
+\addtokomafont{pageheadfoot}{\normalfont}
+\setlength{\headheight}{\baselineskip}    
+
+\usepackage{changepage} % needed for detection of odd and even pages, and the adjustwidth environment
+
+\usepackage{titlesec} % the toctitles option includes full title in toc regardless of its length (as opposed to the <alternative name> for example \section[<alternative name>]{name}
+
+\usepackage{appendix} % to get nice appendices
+\newcommand{\tocseparator}{\vspace{0.5\normalbaselineskip}} % Command used to have slightly larger separation between sectionslist and appendiceslist and referenceslist in toc.
+\usepackage{chngcntr} % Defines commands \counterwithin (which sets up a counter to be reset when another is incremented) and \counterwithout (which unsets such a relationship).
+\newcommand*\startappendixeqnumbering{%
+    \counterwithout{equation}{part}%
+    \counterwithin{equation}{section}%
+    \renewcommand*\theequation{\Alph{section}.\arabic{equation}}}
+\newcommand*\startnormaleqnumbering{%
+    \counterwithout{equation}{section}%
+    \counterwithin{equation}{part}%
+    \renewcommand*\theequation{\arabic{equation}}}
+
+\counterwithin{equation}{part}  %Set the default
+
+\usepackage[sectionbib]{chapterbib} % get separate reference lists for each part
+\renewcommand\bibname{References} % rename bibliography as references
+\usepackage{cite} % get correct ordering on references, i.e. not [4,1,2] but [1,2,4]. Also collaps references: [2,3,4,5,6] -> [2-6]
+
+\usepackage[hidelinks,pdftex,hypertexnames=false]{hyperref} % needed for links
+%\hypersetup{colorlinks=true, citecolor=blue, linkcolor=blue, urlcolor=blue} % Color the links
+
+\pdfstringdefDisableCommands{% To resolve warning from "Token not allowed in a PDF string"
+  \let\hskip\empty % this causes the warning for \hskip
+}
+
+\usepackage{cleveref} % To have easy referencing for figures, equations, ... noabbrev option can be used for full name. Note that cleveref must be loaded after hyperref
+\crefname{subsection}{subsection}{subsections}
+\crefname{equation}{Eq.}{Eqs.}
+
+\usepackage{ltablex}
+\usepackage{amsthm}
+\newtheorem{properties}{Properties}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}[section]
+
+% skip the chapter counter and reset enumerations for each "part"
+\makeatletter
+\renewcommand\thefigure{\@arabic\c@figure}
+\renewcommand\thetable{\@arabic\c@table}
+\renewcommand\theequation{\@arabic\c@equation}
+\renewcommand\thesection{\@arabic\c@section}
+\renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
+\renewcommand\thesubsubsection{\@arabic\c@section.\@arabic\c@subsection.\@arabic\c@subsubsection}
+\@addtoreset{definition}{part}
+\@addtoreset{theorem}{part}
+\@addtoreset{proposition}{part}
+\@addtoreset{conjecture}{part}
+\@addtoreset{properties}{part}
+\@addtoreset{lemma}{part}
+\@addtoreset{remark}{part}
+\@addtoreset{figure}{part}
+\@addtoreset{equation}{part}
+\@addtoreset{table}{part}
+\@addtoreset{footnote}{part}
+\makeatother
+
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
+\newcommand{\specialcell}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\ignorespaces\fi}
+
+% the following three packages are used for filled box around "Paper i" in front part page
+\usepackage{mdframed} 
+\usepackage{textpos}
+\usepackage{calc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtoks\paperJournal
+\newtoks\publicationStatus
+\newtoks\paperAuthors
+\newtoks\paperTitle
+
+\makeatletter
+\def\title#1{\gdef\@title{#1}}
+\let\@title\@empty
+\let\authorSep\@empty
+\let\eaddressSep\@empty
+\def\pAuthors{}
+\def\pAddresses{}
+\def\pEaddresses{}
+\def\author[#1]#2{\g@addto@macro\pAuthors{\authorSep#2\textsuperscript{#1}\def\authorSep{\unskip,\space}}}% 
+\def\address[#1]#2{\g@addto@macro\pAddresses{\textsuperscript{#1}\textit{#2}\par}}% 
+\def\eaddress[#1]#2{\g@addto@macro\pEaddresses{\eaddressSep\texttt{#2} (#1)\def\eaddressSep{\unskip,\space}}}
+
+\newbox\absbox
+\newenvironment{abstract}{\global\setbox\absbox=\vbox\bgroup
+  \hsize=\textwidth%
+  \noindent\unskip\textbf{Abstract}
+\par\medskip\noindent\unskip\ignorespaces}
+{\egroup}
+
+
+\def\sep{\unskip, }%
+\newenvironment{pFrontmatter}{
+\setcounter{section}{0}
+\let\@title\@empty
+\let\authorSep\@empty%
+\let\eaddressSep\@empty%
+\let\pAuthors\@empty%
+\let\pAddresses\@empty%
+\let\pEaddresses\@empty%
+\title{\the\paperTitle}
+}{%
+	\clearpage\thispagestyle{empty}%
+	\begin{center}%
+    	\Large\@title\par\vskip18pt
+	    \normalsize\pAuthors\par\vskip10pt%
+	    \footnotesize\pAddresses\par\vskip36pt%
+	    \hrule\vskip12pt%
+	    \ifvoid\absbox\else\unvbox\absbox\par\vskip10pt\fi%
+    	\hrule\vskip12pt%
+    \end{center}%
+	\let\thefootnote\relax\footnotetext{\textsuperscript{$\ast$}Corresponding author.\newline\raggedright\textit{Email addresses:\space}\pEaddresses.}%
+	\gdef\thefootnote{\arabic{footnote}}%
+	\markboth{\the\paperTitle}{}%
+}
+\makeatother
+\newlength{\blackBoxWidth}
+\setlength{\blackBoxWidth}{6.4cm}
+\assignpagestyle{\part}{empty} % no page number on part title page
+\titleformat{\part}[display]{
+\setcounter{section}{0}% Let counter for section (and then also subsection) reset for each part
+\setcounter{subsection}{0}% Let counter for section (and then also subsection) reset for each part
+\centering\normalfont\Huge\bfseries
+}
+{
+	\begin{textblock*}{\blackBoxWidth}(\paperwidth-1in-\hoffset-\oddsidemargin-\blackBoxWidth, 0cm)
+	\begin{mdframed}[userdefinedwidth=\blackBoxWidth,linewidth=0pt,innertopmargin=10.25pt,backgroundcolor=black] % 
+		\textcolor{white}{\partname}
+	\end{mdframed}
+	\end{textblock*}
+}
+{0pt}
+{\vspace*{2cm}\LARGE}
+[
+	\vspace{1cm}
+	\normalfont\Large{\the\paperAuthors}        
+	\vfill        
+	\large{\the\publicationStatus}
+]
+\titleformat{\chapter}{\normalfont\Huge\bfseries}{}{0pt}{}
+\titleformat{\section}[hang]{\bfseries\Large}{\thesection.\quad}{0pt}{}
+\titleformat{\subsection}[hang]{\itshape}{\thesubsection.\quad}{0pt}{}
+\titleformat{\subsubsection}[hang]{\itshape}{\thesubsubsection.\quad}{0pt}{}
+
+\newcommand{\includePaper}[3]{
+\def\tmpOne{#1}%
+\def\tmpTwo{#2}%
+\ifx\tmpOne\empty
+	\renewcommand{\thepart}{Paper~\Roman{part}\texorpdfstring{\quad}{ }--}
+	\renewcommand{\partname}{Paper~\Roman{part}}
+\else
+	\ifx\tmpTwo\empty
+		\renewcommand{\thepart}{#1}
+	\else
+		\renewcommand{\thepart}{#1\texorpdfstring{\quad}{ }--}
+	\fi
+	\renewcommand{\partname}{#1\vphantom{Pp}} % \vphantom{Pp} added to get correct vertical spacing
+\fi
+\part{\the\paperTitle}
+#3 % contents
+\clearpage
+\KOMAoptions{manualmark}
+\markright{References}
+\cleardoublepage
+\KOMAoptions{automark}
+}
+
+\crefname{appsec}{Appendix}{Appendices}
+\newenvironment{inputAppendices}{
+\begin{appendices}
+\crefalias{section}{appsec}
+\addtocontents{toc}{\tocseparator} % add an empty line before appendices in toc
+\renewcommand{\thesection}{\Alph{section}}%
+\renewcommand{\thesubsection}{\Alph{section}.\arabic{subsection}}%
+\renewcommand{\thefigure}{\thesection\arabic{figure}}%   
+\startappendixeqnumbering%
+}{
+\startnormaleqnumbering%
+\end{appendices}
+}
+
+\usepackage{bookmark} % To resolve "Difference (2) between bookmark levels is greater" - warning
+\usepackage{emptypage} % get empty pages on even numbered pages (no footer and header) if initially empty due to \cleardoublepage command
+%\usepackage{blindtext} % To create temporary Lorem Ipsum text

@@ -1,0 +1,136 @@
+\section{Fundamental functions}
+Exact solutions for scattering problems on spherical symmetric scatterers are heavily based on the spherical coordinate system defined in \Cref{Sec1:sphericalCoordinates}. Some fundamental functions then naturally arise, and the notation will briefly be presented in the following.
+
+\subsection{Legendre polynomials}
+\label{subsec:legendre}
+The Legendre polynomials are defined recursively by (cf.~\cite[p. 332]{Abramowitz1965hom})
+\begin{equation}
+	(n+1)\legendre_{n+1}(x)=(2n+1)x\legendre_n(x)-n\legendre_{n-1}(x)
+\end{equation}
+starting with $\legendre_0(x) = 1$ and $\legendre_1(x) = x$. From orthogonality property~\cite[\href{http://functions.wolfram.com/05.03.21.0006.01}{05.03.21.0006.01}]{WolframResearch2016m}
+\begin{equation}
+	\int_{-1}^1 \legendre_m(x)\legendre_n(x)\idiff x = \frac{2}{2n+1}\delta_{mn},
+\end{equation}
+with $\delta_{mn}$ being the Kronecker delta function, one can do a simple substitution to obtain the following expression
+\begin{equation}\label{Eq1:legendreOrthogonality}
+	\int_0^\PI \legendre_m(\cos\vartheta)\legendre_n(\cos\vartheta)\sin\vartheta\idiff \vartheta = \frac{2}{2n+1}\delta_{mn}.
+\end{equation}
+Note the following identity from the expanded Legendre equation
+\begin{equation}\label{Eq1:expandedLegendreEquationIdentity}
+	\deriv[2]{}{\vartheta} \legendre_n(\cos\vartheta) + \cot\vartheta \deriv{}{\vartheta} \legendre_n(\cos\vartheta) = -n(n+1)\legendre_n(\cos\vartheta).
+\end{equation}
+The associated Legendre polynomials is a generalization of the Legendre polynomials as they are defined by
+\begin{equation}
+	\legendre_n^m(x) = (-1)^m(1-x^2)^{\frac{m}{2}}\pderiv[m]{}{x} \legendre_n(x).
+\end{equation}
+A convenient result of this is the following relation
+\begin{equation}
+	\legendre_n^1(\cos\vartheta) = \deriv{}{\vartheta} \legendre_n(\cos\vartheta)\label{Eq1:LegendreRelation1}.
+\end{equation}
+Let $\left\{Q_n^{(j)}\right\}_{j\in\N}$ be a set of functions defined by
+\begin{equation}
+	Q_n^{(j)}(\vartheta) = \deriv[j]{}{\vartheta}\legendre_n(\cos\vartheta),
+\end{equation}
+the first four of which are given by
+\begin{align}
+\begin{split}\label{Eq1:Qs}
+	Q_n^{(0)}(\vartheta) &= \legendre_n(\cos\vartheta)\\
+	Q_n^{(1)}(\vartheta) &= - \legendre_n'(\cos\vartheta)\sin\vartheta\\
+	Q_n^{(2)}(\vartheta) &= - \legendre_n'(\cos\vartheta)\cos\vartheta + \legendre_n''(\cos\vartheta)\sin^2\vartheta\\
+	Q_n^{(3)}(\vartheta) &=  \legendre_n'(\cos\vartheta)\sin\vartheta  +\frac32 \legendre_n''(\cos\vartheta)\sin 2\vartheta - \legendre_n'''(\cos\vartheta)\sin^3\vartheta\\
+	\end{split}
+\end{align}
+where the derivatives are found by the recursion relations
+\begin{align}
+	&(n+1)\legendre_{n+1}'(x)=(2n+1)\left[\legendre_n(x)+x \legendre_n'(x)\right]-n\legendre_{n-1}'(x)\\
+	&(n+1)\legendre_{n+1}''(x)=(2n+1)\left[2\legendre_n'(x)+ x\legendre_n''(x)\right]-n\legendre_{n-1}''(x)\\
+	&(n+1)\legendre_{n+1}'''(x)=(2n+1)\left[3\legendre_n''(x)+x \legendre_n'''(x)\right]-n\legendre_{n-1}'''(x)
+\end{align}
+starting with 
+\begin{align*}
+	&\legendre_0'(x) = 0,\quad \legendre_1'(x) = 1, \quad \legendre_2'(x) = 3x\\
+	&\legendre_0''(x) = 0,\quad \legendre_1''(x) = 0, \quad \legendre_2''(x) = 3, \quad \legendre_3''(x) = 15x\\
+	&\legendre_0'''(x) = 0,\quad \legendre_1'''(x) = 0, \quad \legendre_2'''(x) = 0, \quad \legendre_3'''(x) = 15, \quad \legendre_4'''(x) = 105x.
+\end{align*}
+Note that the formulas in \Cref{Eq1:Qs} can be rewritten in the following way
+\begin{align}
+	Q_n^{(1)}(\vartheta) &= \frac{n}{\sin\vartheta} \left[ \legendre_n(\cos\vartheta)\cos\vartheta - \legendre_{n-1}(\cos\vartheta)\right]\\
+	Q_n^{(2)}(\vartheta) &= \frac{n}{\sin^2\vartheta} \left[-\left(n\sin^2\vartheta+1 \right)\legendre_n(\cos\vartheta) -  \legendre_{n-1}(\cos\vartheta)\cos\vartheta\right].
+\end{align}
+From \Cref{Eq1:expandedLegendreEquationIdentity} the following relations can be obtained
+\begin{align}\label{Eq1:expandedLegendreEquationIdentity2}
+	Q_n^{(2)}(\vartheta) &= - Q_n^{(1)}(\vartheta)\cot\vartheta -n(n+1)Q_n^{(0)}(\vartheta)\\
+	Q_n^{(3)}(\vartheta) &= - Q_n^{(2)}(\vartheta)\cot\vartheta + Q_n^{(1)}(\vartheta)\cot^2\vartheta + (-n^2-n+1)Q_n^{(1)}(\vartheta).\label{Eq1:expandedLegendreEquationIdentity3}
+\end{align}
+
+\subsection{Spherical Bessel and Hankel functions}
+\label{subsec:sphericalBesselAndHankel}
+The Bessel functions of the first kind can be defined by~\cite[p. 360]{Abramowitz1965hom}
+\begin{equation}
+	\besselJ_\upsilon(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \GAMMA(m+\upsilon+1)}\left(\frac{x}{2}\right)^{2m+\upsilon},
+\end{equation}
+while the Bessel functions of the second kind are defined by
+\begin{equation}
+	\besselY_\upsilon(x) = \frac{\besselJ_\upsilon(x) \cos(\upsilon\PI)-\besselJ_{-\upsilon}(x)}{\sin(\upsilon\PI)},
+\end{equation}
+where
+\begin{equation}
+	\besselY_n(x) = \lim_{\upsilon\to n} \besselY_\upsilon(x)
+\end{equation}
+whenever $n\in\Z$ (cf.~\cite[p. 358]{Abramowitz1965hom}). These definitions may be used to define the \textit{spherical Bessel functions}. The spherical Bessel functions of the first kind are defined by (cf.~\cite[p. 437]{Abramowitz1965hom})
+\begin{equation}
+	\besselj_n(x) = \sqrt{\frac{\PI}{2x}}\besselJ_{n+\frac{1}{2}}(x)
+\end{equation}
+and the second kind are defined by
+\begin{equation}
+	\bessely_n(x) = \sqrt{\frac{\PI}{2x}}\besselY_{n+\frac{1}{2}}(x).
+\end{equation}
+Some important limits of the spherical Bessel function of the first kind at the origin are~\cite[\href{http://functions.wolfram.com/03.21.20.0016.01}{03.21.20.0016.01} and \href{http://functions.wolfram.com/03.21.20.0017.01}{03.21.20.0017.01}]{WolframResearch2016m}
+\begin{align}
+	&\lim_{x\to 0} \besselj_0(x) = 1,\quad \lim_{x\to 0} \besselj_n(x) = 0 \quad\forall n\in\N^*\\
+	&\lim_{x\to 0} \deriv{}{x}\besselj_1(x) = \frac{1}{3},\quad \lim_{x\to 0} \deriv{}{x}\besselj_n(x) = 0 \quad\forall n\in\N\setminus\{1\}\\
+	&\lim_{x\to 0} \deriv[2]{}{x}\besselj_0(x) = -\frac{1}{3},\quad\lim_{x\to 0} \deriv[2]{}{x}\besselj_2(x) = \frac{2}{15}, \quad\lim_{x\to 0} \deriv[2]{}{x}\besselj_n(x) = 0 \quad\forall n\in\N\setminus\{0,2\}.
+\end{align}
+From this the following limits are obtained
+\begin{equation}\label{Eq1:BesselLimits}
+	\lim_{x\to 0^+} \frac{\besselj_n(x)}{x} = \begin{cases} \infty & n = 0\\
+	\frac{1}{3} & n = 1\\
+	0 & n > 1
+	\end{cases}
+\end{equation}
+and
+\begin{equation}\label{Eq1:BesselLimits2}
+	\lim_{x\to 0^+} \frac{\besselj_n(x)}{x^2} = \begin{cases} \infty & n = 0,1\\
+	\frac{1}{15} & n = 2\\
+	0 & n > 2.
+	\end{cases}
+\end{equation}
+A couple of convenient identities involving the derivatives of the spherical Bessel functions are given by~\cite[\href{http://functions.wolfram.com/03.21.20.0007.01}{03.21.20.0007.01} and \href{http://functions.wolfram.com/03.21.20.0007.01}{03.21.20.0008.01}]{WolframResearch2016m}
+\begin{align}\label{Eq1:BesselDerivIdentity1}
+	\deriv{}{x}Z_n^{(i)}(x) &=  Z_{n-1}^{(i)}(x) -\frac{n+1}{x}Z_n^{(i)}(x)\\
+	\deriv{}{x}Z_n^{(i)}(x) &= \frac{n}{x}Z_n^{(i)}(x) - Z_{n+1}^{(i)}(x)\label{Eq1:BesselDerivIdentity2}
+\end{align}
+for $i=1,2$. By combining these two formulas, one can compute higher order derivatives. For example
+\begin{equation}\label{Eq1:BesselDerivIdentity3}
+	\deriv[2]{}{x}Z_n^{(i)}(x) =  \left[\frac{n(n-1)}{x^2}-1\right] Z_n^{(i)}(x) + \frac{2}{x}Z_{n+1}^{(i)}(x).
+\end{equation}
+The spherical Hankel functions of the first and second kind can now be expressed by
+\begin{equation}
+	\hankel^{(1)}_n(x) = \besselj_n(x) +  \imag \bessely_n(x)
+\end{equation}
+and 
+\begin{equation}
+	\hankel^{(2)}_n(x) = \besselj_n(x) -  \imag \bessely_n(x).
+\end{equation}
+respectively. Two important limits for spherical Hankel functions are~\cite[p. 25]{Ihlenburg1998fea}
+\begin{align}
+	\lim_{x\to\infty} x\euler^{-\imag x} \hankel^{(1)}_n(x) = \imag^{-n-1}\label{Eq1:sphericalHankelLimit}\\
+	\lim_{x\to\infty} x\euler^{\imag x} \hankel^{(2)}_n(x) = \imag^{n+1}
+\end{align}
+One can trivially show that the \Cref{Eq1:BesselDerivIdentity1,Eq1:BesselDerivIdentity2,Eq1:BesselDerivIdentity3} holds for spherical Hankel functions as well
+\begin{align}
+	\deriv{}{x}\hankel^{(i)}_n(x) &=  \hankel^{(i)}_{n-1}(x) -\frac{n+1}{x}\hankel^{(i)}_n(x)\\
+	\deriv{}{x}\hankel^{(i)}_n(x) &= \frac{n}{x}\hankel^{(i)}_n(x) - \hankel^{(i)}_{n+1}(x)\label{Eq1:HankelDerivIdentity2}\\
+	\deriv[2]{}{x}\hankel^{(i)}_n(x) &= \left[\frac{n(n-1)}{x^2}-1\right] \hankel^{(i)}_n(x) + \frac{2}{x}\hankel^{(i)}_{n+1}(x),
+\end{align}
+for $i=1,2$.

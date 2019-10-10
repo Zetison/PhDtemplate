@@ -1,0 +1,31 @@
+\newpage
+\section{Conclusions}
+\label{Sec2:conclusions}
+This article addresses acoustic scattering characterized by sound waves reflected by man-made elastic objects. The present approach is characterized by:
+\begin{itemize}
+	\item The fluid surrounding (inside and in the vicinity outside) the solid scatterer is discretized by using isogeometric analysis (IGA).
+	\item The unbounded domain outside the artificial boundary circumscribing the scatterer is handled by use of the infinite element method (IEM).
+	\item The elastic scatterer is discretized by using IGA.
+	\item The coupled acoustic structure interaction (ASI) problem is solved as a monolithic problem.
+\end{itemize}
+
+The main finding of the present study is that the use of IGA significantly increases the accuracy compared to the use of $C^0$ finite element analysis (FEA) due to increased inter-element continuity of the spline basis functions.
+
+Furthermore, the following observations are made
+\begin{itemize}
+	\item IGA and the four presented IEM formulations work well on acoustic scattering for low frequencies. Among the infinite element formulations, the unconjugated version seems to give the best results.
+	\item IGA's ability to represent the geometry exactly was observed to be of less importance for accuracy when comparing to higher order ($\check{p}\geq 2$) isoparametric FEA. However, a more significant improvement offered by IGA is due to higher continuity of the spline basis functions in the solution space.
+	\item The IGA framework enables roughly the same accuracy per element (compared to higher order isoparametric FEA) even though the number of degrees of freedom is significantly reduced.
+	\item IGA is more computationally efficient than FEA to obtain highly accurate solutions. That is, when the mesh is sufficiently resolved, a given accuracy is obtained computationally faster using IGA.
+	\item As for the FEA, IGA also suffers from the pollution effect at high frequencies. This will always be a problem, and for the higher frequency spectrum, the methods must be extended correspondingly. The XIBEM~\cite{Peake2013eib,Peake2015eib} (extended isogeometric boundary element method) is such an extension for the boundary element method. This technique (and similar enrichment strategies) could be applied to IEM as well and is suggested as future work.
+	\item The IEM suffers from high condition numbers when the number of radial shape functions in the infinite elements ($N$) is large. This becomes a problem for more complex geometries as $N$ must be increased to achieve higher precision.
+\end{itemize}
+The main disadvantages of using IGA with IEM is the need for a surface-to-volume parametrization between the scatterer and the artificial boundary, $\Omega_{\mathrm{a}}$. In this paper, the scatterer has been simple enough to discretize $\Omega_{\mathrm{a}}$ using a single 3D NURBS patch. For more complex geometries, this becomes more involved, and is a topic of active research to this date in the IGA community~\cite{Engvall2016itb,Engvall2017iut,Xia2017iaw}. The surface-to-volume parametrization and the conditioning are the main open issues of IGA with IEM and should be explored in future research.
+
+\section*{Acknowledgements}
+This work was supported by the Department of Mathematical Sciences at the Norwegian University of Science and Technology and by the Norwegian Defence Research Establishment.
+
+The stripped BeTSSi submarine simulations were performed on resources provided by UNINETT Sigma2 --- the National Infrastructure
+for High Performance Computing and Data Storage in Norway (reference number: NN9322K/4317).
+
+The authors would like to thank the reviewers for detailed response and many constructive comments.

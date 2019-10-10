@@ -24,13 +24,13 @@ The initial formulation of the IEM assumed the artificial boundary to be a spher
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../LaTeX/createFigures/TikzFigures/phd/model3_inWaterInf}
+	\includegraphics[width=\textwidth]{model3_inWaterInf}
 	\caption{An infinite element in a prolate spheroidal coordinate system.}
 	\label{Fig:model3_inWaterInf}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../../graphics/model3_in_waterInf2}
+	\includegraphics[width=\textwidth]{model3_in_waterInf2}
 	\caption{An infinite element attached directly onto the scatterer (which is here the BeTSSi model 3).}
 	\label{Fig:model3_in_waterInf2}
 \end{figure}
@@ -66,61 +66,3 @@ the formula in \Cref{Eq:KirchhoffIntegral} simplifies in the far field to (cf.~\
 	p_0(\hat{\vec{x}}) = -\frac{1}{4\PI}\int_{\Gamma}\left[ \imag k p(\vec{y})\hat{\vec{x}}\cdot\vec{n}(\vec{y}) + \pderiv{p(\vec{y})}{n(\vec{y})}\right]\euler^{-\imag k \hat{\vec{x}}\cdot\vec{y}}\idiff \Gamma(\vec{y}).
 \end{equation}
 from which the target strength in~\Cref{Eq:TS} may be computed.
-
-%
-%\subsection{Absorbing boundary conditions}
-%\textcolor{red}{Give introduction to ABC and numerical example.}
-%
-%The ABC operator of first order is given by
-%\begin{equation*}
-%	\pderiv{u}{r} = \left(\imag k - \frac{1}{r_{\mathrm{a}}}\right) u 
-%\end{equation*}
-%and the second order operator by
-%\begin{equation*}
-%	\pderiv{u}{r} = \left(\imag k-\frac{1}{r_{\mathrm{a}}}\right) u + \frac{1}{2r_{\mathrm{a}}}\frac{1}{1-\imag kr_{\mathrm{a}}}\nabla_{\mathrm{S}}^2 u
-%\end{equation*}
-%the third is given by
-%\begin{equation*}
-%	\pderiv{u}{r} = \left(\imag k - \frac{1}{r_{\mathrm{a}}}\right) u + \frac{1}{2r_{\mathrm{a}}}\frac{1}{1-\imag kr_{\mathrm{a}}}\nabla_{\mathrm{S}}^2 u + \frac{1}{2}\frac{1}{1-\imag kr_{\mathrm{a}}}\frac{1}{2-\imag k r_{\mathrm{a}}}\left(2+\nabla_{\mathrm{S}}^2\right)\left[\left(\frac{1}{r_{\mathrm{a}}}-\imag k\right)u+\pderiv{u}{r}\right]
-%\end{equation*}
-%with
-%\begin{equation*}
-%	\nabla_{\mathrm{S}}^2 = \pderiv[2]{}{\vartheta} + \cot\vartheta\pderiv{}{\vartheta} + \frac{1}{\sin^2\vartheta}\pderiv[2]{}{\varphi}
-%\end{equation*}
-%
-%Since (for the second order operator)
-%\begin{equation*}
-%	-\int_{\Gamma_{\mathrm{a}}} q\nabla p\cdot\vec{n}\idiff\Gamma = -\int_{\Gamma_{\mathrm{a}}} q\pderiv{p}{r}\idiff\Gamma = -\left(\imag k-\frac{1}{r_{\mathrm{a}}}\right)\int_{\Gamma_{\mathrm{a}}} qp\idiff\Gamma - \frac{1}{2r_{\mathrm{a}}}\frac{1}{1-\imag kr_{\mathrm{a}}}\int_{\Gamma_{\mathrm{a}}} q\nabla_{\mathrm{S}}^2p\idiff\Gamma
-%\end{equation*}
-%where
-%\begin{equation*}
-%	\int_{\Gamma_{\mathrm{a}}} q\nabla_{\mathrm{S}}^2p\idiff\Gamma = -\int_{\Gamma_{\mathrm{a}}} \nabla_{\mathrm{S}}q\cdot\nabla_{\mathrm{S}}p\idiff\Gamma
-%\end{equation*}
-%and
-%\begin{equation*}
-%	\nabla_{\mathrm{S}} = \frac{\vec{e}_{\upvartheta}}{r}\pderiv{}{\vartheta} + \frac{\vec{e}_{\upvarphi}}{r\sin\vartheta}\pderiv{}{\varphi}.
-%\end{equation*}
-%Since
-%\begin{equation*}
-%	\nabla_{\mathrm{S}}q\cdot\nabla_{\mathrm{S}}p = \frac{1}{r^2}\pderiv{q}{\vartheta}\pderiv{p}{\vartheta} + \frac{1}{r^2\sin^2\vartheta}\pderiv{q}{\varphi}\pderiv{p}{\varphi}
-%\end{equation*}
-%we get
-%\begin{equation*}
-%	-\int_{\Gamma_{\mathrm{a}}} q\nabla p\cdot\vec{n}\idiff\Gamma = -\left(\imag k-\frac{1}{r_{\mathrm{a}}}\right)\int_{\Gamma_{\mathrm{a}}} qp\idiff\Gamma + \frac{1}{2r_{\mathrm{a}}^3}\frac{1}{1-\imag kr_{\mathrm{a}}}\left[\int_{\Gamma_{\mathrm{a}}} \pderiv{q}{\vartheta}\pderiv{p}{\vartheta} + \frac{1}{\sin^2\vartheta}\pderiv{q}{\varphi}\pderiv{p}{\varphi}\idiff\Gamma\right]
-%\end{equation*}
-%
-%The Bayliss-GunzBurger-Turkel-operators (BGT-operators)~\cite{Bayliss1982bcf}, are given by
-%\begin{equation*}
-%	B_N = \prod_{n=1}^N \left(\pderiv{}{r}-\imag k + \frac{2n-1}{r}\right) = \left(\pderiv{}{r}-\imag k + \frac{2N-1}{r}\right) B_{N-1}
-%\end{equation*}
-%such that we get the following boundary conditions
-%\begin{equation*}
-%	B_1 = \pderiv{u}{r}-\left(\imag k - \frac{1}{r}\right)u
-%\end{equation*}
-%\begin{equation*}
-%	B_2 = \pderiv{u}{r}-\left(\imag k-\frac{1}{r_{\mathrm{a}}}\right) u - \frac{1}{2r_{\mathrm{a}}}\frac{1}{1-\imag kr_{\mathrm{a}}}\nabla_{\mathrm{S}}^2 u
-%\end{equation*}
-%where the second derivative is eliminated by the Helmholtz equation in spherical coordinates
-%\begin{equation*}
-%	\pderiv[2]{u}{r} = -\frac{2}{r}\pderiv{u}{r} - \nabla_{\mathrm{S}}^2 u - k^2 u.
-%\end{equation*}

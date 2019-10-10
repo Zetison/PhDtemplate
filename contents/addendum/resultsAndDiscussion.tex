@@ -21,15 +21,13 @@ with $f(x)=\left(x^2+4x+1\right)\euler^x$ and analytic solution given by $u(x) =
 In other words, degree elevation are more restricted using IGA compared to SEM.
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/poisson}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{poisson}
 	\caption{\textbf{Poisson 1D problem}: Illustration of the spectral convergence for SEM and IGA.}
 	\label{Fig5:poisson}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/poisson_cond}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{poisson_cond}
 	\caption{\textbf{Poisson 1D problem}: An exponential behavior of the condition number is obtained for IGA, but only algebraic order is obtained for SEM when considering $\check{p}$-refinement and $\check{k}$-refinement, respectively. The behavior estimates for the two methods (found in \Cref{Eq5:condSEM,Eq5:condIGA2}, respectively) has been added}
 	\label{Fig5:poisson_cond}
 \end{figure}
@@ -52,22 +50,20 @@ We shall use the same number of terms in the analytic series in \Cref{Eq5:analyt
 	\centering
 	\begin{subfigure}[t]{0.48\textwidth}
 		\centering
-		%\includegraphics{../../LaTeX/createFigures/TikzFigures/articleJenserud/nearFields_S5_SHBC_real}
-		\includegraphics[width=\textwidth]{../../graphics/MA8502/Ninf}
+		\includegraphics[width=\textwidth]{Ninf}
 		\label{Fig5:S1Ninf}
 	\end{subfigure}
 	~
 	\begin{subfigure}[t]{0.48\textwidth}
 		\centering
-		%\includegraphics{../../LaTeX/createFigures/TikzFigures/articleJenserud/nearFields_S5_SHBC_abs}
-		\includegraphics[width=\textwidth]{../../graphics/MA8502/N2}
+		\includegraphics[width=\textwidth]{N2}
 		\label{Fig5:S1N2}
 	\end{subfigure}
 	\caption{\textbf{Rigid scattering on a sphere}: Plots of the near field of the scattered pressure resulting from a plane wave incident on a sphere at $f=\SI{10}{kHz}$. The plot to the left is the full solution, whereas the plot to the right is the solution resulting from the three first terms in the series expansion of the exact solution. The visualization was done in \href{http://www.paraview.org/}{Paraview}.}
 	\label{Fig5:Benchmarks_NearField}
 \end{figure}
 
-%We use the following definition of the energy norm (as in \cite{Venas2018iao})
+We use the following definition of the energy norm (as in \cite{Venas2018iao})
 \begin{equation}\label{Eq5:energyNormFluids}
 	\energyNorm{p}{\Omega_{\mathrm{a}}} = \sqrt{\int_{\Omega_{\mathrm{a}}} \left|\nabla p\right|^2 + k^2|p|^2 \idiff\Omega}
 \end{equation}
@@ -81,13 +77,13 @@ The meshes for both IGA and SEM are made based on 6 patches as illustrated in \C
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{../../graphics/S1/S13D_IGA}
+		\includegraphics[width=\textwidth]{S13D_IGA}
 		\caption{IGA mesh}
 	\end{subfigure}
 	~    
 	\begin{subfigure}[t]{0.4\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{../../graphics/S1/S13D_SEM}
+		\includegraphics[width=\textwidth]{S13D_SEM}
 		\caption{SEM mesh}
 	\end{subfigure}
 	\caption{\textbf{Rigid scattering on a sphere}: The exact IGA meshing of the spherical shell domain is visually identical to the SEM approximation of the same geometry using only $\check{p}=4$.}
@@ -96,16 +92,14 @@ The meshes for both IGA and SEM are made based on 6 patches as illustrated in \C
 In \Cref{Fig5:S1} we can again observe the expected spectral convergence for both IGA and SEM. Two simulations have been added for low and high frequencies\footnote{Given by $f=kc_{\mathrm{f}}/(2\PI)$ with $c_{\mathrm{f}}=\SI{1500}{m/s}$.}, $f=\SI{1}{kHz}$ and $f=\SI{10}{kHz}$, respectively. For the high frequency case, it is apparent that the geometry approximation is of less importance compared to the low frequency case as the error from resolving the wavelength is dominating the error in the geometry approximation. We can again here observe the instabilities for IGA for high polynomial orders.
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/S1}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{S1}
 	\caption{\textbf{Rigid scattering on a sphere}: Illustration of the spectral convergence for SEM and IGA.}
 	\label{Fig5:S1}
 \end{figure}
 This is again due to the large condition numbers in the stiffness and mass matrices for the IGA as illustrated in \Cref{Fig5:S1_cond}. 
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/S1_cond}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{S1_cond}
 	\caption{\textbf{Rigid scattering on a sphere}: An exponential behavior of the condition number is obtained for IGA, but only algebraic order is obtained for SEM when considering $\check{p}$-refinement. }
 	\label{Fig5:S1_cond}
 \end{figure}
@@ -114,22 +108,19 @@ This is again due to the large condition numbers in the stiffness and mass matri
 The timings for building and solving the system for SEM and IGA are reported in \Cref{Fig5:S1_timeBuildSystem} and \Cref{Fig5:S1_timeSolveSystem}, respectively. These figures are added to show the total timings in \Cref{Fig5:S1_tot_time}. Here the key takeaway is the difference in convergence rate as a function of the time spent for both building and solving the system. The patch matrix construction is faster for SEM as the patch matrix sparsity goes as $\bigoh(n^{-1})$, which is in contrast to the corresponding IGA matrices which are fully dense. This is also the reason for better timings for solving the system using SEM as the global matrices are much sparser compared to the global matrices for IGA.
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/S1_timeBuildSystem}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{S1_timeBuildSystem}
 	\caption{\textbf{Rigid scattering on a sphere}: The relative energy error is plotted against the total time spent on building the mass matrix, the stiffness matrix and the right-hand side vector.}
 	\label{Fig5:S1_timeBuildSystem}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/S1_timeSolveSystem}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{S1_timeSolveSystem}
 	\caption{\textbf{Rigid scattering on a sphere}: The relative energy error is plotted against the computational time required to solve the system using a direct solver.}
 	\label{Fig5:S1_timeSolveSystem}
 \end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/S1_tot_time}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{S1_tot_time}
 	\caption{\textbf{Rigid scattering on a sphere}: The relative energy error is plotted against the total computational time (sum of the figures in \Cref{Fig5:S1_timeBuildSystem} and \Cref{Fig5:S1_timeSolveSystem}).}
 	\label{Fig5:S1_tot_time}
 \end{figure}

@@ -1,16 +1,7 @@
 \section{Exterior Helmholtz problems}
-%
-%\begin{figure}
-%	\centering
-%	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleIGA/physicalProblem2}
-%	%\includegraphics[scale=1]{Figure1}
-%	\caption[Illustration of the physical problem]{Illustration of the physical problem. A plane incident wave, $p_{\mathrm{inc}}(\vec{c})$, is scattered by the scatterer, $\Gamma$, in an unbounded domain, $\Omega^+$, resulting in the scattered wave, $p(\vec{c})$.}
-%	\label{Fig5:physicalProblem}
-%\end{figure}
 \begin{figure}
 	\centering
-	\includegraphics[scale=1]{../../LaTeX/createFigures/TikzFigures/articleSEM_PhD/artificialBoundary}
-%	\includegraphics[scale=1]{Figure3}
+	\includegraphics[scale=1]{artificialBoundary}
 	\caption[Illustration of artificial boundary]{An artificial boundary $\Gamma_{\mathrm{a}}$ is introduced such that the exterior domain $\Omega^+$ is decomposed by the two domains $\Omega_{\mathrm{a}}$ (which is bounded by $\Gamma$ and $\Gamma_{\mathrm{a}}$) and $\Omega_{\mathrm{a}}^+$. Thus, $\Omega^+ = \Omega_{\mathrm{a}} \cup \Omega_{\mathrm{a}}^+$.}
 	\label{Fig5:artificialBoundary}
 \end{figure}
@@ -139,29 +130,8 @@ In order to evaluate the derivatives of the mapping $\vec{C}$ at the GLL nodes w
 	\left.\pderiv{\vec{C}}{\xi}\right|_{(\xi_\alpha,\eta_\beta,\zeta_\gamma)} = \sum_{i,j,l}\vec{c}_{i,j,l} l'_i(\xi_\alpha)l_j(\eta_\beta)l_l(\zeta_\gamma) = \sum_{i=1}^{n_\upxi}\vec{c}_{i,\beta,\gamma} l'_i(\xi_\alpha).
 \end{equation*}
 If we then store the derivatives $l'_i(\xi_\alpha)$ in the matrix $\vec{D}^\Xi\in\R^{n_\upxi\times n_\upxi}$ all evaluations may be done efficiently by the matrix-matrix products $\vec{D}^\Xi\vec{c}$ where the multidimensional array $\vec{c}\in\R^{3\times n_\upxi\times n_\upeta\times n_\upzeta}$ is the collection of all coefficients of $\vec{C}$. Note that $\vec{c}$ must be rearranged in order to make sense of the product with $\vec{D}^\Xi$. Corresponding efficient evaluations of the other derivatives at the GLL points can be performed in a similar procedure. 
-%In MATLAB this can be done compactly by the following code snippet
-%\lstset{
-%	style            	= Matlab-editor,
-%	basicstyle			= \scriptsize\ttfamily,
-%	deletekeywords		= {zeros,num2str,reshape},
-%}
-%\begin{lstlisting}
-%idx = [2 1 3 4];
-%dCdxi = permute(reshape(Dxi*reshape(permute(c,idx),Nxi,3*Neta*Nzeta),Nxi,3,Neta,Nzeta),idx);
-%idx = [3 2 1 4];
-%dCdeta = permute(reshape(Deta*reshape(permute(c,idx),Neta,3*Nxi*Nzeta),Neta,Nxi,3,Nzeta),idx);
-%idx = [4 2 3 1];
-%dCdzeta = permute(reshape(Dzeta*reshape(permute(c,idx),Nzeta,3*Nxi*Neta),Nzeta,Nxi,Neta,3),idx);
-%\end{lstlisting}
 
 The contributions from the infinite elements can be correspondingly efficiently evaluated using the following formulas
-%\begin{equation}\label{Eq5:infiniteElementsSurfaceIntegrals}
-%\begin{alignedat}{2}
-%	& A_{IJ}^{(1)} = \int_0^{2\PI}\int_0^\PI R_I R_J\sin\vartheta\idiff\vartheta\idiff\varphi,\qquad\qquad && A_{IJ}^{(2)} = \int_0^{2\PI}\int_0^\PI \pderiv{R_I}{\vartheta} \pderiv{R_J}{\vartheta}\sin\vartheta\idiff\vartheta\idiff\varphi\\
-%	& A_{IJ}^{(3)} = \int_0^{2\PI}\int_0^\PI R_I R_J\cos^2\vartheta\sin\vartheta\idiff\vartheta\idiff\varphi, \quad && A_{IJ}^{(4)} = \int_0^{2\PI}\int_0^\PI \pderiv{R_I}{\varphi} \pderiv{R_J}{\varphi}\frac{1}{\sin\vartheta}\idiff\vartheta\idiff\varphi\\
-%	& A_{IJ}^{(5)} = \int_0^{2\PI}\int_0^\PI \pderiv{R_I}{\varphi} \pderiv{R_J}{\varphi}\frac{\cos^2\vartheta}{\sin\vartheta}\idiff\vartheta\idiff\varphi
-%\end{alignedat}	
-%\end{equation}
 \begin{equation*}\resizebox{\textwidth}{!}{$
 \begin{aligned}
 	A_{ij\tilde{i}\tilde{j}}^{(1)} &= \int_{-1}^1\int_{-1}^1 l_i(\xi)l_j(\eta)l_{\tilde{i}}(\xi)l_{\tilde{j}}(\eta)\sin[\vartheta(\xi,\eta)]J^{(3)}(\xi,\eta)\idiff\xi\idiff\eta \\
