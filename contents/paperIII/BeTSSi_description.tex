@@ -113,7 +113,7 @@ As illustrated in \Cref{Fig3:BeTSSi_BC_tailSection}, the NURBS patch is given by
 	\hspace*{0.02\textwidth}%  
 	\begin{subfigure}{0.49\textwidth}
 		\centering
-		\includegraphics{tailSectionNEW}
+		\includegraphics{tailSectionNew}
 		\caption{Illustration of the control polygon mesh.}
 		\label{Fig3:BeTSSi_BC_tailSection_cp}
 	\end{subfigure}
@@ -334,7 +334,7 @@ The approximations are done by performing least squares of the trimming curves. 
 
 All NURBS patches are conforming such that there is no need to handle master/slave faces by adding constraint equations as described in~\cite[p. 87-91]{Cottrell2006iao}. This results in redundant degrees of freedom, and the optimal mesh certainly requires a solution to this problem. Two very good alternatives include T-splines~\cite{Scott2011tsa} and LR B-splines~\cite{Johannessen2014iau}).
 
-For the sake of brevity, the authors refer to~\cite{Venaas2019bts} instead of giving an exact description of every minor detail in constructing this approximation. The exact BeTSSi submarine as well as the approximate submarines for $\check{p}=2,3,4$ are presented in the file formats \texttt{.step}, \texttt{.igs} and \texttt{.3dm} format. 
+For the sake of brevity, the authors refer to~\cite{Venas2019bts} instead of giving an exact description of every minor detail in constructing this approximation. The exact BeTSSi submarine as well as the approximate submarines for $\check{p}=2,3,4$ are presented in the file formats \texttt{.step}, \texttt{.igs} and \texttt{.3dm} format. 
 
 By considering the manufactured solution in \Cref{Subsec3:manufactured} the numerical evidence observed from \Cref{Fig3:BCA_P_BA} indicates that the presence of non-Lipschitz domain does not affect the convergence rates (also observed in~\cite{Lipton2010roi}).
 \begin{figure}
@@ -364,7 +364,7 @@ By considering the manufactured solution in \Cref{Subsec3:manufactured} the nume
 
 \section{Triangulation of the BeTSSi submarine}
 \label{Sec3:BeTSSi_triangulation}
-Triangularized versions of the exact BeTSSi submarine in \texttt{.stl} (both ASCII and binary) and \texttt{.bdf} format can be found in~\cite{Venaas2019bts} where the triangulations is an optimization of meshes created in \COMSOL (surface mesh corresponding to the \COMSOL volume meshes considered in this work). 
+Triangularized versions of the exact BeTSSi submarine in \texttt{.stl} (both ASCII and binary) and \texttt{.bdf} format can be found in~\cite{Venas2019bts} where the triangulations is an optimization of meshes created in \COMSOL (surface mesh corresponding to the \COMSOL volume meshes considered in this work). 
 An overview of the triangularization meshes can be found in \Cref{Tab3:BeTSSiTriangularization}. Since these meshes are used by WTD in the simulations they have provided for this work, they are denoted by ${\cal M}_m^{\textsc{wtd}}$.
 \begin{table}
 	\centering

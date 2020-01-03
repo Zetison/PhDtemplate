@@ -431,14 +431,14 @@ From \Cref{Fig3:Cube_P1}, the sharpness of the a priori error estimate in \Cref{
 \begin{figure}
 	\centering
 	\begin{subfigure}[t]{\textwidth}
-		\includegraphics[width=\textwidth]{Cube_P}
+		\includegraphics[width=\textwidth]{cube_P}
 		\caption{Galerkin formulations}
 		\label{Fig3:Cube_P1}
 	\end{subfigure} 
 	\par\bigskip
 	\par\bigskip
 	\begin{subfigure}[t]{\textwidth}
-		\includegraphics[width=\textwidth]{Cube_P_2}
+		\includegraphics[width=\textwidth]{cube_P_2}
 		\caption{Collocation formulations}
 		\label{Fig3:Cube_P2}
 	\end{subfigure} 
@@ -601,7 +601,7 @@ Consider now a plane wave scattered by a rigid BeTSSi submarine. Throughout this
 The polar plot in \Cref{Eq3:polar_BI} illustrates bistatic scattering where the incident wave is fixed, and the observation points for the far field computations sweep the aspect angles. A very good match is obtained, although some discrepancies are observed around the aft angles (around $\alpha=\ang{180}$). One can argue that the logarithmic scale of the target strength (TS) yields a somewhat misguided conception of the numerical error in the pressure. The pressure at these angles is very low such that the global relative error in the pressure is not as bad as the plot may suggest.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{polarPlot_6}
+	\includegraphics[width=\textwidth]{PolarPlot_6}
 	\caption{\textbf{Rigid scattering on the BeTSSi submarine}: Polar plot of the bistatic target strength ($\TS$) plotted against the azimuth angle $\varphi$ at $f=\SI{1000}{Hz}$. Direction of incident wave, $p_{\mathrm{inc}}$ is given by \Cref{Eq3:d_s} with $\alpha_{\mathrm{s}}=\ang{240}$ and $\beta_{\mathrm{s}}=\ang{0}$. The IGA mesh here used is ${\cal M}_{3,5,4}^{\textsc{igabem}}$. The \COMSOL simulation used \num{3.8} hours on mesh ${\cal M}_{4,2,0}^{\textsc{comsol}}$. The WTD 71 simulation was made using a direct BEM collocation method with the Burton--Miller formulation on mesh ${\cal M}_{5}^{\textsc{wtd}}$ described in \Cref{Sec3:BeTSSi_triangulation} with constant basis functions over each element.}
 	\label{Eq3:polar_BI}
 \end{figure}
@@ -678,7 +678,7 @@ where $X$ is the set of nodes in the mesh. For IGA these nodes are chosen to be 
 A monostatic\footnote{The incident wave has the same origin as the far field point in a monostatic sweep.} polar plot is shown in \Cref{Fig3:BCA_MS} at $f=\SI{1000}{Hz}$. The results for ${\cal M}_{3,5,4}^{\textsc{igabem}}$ and ${\cal M}_{3,6,5}^{\textsc{igabem}}$ are practically indistinguishable in this plot. A comparison is made with a simulation done by WTD 71 showing good agreement. The $l^2$-error of the absolute far field pressure for ${\cal M}_{3,5,4}^{\textsc{igabem}}$ (with ${\cal M}_{3,6,5}^{\textsc{igabem}}$ as reference solution) is about 0.052\%. The corresponding error for the WTD simulation is 5.5\%. Using a direct solver for the IGA simulations, monostatic scattering can easily be solved with multiple right-hand sides (in the present case 3601 column vectors that correspond to 3601 distinct azimuth angles $\varphi\in[0,\ang{180}]$ with steps of $\ang{0.5}$). The time consumption for monostatic scattering is then increased by less than 1\% compared to bistatic scattering since the most computationally complex operation here is to build the system of equations. The WTD 71 simulation solves the 3601 cases individually, resulting in a time consumption increase of about 1392\% (the computations used \num{43.3} hours on a 32 core Xeon computer with 2.3 GHz). The reason that number is not 7201\% (WTD 71 timings are here for all angles in $[0,\ang{360}]$) is because WTD 71 uses a precondition matrix based on the result from 5 neighboring monostatic angles.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{polarPlot_5}
+	\includegraphics[width=\textwidth]{PolarPlot_5}
 	\caption{\textbf{Rigid scattering on the BeTSSi submarine}: Polar plot of the monostatic target strength ($\TS$) at $f=\SI{1000}{Hz}$ plotted against the azimuth angle $\varphi$. All simulations use the CBM formulation.} % (the computations used \num{43.3} hours on a 32 core Xeon computer with 2.3 GHz)
 	\label{Fig3:BCA_MS}
 \end{figure}
