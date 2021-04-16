@@ -32,12 +32,12 @@
 \newcommand{\tocseparator}{\vspace{0.5\normalbaselineskip}} % Command used to have slightly larger separation between sectionslist and appendiceslist and referenceslist in toc.
 \usepackage{chngcntr} % Defines commands \counterwithin (which sets up a counter to be reset when another is incremented) and \counterwithout (which unsets such a relationship).
 \newcommand*\startappendixeqnumbering{%
-    \counterwithout{equation}{part}%
+%    \counterwithout{equation}{part}%
     \counterwithin{equation}{section}%
     \renewcommand*\theequation{\Alph{section}.\arabic{equation}}}
 \newcommand*\startnormaleqnumbering{%
     \counterwithout{equation}{section}%
-    \counterwithin{equation}{part}%
+%    \counterwithin{equation}{part}%
     \renewcommand*\theequation{\arabic{equation}}}
 
 \counterwithin{equation}{part}  %Set the default

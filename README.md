@@ -3,4 +3,5 @@
  
 # Compile settings
 
-pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|bibtex introduction.aux|bibtex PaperI.aux|bibtex PaperII.aux|bibtex PaperIII.aux|bibtex PaperIV.aux|bibtex addendum.aux|bibtex appendices.aux|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|"C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe" %.pdf
+pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|bibtex introduction.aux|bibtex PaperI.aux|bibtex PaperII.aux|bibtex PaperIII.aux|bibtex PaperIV.aux|bibtex addendum.aux|bibtex appendices.aux|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex|pdflatex -synctex=1 -interaction=nonstopmode -shell-escape %.tex
+
